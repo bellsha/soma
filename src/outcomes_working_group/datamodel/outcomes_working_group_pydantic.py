@@ -203,8 +203,8 @@ class QuantityValue(ConfiguredBaseModel):
                       {'value': 'µm'},
                       {'value': 'mm/min'},
                       {'value': '%'}]} })
-    has_minimum_numeric_value: Optional[float] = Field(default=None, description="""The minimum value in a range""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'], 'domain_of': ['QuantityValue']} })
-    has_maximum_numeric_value: Optional[float] = Field(default=None, description="""The maximum value in a range""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'], 'domain_of': ['QuantityValue']} })
+    has_minimum_numeric_value: Optional[float] = Field(default=None, description="""The minimum value in a range""", json_schema_extra = { "linkml_meta": {'domain_of': ['QuantityValue']} })
+    has_maximum_numeric_value: Optional[float] = Field(default=None, description="""The maximum value in a range""", json_schema_extra = { "linkml_meta": {'domain_of': ['QuantityValue']} })
 
 
 class CFTRFunctionMeasurement(Measurement):
@@ -236,15 +236,9 @@ class BALFSputumMeasurement(Measurement):
     sample_collection_details: Optional[SampleCollection] = Field(default=None, description="""Sample collection protocol details""", json_schema_extra = { "linkml_meta": {'domain_of': ['BALFSputumMeasurement']} })
     inflammatory_cell_profile: Optional[InflammatoryCellProfile] = Field(default=None, description="""Inflammatory cell type profile""", json_schema_extra = { "linkml_meta": {'domain_of': ['BALFSputumMeasurement']} })
     microbiome_analysis: Optional[MicrobiomeAnalysis] = Field(default=None, description="""Microbiome composition analysis""", json_schema_extra = { "linkml_meta": {'domain_of': ['BALFSputumMeasurement']} })
-    cytokine_levels: Optional[list[str]] = Field(default=[], description="""Cytokine and chemokine levels""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['BALFSputumMeasurement'],
-         'related_mappings': ['CHEBI:23530']} })
-    protein_concentration: Optional[QuantityValue] = Field(default=None, description="""Total protein concentration""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['BALFSputumMeasurement'],
-         'related_mappings': ['CHEBI:36080']} })
-    cell_free_dna: Optional[QuantityValue] = Field(default=None, description="""Cell-free DNA measurement""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['BALFSputumMeasurement'],
-         'related_mappings': ['CHEBI:16991']} })
+    cytokine_levels: Optional[list[str]] = Field(default=[], description="""Cytokine and chemokine levels""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'], 'domain_of': ['BALFSputumMeasurement']} })
+    protein_concentration: Optional[QuantityValue] = Field(default=None, description="""Total protein concentration""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'], 'domain_of': ['BALFSputumMeasurement']} })
+    cell_free_dna: Optional[QuantityValue] = Field(default=None, description="""Cell-free DNA measurement""", json_schema_extra = { "linkml_meta": {'domain_of': ['BALFSputumMeasurement']} })
     input_sample: Optional[str] = Field(default=None, description="""Description of input samples and manipulations""", json_schema_extra = { "linkml_meta": {'domain_of': ['Measurement'],
          'exact_mappings': ['OBI:0100051'],
          'related_mappings': ['OBI:0000747']} })
@@ -309,13 +303,10 @@ class TranscriptionFactorExpressionMeasurement(Measurement):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
     mrna_level: Optional[QuantityValue] = Field(default=None, description="""mRNA expression level""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
-         'domain_of': ['TranscriptionFactorExpressionMeasurement'],
-         'related_mappings': ['CHEBI:33699']} })
-    protein_level: Optional[QuantityValue] = Field(default=None, description="""Protein expression level""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
-         'domain_of': ['TranscriptionFactorExpressionMeasurement'],
-         'related_mappings': ['CHEBI:36080']} })
-    percentage_positive_cells: Optional[QuantityValue] = Field(default=None, description="""Percentage of positive cells""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001555'],
          'domain_of': ['TranscriptionFactorExpressionMeasurement']} })
+    protein_level: Optional[QuantityValue] = Field(default=None, description="""Protein expression level""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
+         'domain_of': ['TranscriptionFactorExpressionMeasurement']} })
+    percentage_positive_cells: Optional[QuantityValue] = Field(default=None, description="""Percentage of positive cells""", json_schema_extra = { "linkml_meta": {'domain_of': ['TranscriptionFactorExpressionMeasurement']} })
     staining_protocol: Optional[StainingProtocol] = Field(default=None, description="""Staining protocol details""", json_schema_extra = { "linkml_meta": {'domain_of': ['TranscriptionFactorExpressionMeasurement',
                        'GobletCellMeasurement'],
          'exact_mappings': ['OBI:0000272']} })
@@ -348,15 +339,12 @@ class CiliaBeatFrequencyMeasurement(Measurement):
     imaging_protocol: Optional[ImagingProtocol] = Field(default=None, description="""Imaging protocol and parameters""", json_schema_extra = { "linkml_meta": {'domain_of': ['CiliaBeatFrequencyMeasurement', 'ASLHeightMeasurement'],
          'exact_mappings': ['OBI:0000272']} })
     cilia_per_cell: Optional[QuantityValue] = Field(default=None, description="""Number of cilia per cell""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
-         'domain_of': ['CiliaBeatFrequencyMeasurement'],
-         'related_mappings': ['CL:0000064']} })
+         'domain_of': ['CiliaBeatFrequencyMeasurement']} })
     cilia_length: Optional[QuantityValue] = Field(default=None, description="""Length of cilia""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000122'],
          'domain_of': ['CiliaBeatFrequencyMeasurement']} })
     percentage_ciliated_cells: Optional[QuantityValue] = Field(default=None, description="""Percentage of cells that are ciliated""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001555'],
-         'domain_of': ['CiliaBeatFrequencyMeasurement'],
-         'related_mappings': ['CL:0000064']} })
-    ciliary_motion_patterns: Optional[str] = Field(default=None, description="""Patterns of ciliary motion""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000001'],
-         'domain_of': ['CiliaBeatFrequencyMeasurement'],
+         'domain_of': ['CiliaBeatFrequencyMeasurement']} })
+    ciliary_motion_patterns: Optional[str] = Field(default=None, description="""Patterns of ciliary motion""", json_schema_extra = { "linkml_meta": {'domain_of': ['CiliaBeatFrequencyMeasurement'],
          'related_mappings': ['GO:0003341']} })
     cell_type_ratios: Optional[str] = Field(default=None, description="""Ratios between different cell types""", json_schema_extra = { "linkml_meta": {'domain_of': ['CiliaBeatFrequencyMeasurement']} })
     input_sample: Optional[str] = Field(default=None, description="""Description of input samples and manipulations""", json_schema_extra = { "linkml_meta": {'domain_of': ['Measurement'],
@@ -381,7 +369,7 @@ class ASLHeightMeasurement(Measurement):
     imaging_protocol: Optional[ImagingProtocol] = Field(default=None, description="""Imaging protocol and parameters""", json_schema_extra = { "linkml_meta": {'domain_of': ['CiliaBeatFrequencyMeasurement', 'ASLHeightMeasurement'],
          'exact_mappings': ['OBI:0000272']} })
     ion_composition: Optional[str] = Field(default=None, description="""Ionic composition (Cl⁻, Na⁺, K⁺)""", json_schema_extra = { "linkml_meta": {'domain_of': ['ASLHeightMeasurement']} })
-    fluorescent_labeling: Optional[FluorescentLabel] = Field(default=None, description="""Fluorescent label or tracer used""", json_schema_extra = { "linkml_meta": {'domain_of': ['ASLHeightMeasurement'], 'related_mappings': ['CHEBI:51217']} })
+    fluorescent_labeling: Optional[FluorescentLabel] = Field(default=None, description="""Fluorescent label or tracer used""", json_schema_extra = { "linkml_meta": {'domain_of': ['ASLHeightMeasurement']} })
     evaporation_prevention: Optional[EvaporationControl] = Field(default=None, description="""Method used to prevent evaporation""", json_schema_extra = { "linkml_meta": {'domain_of': ['ASLHeightMeasurement']} })
     input_sample: Optional[str] = Field(default=None, description="""Description of input samples and manipulations""", json_schema_extra = { "linkml_meta": {'domain_of': ['Measurement'],
          'exact_mappings': ['OBI:0100051'],
@@ -447,12 +435,8 @@ class GobletCellMeasurement(Measurement):
          'domain_of': ['TranscriptionFactorExpressionMeasurement',
                        'GobletCellMeasurement'],
          'related_mappings': ['OBI:0000424']} })
-    mucin_protein_concentration: Optional[QuantityValue] = Field(default=None, description="""Concentration of mucin protein""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['GobletCellMeasurement'],
-         'related_mappings': ['CHEBI:36080']} })
-    goblet_to_ciliated_ratio: Optional[QuantityValue] = Field(default=None, description="""Ratio of goblet cells to ciliated cells""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001470'],
-         'domain_of': ['GobletCellMeasurement'],
-         'related_mappings': ['CL:0000160', 'CL:0000064']} })
+    mucin_protein_concentration: Optional[QuantityValue] = Field(default=None, description="""Concentration of mucin protein""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'], 'domain_of': ['GobletCellMeasurement']} })
+    goblet_to_ciliated_ratio: Optional[QuantityValue] = Field(default=None, description="""Ratio of goblet cells to ciliated cells""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001470'], 'domain_of': ['GobletCellMeasurement']} })
     pathway_enrichment_scores: Optional[list[str]] = Field(default=[], description="""Enrichment scores for biological pathways""", json_schema_extra = { "linkml_meta": {'domain_of': ['GobletCellMeasurement']} })
     dose_response_data: Optional[str] = Field(default=None, description="""Dose-response relationship data""", json_schema_extra = { "linkml_meta": {'domain_of': ['GobletCellMeasurement']} })
     input_sample: Optional[str] = Field(default=None, description="""Description of input samples and manipulations""", json_schema_extra = { "linkml_meta": {'domain_of': ['Measurement'],
@@ -475,11 +459,9 @@ class OxidativeStressMeasurement(Measurement):
     ros_level: Optional[QuantityValue] = Field(default=None, description="""Reactive oxygen species level""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
          'domain_of': ['OxidativeStressMeasurement'],
          'related_mappings': ['CHEBI:26523']} })
-    lipid_peroxidation: Optional[QuantityValue] = Field(default=None, description="""Lipid peroxidation markers (MDA, 8-isoprostane, etc.)""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000001'],
-         'domain_of': ['OxidativeStressMeasurement'],
+    lipid_peroxidation: Optional[QuantityValue] = Field(default=None, description="""Lipid peroxidation markers (MDA, 8-isoprostane, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['OxidativeStressMeasurement'],
          'related_mappings': ['GO:0016491']} })
-    antioxidant_capacity: Optional[QuantityValue] = Field(default=None, description="""Antioxidant capacity (GSH/GSSG ratio, enzyme activity)""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000001'],
-         'domain_of': ['OxidativeStressMeasurement']} })
+    antioxidant_capacity: Optional[QuantityValue] = Field(default=None, description="""Antioxidant capacity (GSH/GSSG ratio, enzyme activity)""", json_schema_extra = { "linkml_meta": {'domain_of': ['OxidativeStressMeasurement']} })
     ros_probe: Optional[ROSProbe] = Field(default=None, description="""ROS probe details""", json_schema_extra = { "linkml_meta": {'domain_of': ['OxidativeStressMeasurement']} })
     detection_method_details: Optional[dict[str, DetectionMethod]] = Field(default=None, description="""Detection method details""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000070'], 'domain_of': ['OxidativeStressMeasurement']} })
     protein_oxidation_markers: Optional[list[str]] = Field(default=[], description="""Protein oxidation markers (carbonyls, nitrotyrosine)""", json_schema_extra = { "linkml_meta": {'domain_of': ['OxidativeStressMeasurement']} })
@@ -531,16 +513,10 @@ class ImagingProtocol(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
     imaging_modality: Optional[str] = Field(default=None, description="""Imaging modality used (confocal, OCT, etc.)""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000185'], 'domain_of': ['ImagingProtocol']} })
-    frame_rate: Optional[QuantityValue] = Field(default=None, description="""Image acquisition frame rate""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'],
-         'domain_of': ['ImagingProtocol'],
-         'related_mappings': ['PATO:0000161']} })
-    imaging_duration: Optional[QuantityValue] = Field(default=None, description="""Duration of imaging session""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'],
-         'domain_of': ['ImagingProtocol'],
-         'related_mappings': ['PATO:0001309']} })
+    frame_rate: Optional[QuantityValue] = Field(default=None, description="""Image acquisition frame rate""", json_schema_extra = { "linkml_meta": {'domain_of': ['ImagingProtocol'], 'related_mappings': ['PATO:0000161']} })
+    imaging_duration: Optional[QuantityValue] = Field(default=None, description="""Duration of imaging session""", json_schema_extra = { "linkml_meta": {'domain_of': ['ImagingProtocol'], 'related_mappings': ['PATO:0001309']} })
     imaging_intervals: Optional[str] = Field(default=None, description="""Time intervals between image acquisitions""", json_schema_extra = { "linkml_meta": {'domain_of': ['ImagingProtocol']} })
-    spatial_resolution: Optional[QuantityValue] = Field(default=None, description="""Spatial resolution of imaging""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'],
-         'domain_of': ['ImagingProtocol'],
-         'related_mappings': ['PATO:0001018']} })
+    spatial_resolution: Optional[QuantityValue] = Field(default=None, description="""Spatial resolution of imaging""", json_schema_extra = { "linkml_meta": {'domain_of': ['ImagingProtocol']} })
     probe_positioning: Optional[str] = Field(default=None, description="""Probe or sensor positioning protocol""", json_schema_extra = { "linkml_meta": {'domain_of': ['ImagingProtocol']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -552,7 +528,7 @@ class FluorescentLabel(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
-    fluorophore_type: Optional[str] = Field(default=None, description="""Type of fluorophore used""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['CHEBI:51217'], 'domain_of': ['FluorescentLabel']} })
+    fluorophore_type: Optional[str] = Field(default=None, description="""Type of fluorophore used""", json_schema_extra = { "linkml_meta": {'domain_of': ['FluorescentLabel']} })
     concentration: Optional[QuantityValue] = Field(default=None, description="""Concentration of reagent or compound""", json_schema_extra = { "linkml_meta": {'domain_of': ['FluorescentLabel']} })
     wavelength: Optional[QuantityValue] = Field(default=None, description="""Wavelength for excitation or emission""", json_schema_extra = { "linkml_meta": {'domain_of': ['FluorescentLabel']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -590,7 +566,7 @@ class DetectionMethod(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
-    detection_type: Optional[str] = Field(default=None, description="""Type of detection method""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000070'], 'domain_of': ['DetectionMethod']} })
+    detection_type: Optional[str] = Field(default=None, description="""Type of detection method""", json_schema_extra = { "linkml_meta": {'domain_of': ['DetectionMethod']} })
     instrumentation: Optional[str] = Field(default=None, description="""Specific instruments or equipment used""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000968'], 'domain_of': ['Assay', 'DetectionMethod']} })
     sensitivity: Optional[str] = Field(default=None, description="""Sensitivity of detection method""", json_schema_extra = { "linkml_meta": {'domain_of': ['DetectionMethod']} })
     technical_replicates: Optional[int] = Field(default=None, description="""Number of technical replicates""", json_schema_extra = { "linkml_meta": {'domain_of': ['DetectionMethod']} })
@@ -604,10 +580,9 @@ class SampleCollection(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
-    collection_method: Optional[str] = Field(default=None, description="""Method for sample collection""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000011'], 'domain_of': ['SampleCollection']} })
+    collection_method: Optional[str] = Field(default=None, description="""Method for sample collection""", json_schema_extra = { "linkml_meta": {'domain_of': ['SampleCollection']} })
     processing_time: Optional[QuantityValue] = Field(default=None, description="""Time from collection to processing""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000165'], 'domain_of': ['SampleCollection']} })
-    storage_conditions: Optional[str] = Field(default=None, description="""Storage temperature and conditions""", json_schema_extra = { "linkml_meta": {'domain_of': ['SampleCollection'],
-         'related_mappings': ['PATO:0000146', 'PATO:0015009']} })
+    storage_conditions: Optional[str] = Field(default=None, description="""Storage temperature and conditions""", json_schema_extra = { "linkml_meta": {'domain_of': ['SampleCollection']} })
     sample_volume: Optional[QuantityValue] = Field(default=None, description="""Volume of sample collected""", json_schema_extra = { "linkml_meta": {'domain_of': ['SampleCollection']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -620,21 +595,16 @@ class CellCultureConditions(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
     culture_medium: Optional[str] = Field(default=None, description="""Cell culture medium formulation""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions'], 'exact_mappings': ['OBI:0000079']} })
-    days_at_ali: Optional[int] = Field(default=None, description="""Days at air-liquid interface""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'],
-         'domain_of': ['CellCultureConditions'],
-         'related_mappings': ['PATO:0000165']} })
-    passage_number: Optional[int] = Field(default=None, description="""Cell passage number""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'], 'domain_of': ['CellCultureConditions']} })
+    days_at_ali: Optional[int] = Field(default=None, description="""Days at air-liquid interface""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions'], 'related_mappings': ['PATO:0000165']} })
+    passage_number: Optional[int] = Field(default=None, description="""Cell passage number""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions']} })
     substrate_type: Optional[str] = Field(default=None, description="""Type of culture substrate""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions']} })
     temperature: Optional[QuantityValue] = Field(default=None, description="""Temperature setting""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions', 'EnvironmentalCondition'],
          'exact_mappings': ['PATO:0000146']} })
     humidity: Optional[QuantityValue] = Field(default=None, description="""Humidity level""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions', 'EnvironmentalCondition'],
          'exact_mappings': ['PATO:0015009']} })
     co2_percentage: Optional[QuantityValue] = Field(default=None, description="""CO2 percentage in incubator""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['CellCultureConditions', 'EnvironmentalCondition'],
-         'related_mappings': ['CHEBI:16526']} })
-    donor_count: Optional[int] = Field(default=None, description="""Number of unique donors""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['IAO:0000109'],
-         'domain_of': ['CellCultureConditions'],
-         'related_mappings': ['PATO:0000070']} })
+         'domain_of': ['CellCultureConditions', 'EnvironmentalCondition']} })
+    donor_count: Optional[int] = Field(default=None, description="""Number of unique donors""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions'], 'related_mappings': ['PATO:0000070']} })
     replicates_per_donor: Optional[int] = Field(default=None, description="""Number of replicates per donor""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -648,9 +618,7 @@ class StainingProtocol(NamedEntity):
 
     staining_type: Optional[str] = Field(default=None, description="""Type of staining (histological, immunofluorescence)""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0302887'], 'domain_of': ['StainingProtocol']} })
     antibodies_used: Optional[list[str]] = Field(default=[], description="""Antibodies used in staining""", json_schema_extra = { "linkml_meta": {'domain_of': ['StainingProtocol']} })
-    fixation_method: Optional[str] = Field(default=None, description="""Method for tissue/cell fixation""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['OBI:0000011'],
-         'domain_of': ['StainingProtocol'],
-         'related_mappings': ['OBI:0302887']} })
+    fixation_method: Optional[str] = Field(default=None, description="""Method for tissue/cell fixation""", json_schema_extra = { "linkml_meta": {'domain_of': ['StainingProtocol'], 'related_mappings': ['OBI:0302887']} })
     incubation_conditions: Optional[str] = Field(default=None, description="""Incubation time and temperature""", json_schema_extra = { "linkml_meta": {'domain_of': ['StainingProtocol']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -708,7 +676,7 @@ class BarrierIntegrity(NamedEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
     teer_value: Optional[QuantityValue] = Field(default=None, description="""Transepithelial electrical resistance value""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001025'], 'domain_of': ['BarrierIntegrity']} })
-    permeability_coefficient: Optional[QuantityValue] = Field(default=None, description="""Permeability coefficient""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000001'], 'domain_of': ['BarrierIntegrity']} })
+    permeability_coefficient: Optional[QuantityValue] = Field(default=None, description="""Permeability coefficient""", json_schema_extra = { "linkml_meta": {'domain_of': ['BarrierIntegrity']} })
     measurement_timepoint: Optional[str] = Field(default=None, description="""Timepoint of measurement""", json_schema_extra = { "linkml_meta": {'domain_of': ['BarrierIntegrity']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -720,11 +688,9 @@ class CytotoxicityMetrics(NamedEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes-model'})
 
-    ldh_release: Optional[QuantityValue] = Field(default=None, description="""Lactate dehydrogenase release""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000070'],
-         'domain_of': ['CytotoxicityMetrics'],
-         'related_mappings': ['CHEBI:17660']} })
+    ldh_release: Optional[QuantityValue] = Field(default=None, description="""Lactate dehydrogenase release""", json_schema_extra = { "linkml_meta": {'domain_of': ['CytotoxicityMetrics']} })
     mtt_reduction: Optional[QuantityValue] = Field(default=None, description="""MTT reduction assay result""", json_schema_extra = { "linkml_meta": {'domain_of': ['CytotoxicityMetrics']} })
-    viability_percentage: Optional[QuantityValue] = Field(default=None, description="""Cell viability percentage""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0001421'], 'domain_of': ['CytotoxicityMetrics']} })
+    viability_percentage: Optional[QuantityValue] = Field(default=None, description="""Cell viability percentage""", json_schema_extra = { "linkml_meta": {'domain_of': ['CytotoxicityMetrics']} })
     apoptosis_markers: Optional[list[str]] = Field(default=[], description="""Apoptosis marker levels""", json_schema_extra = { "linkml_meta": {'domain_of': ['CytotoxicityMetrics']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
@@ -741,8 +707,7 @@ class EnvironmentalCondition(NamedEntity):
     humidity: Optional[QuantityValue] = Field(default=None, description="""Humidity level""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureConditions', 'EnvironmentalCondition'],
          'exact_mappings': ['PATO:0015009']} })
     co2_percentage: Optional[QuantityValue] = Field(default=None, description="""CO2 percentage in incubator""", json_schema_extra = { "linkml_meta": {'broad_mappings': ['PATO:0000033'],
-         'domain_of': ['CellCultureConditions', 'EnvironmentalCondition'],
-         'related_mappings': ['CHEBI:16526']} })
+         'domain_of': ['CellCultureConditions', 'EnvironmentalCondition']} })
     id: str = Field(default=..., description="""A unique identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
     description: Optional[str] = Field(default=None, description="""A detailed description""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedEntity']} })
 

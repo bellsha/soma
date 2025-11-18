@@ -1,5 +1,5 @@
 # Auto generated from outcomes_working_group.yaml by pythongen.py version: 0.0.1
-# Generation date: 2025-11-13T11:17:55
+# Generation date: 2025-11-13T11:26:51
 # Schema: outcomes-model
 #
 # id: https://w3id.org/EHS-Data-Standards/outcomes-model
