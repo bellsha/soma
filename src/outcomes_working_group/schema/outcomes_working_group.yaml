@@ -150,7 +150,7 @@ classes:
     slots:
     - name
     - formula
-    - cross_references
+    - cross_reference
 
   Measurement:
     description: >-
@@ -209,7 +209,7 @@ classes:
     - sample_collection_details
     - inflammatory_cell_profile
     - microbiome_analysis
-    - cytokine_levels
+    - cytokine_level
     - protein_concentration
     - cell_free_dna
 
@@ -234,8 +234,8 @@ classes:
     slots:
     - egfr_phosphorylation
     - downstream_kinase_activation
-    - ligand_expression_levels
-    - pathway_biomarkers
+    - ligand_expression_level
+    - pathway_biomarker
 
   GeneExpressionMeasurement:
     description: >-
@@ -287,10 +287,10 @@ classes:
     - transport_rate
     - directionality
     - particle_tracking_method
-    - fluorescent_tracers
+    - fluorescent_tracer
     - mucus_layer_thickness
-    - bacterial_biofilm_details
-    - viral_infection_details
+    - bacterial_biofilm_detail
+    - viral_infection_detail
     - biofilm_clearance_rate
     - bacterial_load
     - viral_spread_rate
@@ -305,7 +305,7 @@ classes:
     - staining_protocol
     - gene_expression_analysis
     - mucin_protein_concentration
-    - pathway_enrichment_scores
+    - pathway_enrichment_score
     - dose_response_data
 
   OxidativeStressMeasurement:
@@ -318,9 +318,9 @@ classes:
     - antioxidant_capacity
     - ros_probe
     - detection_method_details
-    - protein_oxidation_markers
-    - dna_damage_markers
-    - antioxidant_enzyme_activities
+    - protein_oxidation_marker
+    - dna_damage_marker
+    - antioxidant_enzyme_activity
     - media_composition
 
   MucinProductionMeasurement:
@@ -338,13 +338,13 @@ classes:
       Represents scientific evidence supporting research.
     is_a: NamedEntity
     slots:
-    - authors
+    - author
     - pages
     - summary
-    - keywords
-    - mesh_terms
+    - keyword
+    - mesh_term
     - publication_type
-    - xref
+    - cross_reference
     slot_usage:
       id:
         description: Preferentially a PMID, DOI, or industry-standard identifier (ISBN,
@@ -438,7 +438,7 @@ classes:
     - base_medium
     - serum_type
     - serum_concentration
-    - supplements
+    - supplement
     - glucose_concentration
     - glutamine_concentration
     - sodium_bicarbonate_concentration
@@ -467,7 +467,7 @@ classes:
     is_a: NamedEntity
     slots:
     - staining_type
-    - antibodies_used
+    - antibody_used
     - fixation_method
     - incubation_conditions
 
@@ -477,8 +477,8 @@ classes:
     is_a: NamedEntity
     slots:
     - analysis_method
-    - normalization_genes
-    - primers_used
+    - normalization_gene
+    - primer_used
     - sequencing_platform
     - sequencing_depth
 
@@ -501,7 +501,7 @@ classes:
     - alpha_diversity
     - beta_diversity
     - taxonomic_abundance
-    - sequencing_primers
+    - sequencing_primer
     - dna_extraction_method
 
   BarrierIntegrity:
@@ -521,7 +521,7 @@ classes:
     - ldh_release
     - mtt_reduction
     - viability_percentage
-    - apoptosis_markers
+    - apoptosis_marker
 
   EnvironmentalCondition:
     description: >-
@@ -772,7 +772,7 @@ slots:
   cell_type_ratios:
     description: Ratios between different cell types
     range: string
-  fluorescent_tracers:
+  fluorescent_tracer:
     description: Fluorescent tracers used for tracking
     range: FluorescentLabel
     inlined: true
@@ -783,12 +783,14 @@ slots:
     inlined: true
     broad_mappings:
     - PATO:0000915  # thickness
-  bacterial_biofilm_details:
+  bacterial_biofilm_detail:
     description: Details about bacterial biofilm preparation and characteristics
     range: string
-  viral_infection_details:
+    multivalued: true
+  viral_infection_detail:
     description: Details about viral infection protocol
     range: string
+    multivalued: true
   biofilm_clearance_rate:
     description: Rate of bacterial biofilm clearance
     range: QuantityValue
@@ -833,7 +835,7 @@ slots:
     inlined: true
     broad_mappings:
     - PATO:0001470  # ratio
-  pathway_enrichment_scores:
+  pathway_enrichment_score:
     description: Enrichment scores for biological pathways
     range: string
     multivalued: true
@@ -855,17 +857,19 @@ slots:
     multivalued: true
     broad_mappings:
     - OBI:0000070  # assay
-  protein_oxidation_markers:
+  protein_oxidation_marker:
     description: Protein oxidation markers (carbonyls, nitrotyrosine)
     range: string
     multivalued: true
-  dna_damage_markers:
+  dna_damage_marker:
     description: DNA damage markers (8-OHdG)
     range: QuantityValue
     inlined: true
-  antioxidant_enzyme_activities:
+    multivalued: true
+  antioxidant_enzyme_activity:
     description: Antioxidant enzyme activities (SOD, catalase, GPx)
     range: string
+    multivalued: true
   barrier_integrity:
     description: Epithelial barrier integrity measurements
     range: BarrierIntegrity
@@ -886,7 +890,7 @@ slots:
     description: Microbiome composition analysis
     range: MicrobiomeAnalysis
     inlined: true
-  cytokine_levels:
+  cytokine_level:
     description: Cytokine and chemokine levels
     range: string
     multivalued: true
@@ -952,13 +956,13 @@ slots:
     range: string
     comments:
     - Not specific to EGFR alone, combine with phosphorylation data or inhibitor controls
-  ligand_expression_levels:
+  ligand_expression_level:
     description: Expression levels of EGFR ligands
     range: string
     multivalued: true
     comments:
     - Supportive evidence but requires additional validation
-  pathway_biomarkers:
+  pathway_biomarker:
     description: Pathway-specific biomarker signatures
     range: string
     multivalued: true
@@ -1107,7 +1111,7 @@ slots:
     - Immunochemical methods for quantification
     - Single cell RNA-seq for cell type changes
     - For mucin production measurements, include targets for MUC5 (MUC5AC, MUC5B)
-  antibodies_used:
+  antibody_used:
     description: Antibodies used in staining
     range: string
     multivalued: true
@@ -1124,11 +1128,11 @@ slots:
     range: string
     broad_mappings:
     - OBI:0000070  # assay
-  normalization_genes:
+  normalization_gene:
     description: Genes used for normalization
     range: string
     multivalued: true
-  primers_used:
+  primer_used:
     description: PCR primers used
     range: string
     multivalued: true
@@ -1169,7 +1173,7 @@ slots:
     description: Taxonomic abundance data
     range: string
     multivalued: true
-  sequencing_primers:
+  sequencing_primer:
     description: Primers used for sequencing (16S, ITS)
     range: string
     multivalued: true
@@ -1201,11 +1205,11 @@ slots:
     description: Cell viability percentage
     range: QuantityValue
     inlined: true
-  apoptosis_markers:
+  apoptosis_marker:
     description: Apoptosis marker levels
     range: string
     multivalued: true
-  authors:
+  author:
     description: Connects publications to contributor lists, formatted as comma-delimited
       names
     range: string
@@ -1216,11 +1220,11 @@ slots:
   summary:
     description: Executive summary or abstract of the publication
     range: string
-  keywords:
+  keyword:
     description: Keywords or tags for the publication
     range: string
     multivalued: true
-  mesh_terms:
+  mesh_term:
     description: Medical Subject Headings (MeSH) terms for indexing
     range: string
     multivalued: true
@@ -1229,10 +1233,6 @@ slots:
       article, book chapter, review)
     range: string
     required: false
-  xref:
-    description: Cross-references to supporting databases or webpages
-    range: uriorcurie
-    multivalued: true
   sampling_method:
     description: Method for sampling areas of the culture
     range: string
@@ -1301,7 +1301,7 @@ slots:
     description: Serum concentration as percentage
     range: QuantityValue
     inlined: true
-  supplements:
+  supplement:
     description: List of medium supplements with concentrations
     range: MediumSupplement
     multivalued: true
@@ -1344,7 +1344,7 @@ slots:
   formula:
     description: Chemical formula (e.g., C6H12O6 for glucose)
     range: string
-  cross_references:
+  cross_reference:
     description: Database cross-references (e.g., CHEBI:17234, PubChem:5793)
     range: uriorcurie
     multivalued: true

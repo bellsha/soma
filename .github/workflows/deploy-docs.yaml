@@ -52,6 +52,11 @@ jobs:
       - name: Install dependencies
         run: uv sync --dev --no-progress
 
+      - name: Install SQLite for diagram generation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sqlite3
+
       - name: Generate schema documentation
         run: |
           just gen-doc

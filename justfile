@@ -100,12 +100,16 @@ lint-fix:
 
 # Generate md documentation for the schema
 [group('model development')]
-gen-doc: _gen-yaml
+gen-doc: _gen-yaml _gen-diagrams
   uv run gen-doc {{gen_doc_args}} -d {{docdir}} {{source_schema_path}}
 
 # Build docs and run test server
 [group('model development')]
 testdoc: gen-doc _serve
+
+# Generate ER diagrams and object models only
+[group('model development')]
+gen-diagrams: _gen-diagrams
 
 # Generate the Python data models (dataclasses & pydantic)
 gen-python:
@@ -249,6 +253,20 @@ _clean_project:
 _ensure_examples_output:  # Ensure a clean examples/output directory exists
   -mkdir -p examples/output
   -rm -rf examples/output/*.*
+
+# Generate ER diagrams and object models
+_gen-diagrams:
+  @echo "Generating Mermaid ER diagram..."
+  uv run gen-erdiagram {{source_schema_path}} > {{docdir}}/schema_diagram.mmd
+  @echo "Generating PlantUML diagram..."
+  uv run gen-plantuml {{source_schema_path}} > {{docdir}}/schema_diagram.puml
+  @echo "Generating SQL DDL and ER diagram..."
+  -mkdir -p {{dest}}/sqlddl
+  uv run gen-sqlddl {{source_schema_path}} > {{dest}}/sqlddl/{{schema_name}}.sql
+  sqlite3 {{docdir}}/temp.db < {{dest}}/sqlddl/{{schema_name}}.sql
+  uv run eralchemy2 -i "sqlite:///{{docdir}}/temp.db" -o {{docdir}}/sql_er_diagram.png
+  rm -f {{docdir}}/temp.db
+  @echo "Diagrams generated successfully!"
 
 # ============== Include project-specific recipes ==============
 
