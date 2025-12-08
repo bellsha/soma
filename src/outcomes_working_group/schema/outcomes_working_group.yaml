@@ -67,12 +67,103 @@ enums:
       OBI:0000070:
         description: assay
         meaning: OBI:0000070  # assay
+  SupplementTypeEnum:
+    description: Categories of cell culture medium supplements
+    permissible_values:
+      growth_factor:
+        description: Proteins that stimulate cell growth, proliferation, and differentiation
+        meaning: CHEBI:23924
+      antibiotic:
+        description: Antimicrobial substances used to prevent contamination
+        meaning: CHEBI:33281
+      hormone:
+        description: Signaling molecules that regulate physiology and behavior
+        meaning: CHEBI:24621
+      vitamin:
+        description: Organic compounds essential for normal growth and nutrition
+        meaning: CHEBI:33229
+      amino_acid:
+        description: Organic compounds that are building blocks of proteins
+        meaning: CHEBI:33709
+      cytokine:
+        description: Small proteins important in cell signaling
+        meaning: CHEBI:63895
+      buffer:
+        description: Solutions that resist changes in pH
+        meaning: CHEBI:35225
+  SubstrateTypeEnum:
+    description: Types of cell culture substrates and surfaces
+    permissible_values:
+      plastic:
+        description: Standard tissue culture plastic
+        broad_mappings:
+        - OBI:0000953  # processed material
+        - CHEBI:46669  # polyester
+      collagen_coated:
+        description: Collagen-coated surface for enhanced cell attachment
+        related_mappings:
+        - CHEBI:3815  # collagen
+        broad_mappings:
+        - OBI:0100031  # biomaterial
+      matrigel:
+        description: Basement membrane matrix
+        narrow_mappings:
+        - OBI:0100031  # biomaterial
+        related_mappings:
+        - GO:0005604  # basement membrane
+      fibronectin_coated:
+        description: Fibronectin-coated surface
+        related_mappings:
+        - PR:000007245  # fibronectin
+        broad_mappings:
+        - OBI:0100031  # biomaterial
+      laminin_coated:
+        description: Laminin-coated surface
+        related_mappings:
+        - GO:0043256  # laminin complex
+        broad_mappings:
+        - OBI:0100031  # biomaterial
+      transwell_insert:
+        description: Permeable support for air-liquid interface culture
+        exact_mappings:
+        - OBI:0001950  # cell culture insert
+      hydrogel:
+        description: Three-dimensional hydrogel matrix
+        exact_mappings:
+        - CHEBI:17790  # hydrogel
+      glass:
+        description: Glass surface or coverslip
+        exact_mappings:
+        - CHEBI:131189  # glass
+  CellCultureGrowthModeEnum:
+    description: Cell culture growth modes
+    permissible_values:
+      adherent:
+        description: Cells grow attached to a surface
+        meaning: CLO:0000028
+      suspension:
+        description: Cells grow suspended in culture medium
+        meaning: CLO:0000029
+      air_liquid_interface:
+        description: Cells cultured at interface between air and liquid medium
+        meaning: OBI:0600047
+      three_dimensional:
+        description: Cells grown in 3D matrix or scaffold
+      organoid:
+        description: Self-organizing 3D tissue culture
 classes:
   NamedEntity:
     description: Base class for all named entities in the model
     slots:
     - id
     - description
+  ChemicalEntity:
+    description: A chemical substance or compound
+    is_a: NamedEntity
+    slots:
+    - name
+    - formula
+    - cross_references
   Measurement:
     description: 'A generic class representing the process of measuring a biological
       endpoint.
@@ -299,16 +390,46 @@ classes:
   CellCultureConditions:
     description: Detailed cell culture parameters
     is_a: NamedEntity
+    exact_mappings:
+    - CLO:0037334  # Cell culture condition
     slots:
     - culture_medium
     - days_at_air_liquid_interface
     - passage_number
     - substrate_type
+    - cell_culture_growth_mode
     - temperature
     - humidity
     - co2_percentage
     - donor_count
     - replicates_per_donor
+  CellCultureMedium:
+    description: Detailed formulation of cell culture medium including base medium and supplements
+    is_a: NamedEntity
+    slots:
+    - base_medium
+    - serum_type
+    - serum_concentration
+    - supplements
+    - glucose_concentration
+    - glutamine_concentration
+    - sodium_bicarbonate_concentration
+    - calcium_concentration
+    - ph
+    - osmolality
+    - manufacturer
+    - catalog_number
+    - lot_number
+    - preparation_date
+  MediumSupplement:
+    description: Supplement or additive to cell culture medium
+    is_a: NamedEntity
+    slots:
+    - supplement_type
+    - supplement
+    - concentration
+    - manufacturer
+    - catalog_number
   StainingProtocol:
     description: Histological or immunofluorescence staining protocol
     is_a: NamedEntity
@@ -888,7 +1009,8 @@ slots:
     inlined: true
   culture_medium:
     description: Cell culture medium formulation
-    range: string
+    range: CellCultureMedium
+    inlined: true
     exact_mappings:
     - OBI:0000079  # culture medium
   days_at_air_liquid_interface:
@@ -899,9 +1021,11 @@ slots:
   passage_number:
     description: Cell passage number
     range: integer
+    exact_mappings:
+    - CLO:0000170  # cell passageble capability
   substrate_type:
     description: Type of culture substrate
-    range: string
+    range: SubstrateTypeEnum
   temperature:
     description: Temperature setting
     range: QuantityValue
@@ -1112,3 +1236,79 @@ slots:
     examples:
     - value: culture incubation
     - value: microscope imaging
+  base_medium:
+    description: Base medium type (e.g., DMEM, RPMI, Ham's F-12)
+    range: string
+    examples:
+    - value: DMEM/F12
+    - value: RPMI 1640
+    - value: MEM
+    - value: Ham's F-12
+    - value: BEGM
+  serum_type:
+    description: Type of serum used (e.g., FBS, human serum, serum-free)
+    range: string
+    examples:
+    - value: Fetal Bovine Serum
+    - value: Human AB Serum
+    - value: Serum-free
+  serum_concentration:
+    description: Serum concentration as percentage
+    range: QuantityValue
+    inlined: true
+  supplements:
+    description: List of medium supplements with concentrations
+    range: MediumSupplement
+    multivalued: true
+    inlined: true
+  ph:
+    description: pH of the medium
+    range: QuantityValue
+    inlined: true
+    exact_mappings:
+    - PATO:0001842  # acidity
+  osmolality:
+    description: Osmolality of the medium in mOsm/kg
+    range: QuantityValue
+    inlined: true
+    exact_mappings:
+    - PATO:0001655  # osmolality
+  manufacturer:
+    description: Manufacturer of the product
+    range: string
+  catalog_number:
+    description: Catalog number from manufacturer
+    range: string
+  lot_number:
+    description: Lot or batch number
+    range: string
+  preparation_date:
+    description: Date when medium was prepared
+    range: date
+  supplement_type:
+    description: Category of supplement (e.g., growth factor, antibiotic, hormone, vitamin, amino acid)
+    range: SupplementTypeEnum
+  supplement:
+    description: The chemical entity representing the supplement
+    range: ChemicalEntity
+    inlined: true
+  name:
+    description: Human-readable name of the entity
+    range: string
+    slot_uri: rdfs:label
+  formula:
+    description: Chemical formula (e.g., C6H12O6 for glucose)
+    range: string
+  cross_references:
+    description: Database cross-references (e.g., CHEBI:17234, PubChem:5793)
+    range: uriorcurie
+    multivalued: true
+    examples:
+    - value: CHEBI:17234
+    - value: PubChem:5793
+    - value: CAS:50-99-7
+  cell_culture_growth_mode:
+    description: Mode of cell culture growth (adherent, suspension, ALI, etc.)
+    range: CellCultureGrowthModeEnum
+    exact_mappings:
+    - CLO:0000030  # cell culture growth mode
