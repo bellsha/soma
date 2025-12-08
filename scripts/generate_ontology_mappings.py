@@ -399,7 +399,7 @@ def main():
     print("=" * 70)
     print(f"Total slots mapped: {len(mappings)}")
     print(f"Total ontology terms: {len(all_terms)}")
-    print(f"\nKey improvements:")
+    print("\nKey improvements:")
     print("  • Uses PATO terms for qualities (height, concentration, frequency, etc.)")
     print("  • UO terms only for has_unit slot in QuantityValue")
     print("  • Labels fetched from OLS API")

@@ -92,6 +92,12 @@ test: _test-schema _test-python _test-examples
 lint:
   uv run linkml-lint {{source_schema_dir}}
 
+# Run linting with auto-fix
+[group('model development')]
+lint-fix:
+  uv run codespell --skip="./data/*,**/site-packages,uv.lock,project/*,*.pdf" --ignore-words=.codespellignore --write-changes
+  -uv run ruff check --fix
+
 # Generate md documentation for the schema
 [group('model development')]
 gen-doc: _gen-yaml

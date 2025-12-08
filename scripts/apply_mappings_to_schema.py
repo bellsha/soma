@@ -109,7 +109,7 @@ def main():
             mapping_type_counts[mapping_type] += len(terms)
             total_terms += len(terms)
     
-    print(f"\nMapping breakdown:")
+    print("\nMapping breakdown:")
     for mapping_type in ["exact_mappings", "narrow_mappings", "broad_mappings", "related_mappings"]:
         if mapping_type in mapping_type_counts:
             print(f"  {mapping_type}: {mapping_type_counts[mapping_type]}")
