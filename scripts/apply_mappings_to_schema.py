@@ -37,9 +37,6 @@ def apply_mappings_to_schema(schema_path: str, mappings: dict, labels: dict, out
     """Apply mappings to schema slots with inline comments for term labels."""
     
     with open(schema_path, 'r') as f:
-        content = f.read()
-    
-    with open(schema_path, 'r') as f:
         schema = yaml.safe_load(f)
     
     if 'slots' not in schema:
@@ -58,7 +55,7 @@ def apply_mappings_to_schema(schema_path: str, mappings: dict, labels: dict, out
             slots_not_found.append(slot_name)
     
     with open(output_path, 'w') as f:
-        yaml_str = yaml.dump(schema, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+        yaml.dump(schema, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
     
     with open(output_path, 'r') as f:
         lines = f.readlines()
