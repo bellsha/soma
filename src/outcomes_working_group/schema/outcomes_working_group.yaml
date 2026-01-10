@@ -15,6 +15,8 @@ prefixes:
   linkml: https://w3id.org/linkml/
   biolink: https://w3id.org/biolink/vocab/
   schema: http://schema.org/
+  wikidata: http://www.wikidata.org/entity/
+  OMRSE: http://purl.obolibrary.org/obo/OMRSE_
 
   # 14 Required Ontologies
   CHEBI: http://purl.obolibrary.org/obo/CHEBI_
@@ -355,13 +357,15 @@ classes:
   Participant:
     is_a: StudyEntity
     description: >-
-      An individual participant in a study
+      A role representing an individual's participation in a study. Links a Person
+      to a specific study cohort and captures study-specific identifiers and attributes.
     slots:
+      - person
       - part_of_cohort
       - participant_id
-      - age
-      - sex
-      - species
+      - enrollment_date
+      - withdrawal_date
+      - study_arm
 
   ExposureMeasurement:
     is_a: Measurement
@@ -505,6 +509,148 @@ classes:
       - gene
       - disease
       - association_type
+
+
+  # =============================================================================
+  # Synthetic Population Classes
+  # Geographic hierarchy and population entities for synthetic population data
+  # =============================================================================
+
+  GeographicEntity:
+    abstract: true
+    is_a: NamedThing
+    description: >-
+      Abstract base class for geographic entities used in synthetic population modeling.
+      Provides common geographic identifier infrastructure.
+    slots:
+      - federal_information_processing_standard_code
+
+  State:
+    is_a: GeographicEntity
+    description: >-
+      A U.S. state or equivalent territory with associated geographic properties.
+      Contains counties and public use microdata areas.
+    slots:
+      - abbreviation
+      - counties
+      - public_use_microdata_areas
+    exact_mappings:
+      - wikidata:Q7275
+
+  PublicUseMicrodataArea:
+    aliases:
+      - PUMA
+    is_a: GeographicEntity
+    description: >-
+      Public Use Microdata Areas (PUMAs) are non-overlapping, statistical geographic
+      areas that partition each state or equivalent entity into geographic areas
+      containing no fewer than 100,000 people each. They cover the entirety of the
+      United States, Puerto Rico, and Guam.
+    slots:
+      - state_federal_information_processing_standard_code
+    exact_mappings:
+      - wikidata:Q7257651
+
+  County:
+    is_a: GeographicEntity
+    description: >-
+      A county or equivalent administrative subdivision with associated properties.
+      Contains census tracts.
+    slots:
+      - state_federal_information_processing_standard_code
+      - census_tracts
+    exact_mappings:
+      - wikidata:Q28575
+      - NCIT:C49292
+
+  CensusTract:
+    aliases:
+      - Tract
+    is_a: GeographicEntity
+    description: >-
+      A census tract is a small, relatively permanent geographic area within a county,
+      used to collect and present demographic data from the census, usually containing
+      between 2,500 and 8,000 residents and designed to be as homogeneous as possible
+      in terms of population characteristics and living conditions.
+    slots:
+      - state_federal_information_processing_standard_code
+      - county_federal_information_processing_standard_code
+      - block_groups
+    exact_mappings:
+      - wikidata:Q107738887
+      - NCIT:C67490
+
+  BlockGroup:
+    is_a: GeographicEntity
+    description: >-
+      A statistical division within a census tract, typically containing between
+      600 and 3,000 people, which is used by the Census Bureau to present demographic
+      data at a smaller, more localized level than the entire census tract.
+    slots:
+      - census_tract_federal_information_processing_standard_code
+      - state_federal_information_processing_standard_code
+      - county_federal_information_processing_standard_code
+      - households
+    exact_mappings:
+      - wikidata:Q5058963
+
+  School:
+    is_a: NamedThing
+    description: >-
+      A school entity representing an educational institution where synthetic
+      population persons may be assigned for modeling purposes.
+    slots:
+      - federal_information_processing_standard_code
+      - state_federal_information_processing_standard_code
+      - county_federal_information_processing_standard_code
+      - census_tract_federal_information_processing_standard_code
+      - block_group_federal_information_processing_standard_code
+
+  Household:
+    is_a: NamedThing
+    description: >-
+      A household entity representing a group of people living together in a
+      single dwelling unit. Used in synthetic population modeling.
+    slots:
+      - serial_number
+      - household_identifier
+      - household_head_age
+      - household_income
+      - household_head_race
+      - household_size
+      - household_persons
+    exact_mappings:
+      - wikidata:Q259059
+      - OMRSE:00000076
+
+  Person:
+    is_a: NamedThing
+    description: >-
+      A person (individual human being) with demographic and geographic attributes.
+      Persons can participate in studies through the Participant role, which links
+      a Person to a specific study cohort. In synthetic population contexts, persons
+      are members of households within geographic hierarchies.
+    slots:
+      - age
+      - sex
+      - race
+      - species
+      - state_federal_information_processing_standard_code
+      - county_federal_information_processing_standard_code
+      - census_tract_federal_information_processing_standard_code
+      - block_group_federal_information_processing_standard_code
+      - serial_number
+      - household_identifier
+      - household_head_age
+      - household_income
+      - household_head_race
+      - household_size
+      - assigned_school
+      - person_order
+      - relationship_to_household_head
+    exact_mappings:
+      - schema:Person
+      - NCIT:C25190
 
 
 slots:
@@ -751,6 +897,29 @@ slots:
   participant_id:
     range: string
     description: Participant identifier
+
+  person:
+    range: Person
+    description: >-
+      The person (individual) who is participating in this study.
+      Links the study participation role to the actual individual.
+
+  enrollment_date:
+    range: date
+    description: >-
+      Date when the person enrolled in the study as a participant.
+
+  withdrawal_date:
+    range: date
+    description: >-
+      Date when the participant withdrew from or completed the study.
+      Null if participant is still active.
+
+  study_arm:
+    range: string
+    description: >-
+      Study arm or group to which the participant was assigned
+      (e.g., treatment, control, placebo).
 
   age:
     range: integer
@@ -1112,6 +1281,202 @@ slots:
     range: ExposureToPhenotypeAssociation
     multivalued: true
     inlined_as_list: true
+
+  # =============================================================================
+  # Synthetic Population Slots
+  # Geographic identifiers and population-related attributes
+  # =============================================================================
+
+  # Geographic identifier slots
+  federal_information_processing_standard_code:
+    aliases:
+      - fips_code
+    description: >-
+      Federal Information Processing Standard (FIPS) code, a unique numeric identifier
+      assigned to geographic areas like states and counties within the United States,
+      used primarily by the Census Bureau to identify locations when analyzing population data.
+    range: string
+    exact_mappings:
+      - wikidata:Q917824
+
+  state_federal_information_processing_standard_code:
+    aliases:
+      - state_fips_code
+    is_a: federal_information_processing_standard_code
+    description: >-
+      State-level Federal Information Processing Standard (FIPS) code.
+      A two-digit code uniquely identifying each U.S. state and territory.
+    range: string
+    exact_mappings:
+      - wikidata:Q5440257
+
+  county_federal_information_processing_standard_code:
+    aliases:
+      - county_fips_code
+    is_a: federal_information_processing_standard_code
+    description: >-
+      County-level Federal Information Processing Standard (FIPS) code.
+      A three-digit code uniquely identifying a county within a state.
+    range: string
+    exact_mappings:
+      - wikidata:P882
+
+  census_tract_federal_information_processing_standard_code:
+    aliases:
+      - tract_fips_code
+    is_a: federal_information_processing_standard_code
+    description: >-
+      Census tract-level Federal Information Processing Standard (FIPS) code.
+      Identifies a specific census tract within a county.
+    range: string
+
+  block_group_federal_information_processing_standard_code:
+    aliases:
+      - block_group_fips_code
+    is_a: federal_information_processing_standard_code
+    description: >-
+      Block group-level Federal Information Processing Standard (FIPS) code.
+      Identifies a specific block group within a census tract.
+    range: string
+
+  # State slots
+  abbreviation:
+    description: >-
+      Standard two-letter abbreviation for a U.S. state or territory.
+    range: string
+
+  # Geographic hierarchy collection slots
+  counties:
+    range: County
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Counties within a state or geographic region.
+
+  public_use_microdata_areas:
+    aliases:
+      - pumas
+    range: PublicUseMicrodataArea
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Public Use Microdata Areas (PUMAs) within a state.
+      PUMAs are non-overlapping statistical geographic areas containing
+      no fewer than 100,000 people each.
+
+  census_tracts:
+    aliases:
+      - tracts
+    range: CensusTract
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Census tracts within a county.
+
+  block_groups:
+    range: BlockGroup
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Block groups within a census tract.
+
+  households:
+    range: Household
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Households within a block group or geographic area.
+
+  # Household slots
+  serial_number:
+    aliases:
+      - serialno
+    description: >-
+      Serial number linking to the original PUMS (Public Use Microdata Sample) record.
+      Used to connect synthetic population records to source census microdata.
+    range: string
+
+  household_identifier:
+    aliases:
+      - hh_id
+    description: >-
+      Unique identifier for a household within the synthetic population.
+    range: string
+    identifier: true
+
+  household_head_age:
+    aliases:
+      - hh_age
+    description: >-
+      Age of the household head (householder) in years.
+      Used as one of the four matching variables in synthetic population generation.
+    range: integer
+
+  household_income:
+    aliases:
+      - hh_income
+    description: >-
+      Annual household income in dollars.
+      Used as one of the four matching variables in synthetic population generation.
+    range: float
+
+  household_head_race:
+    aliases:
+      - hh_race
+    description: >-
+      Race category of the household head.
+      Used as one of the four matching variables in synthetic population generation.
+    range: string
+
+  household_size:
+    aliases:
+      - size
+    description: >-
+      Number of persons in the household.
+      Used as one of the four matching variables in synthetic population generation.
+    range: integer
+
+  household_persons:
+    aliases:
+      - persons
+    range: Person
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Persons (individuals) within the household.
+
+  # Person slots
+  assigned_school:
+    aliases:
+      - school
+    range: School
+    description: >-
+      School assigned to a person for modeling purposes.
+      Assignment is based on school/grade capacity and proximity.
+
+  person_order:
+    aliases:
+      - sporder
+    description: >-
+      Person's order within the household, starting from 1.
+      The householder is typically person 1.
+    range: integer
+
+  relationship_to_household_head:
+    aliases:
+      - relp
+    description: >-
+      Relationship of the person to the household head (householder).
+      Values: 1=Householder, 2=Spouse, 3=Child, 4=Other relative,
+      5=Nonrelative, 6=Foster child, 7=Foster parent, 8=Other nonrelative.
+    range: RelationshipToHouseholdHeadEnum
+
+  race:
+    aliases:
+      - rac1p
+    description: >-
+      Race of the person. Derived from census race categories.
+    range: string
 
 enums:
 
@@ -1496,4 +1861,26 @@ enums:
         description: Total bacterial load (CFU or 16S copies)
       Other:
         description: Other measurement type not listed
+
+  RelationshipToHouseholdHeadEnum:
+    description: >-
+      Relationship of a person to the household head (householder) in census data.
+      Based on PUMS RELP variable coding.
+    permissible_values:
+      Householder:
+        description: Reference person (head of household)
+      Spouse:
+        description: Husband or wife of the householder
+      Child:
+        description: Biological, adopted, or stepchild of the householder
+      OtherRelative:
+        description: Other relative of the householder (parent, sibling, grandchild, etc.)
+      Nonrelative:
+        description: Non-relative of the householder (roommate, boarder, etc.)
+      FosterChild:
+        description: Foster child
+      FosterParent:
+        description: Foster parent
+      OtherNonrelative:
+        description: Other non-relative
 
