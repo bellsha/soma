@@ -340,7 +340,6 @@ classes:
       - population
       - enrollment_period
       - geographic_location
-      - data_source
       - principal_investigator
       - publications
 
@@ -374,7 +373,6 @@ classes:
       - measurement_method
       - measurement_date
       - sample_type
-      - source_database_record
 
   BiomarkerMeasurement:
     is_a: Measurement
@@ -724,10 +722,6 @@ slots:
     range: string
     description: Geographic location of study
 
-  data_source:
-    range: DataSourceEnum
-    description: Source database or repository
-
   principal_investigator:
     range: string
     description: Principal investigator name
@@ -817,10 +811,6 @@ slots:
   sample_type:
     range: SampleTypeEnum
     description: Type of biological sample
-
-  source_database_record:
-    range: uriorcurie
-    description: Link to original database record (URI or CURIE)
 
   biomarker_type:
     range: string
@@ -1263,38 +1253,6 @@ enums:
         meaning: EFO:0000508
       Other:
         description: Other study type
-
-  DataSourceEnum:
-    description: Data sources and repositories
-    permissible_values:
-      Nhanes:
-        description: National Health and Nutrition Examination Survey
-      Chear:
-        description: Children's Health Exposure Analysis Resource
-      Hhear:
-        description: Human Health Exposure Analysis Resource
-      AopWiki:
-        description: AOP Wiki
-      Ctd:
-        description: Comparative Toxicogenomics Database
-      ToxCast:
-        description: ToxCast
-      Tox21:
-        description: Tox21
-      ChemBl:
-        description: ChEMBL
-      CompTox:
-        description: CompTox Dashboard
-      GwasCatalog:
-        description: GWAS Catalog
-      GeneExpressionAtlas:
-        description: Gene Expression Atlas
-      UsdaPesticide:
-        description: USDA Pesticide Data Program
-      Wweia:
-        description: What We Eat In America
-      Other:
-        description: Other data source
 
   SexEnum:
     description: Biological sex
