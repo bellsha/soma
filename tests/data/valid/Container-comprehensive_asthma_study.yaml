@@ -22,8 +22,7 @@ cohorts:
   - id: owg:cohort-APEX-main
     name: APEX Main Cohort
     description: Primary study cohort of adult asthma patients
-    part_of_study:
-      id: owg:study-APEX-2024
+    part_of_study: owg:study-APEX-2024
     cohort_size: 150
     inclusion_criteria: >-
       Adults 18-65 years; physician-diagnosed asthma;
@@ -35,8 +34,7 @@ participants:
   - id: owg:participant-APEX-001
     name: APEX-001
     description: Study participant with moderate persistent asthma
-    part_of_cohort:
-      id: owg:cohort-APEX-main
+    part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-001
     age: 34
     sex: Female
@@ -45,8 +43,7 @@ participants:
   - id: owg:participant-APEX-002
     name: APEX-002
     description: Study participant with mild intermittent asthma
-    part_of_cohort:
-      id: owg:cohort-APEX-main
+    part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-002
     age: 28
     sex: Male
@@ -55,8 +52,7 @@ participants:
   - id: owg:participant-APEX-003
     name: APEX-003
     description: Study participant with severe persistent asthma
-    part_of_cohort:
-      id: owg:cohort-APEX-main
+    part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-003
     age: 52
     sex: Female
@@ -76,8 +72,7 @@ exposure_measurements:
     measured_entity:
       id: ENVO:01000415
       name: PM2.5
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
     sample_type: Air
@@ -93,8 +88,7 @@ exposure_measurements:
     measured_entity:
       id: CHEBI:25812
       name: Ozone
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_method: EPA AQS monitor data (nearest monitor)
     measurement_date: "2024-03-01"
     sample_type: Air
@@ -111,8 +105,7 @@ exposure_measurements:
     measured_entity:
       id: ENVO:01000415
       name: PM2.5
-    participant:
-      id: owg:participant-APEX-002
+    participant: owg:participant-APEX-002
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
     sample_type: Air
@@ -129,8 +122,7 @@ exposure_measurements:
     measured_entity:
       id: ENVO:01000415
       name: PM2.5
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
     sample_type: Air
@@ -158,8 +150,7 @@ biomarker_measurements:
     measured_entity:
       id: CHEBI:27894
       name: 8-isoprostane
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_method: LC-MS/MS
     measurement_date: "2024-03-01"
 
@@ -184,8 +175,7 @@ biomarker_measurements:
     measured_entity:
       id: CL:0000771
       name: Eosinophil
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_method: Cytospin with modified Wright stain
     measurement_date: "2024-03-01"
 
@@ -209,8 +199,7 @@ biomarker_measurements:
     measured_entity:
       id: PR:000001562
       name: Interleukin-8
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_method: Multiplex cytokine panel (MSD)
     measurement_date: "2024-03-01"
 
@@ -235,8 +224,7 @@ biomarker_measurements:
     measured_entity:
       id: CHEBI:27894
       name: 8-isoprostane
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_method: LC-MS/MS
     measurement_date: "2024-03-01"
 
@@ -260,8 +248,7 @@ biomarker_measurements:
     measured_entity:
       id: CL:0000775
       name: Neutrophil
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_method: Cytospin with modified Wright stain
     measurement_date: "2024-03-01"
 
@@ -287,8 +274,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-001-fvc-baseline
@@ -310,8 +296,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-001-ratio-baseline
@@ -333,8 +318,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-001-feno-baseline
@@ -356,8 +340,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-001
+    participant: owg:participant-APEX-001
     measurement_date: "2024-03-01"
 
   # Lung function - APEX-002 (mild asthma)
@@ -380,8 +363,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-002
+    participant: owg:participant-APEX-002
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-002-feno-baseline
@@ -403,8 +385,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-002
+    participant: owg:participant-APEX-002
     measurement_date: "2024-03-01"
 
   # Lung function - APEX-003 (severe asthma)
@@ -427,8 +408,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-003-ratio-baseline
@@ -450,8 +430,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0006536
       name: Airway obstruction
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_date: "2024-03-01"
 
   - id: owg:phen-APEX-003-feno-baseline
@@ -473,8 +452,7 @@ phenotype_measurements:
     phenotype:
       id: HP:0002099
       name: Asthma
-    participant:
-      id: owg:participant-APEX-003
+    participant: owg:participant-APEX-003
     measurement_date: "2024-03-01"
 
 # ============ Aggregated Measurements ============
@@ -490,8 +468,7 @@ aggregated_measurements:
     measured_entity:
       id: ENVO:01000415
       name: PM2.5
-    cohort:
-      id: owg:cohort-APEX-main
+    cohort: owg:cohort-APEX-main
     summary_statistic: Mean
     sample_size: 150
 
@@ -506,8 +483,7 @@ aggregated_measurements:
     measured_entity:
       id: NCIT:C38083
       name: FEV1
-    cohort:
-      id: owg:cohort-APEX-main
+    cohort: owg:cohort-APEX-main
     summary_statistic: Mean
     sample_size: 150
     stratification: By asthma severity (mild, moderate, severe)
