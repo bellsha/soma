@@ -1,5 +1,5 @@
 # Auto generated from outcomes_working_group.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-01-10T13:48:28
+# Generation date: 2026-01-10T13:57:13
 # Schema: outcomes_working_group
 #
 # id: https://w3id.org/EHS-Data-Standards/outcomes_working_group
@@ -99,7 +99,7 @@ BIOLINK = CurieNamespace('biolink', 'https://w3id.org/biolink/vocab/')
 CHEAR = CurieNamespace('chear', 'http://hadatac.org/ont/chear#')
 FHIR = CurieNamespace('fhir', 'http://hl7.org/fhir/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OWG = CurieNamespace('owg', 'https://w3id.org/diatomsRcool/exposome-schema/')
+OWG = CurieNamespace('owg', 'https://w3id.org/EHS-Data-Standards/outcomes-working-group/')
 QUDT = CurieNamespace('qudt', 'http://qudt.org/vocab/unit/')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
 DEFAULT_ = OWG

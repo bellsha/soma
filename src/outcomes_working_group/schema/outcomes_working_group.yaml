@@ -1345,7 +1345,6 @@ enums:
       Types of measurements and observations for outcomes research,
       with emphasis on respiratory health and environmental toxicant effects.
     permissible_values:
-      # ============ Lung Function Measurements ============
       FEV1:
         description: Forced expiratory volume in 1 second
         meaning: NCIT:C38083
@@ -1371,8 +1370,6 @@ enums:
         description: Change in lung function after bronchodilator administration
       LungFunctionDeclineRate:
         description: Rate of decline in lung function over time
-
-      # ============ Ciliary Function Measurements ============
       CiliaryBeatFrequency:
         description: Frequency of ciliary beating in Hz
         meaning: GO:0003341
@@ -1384,16 +1381,12 @@ enums:
         description: Length of cilia in micrometers
       PercentageCiliatedCells:
         description: Percentage of cells that are ciliated
-
-      # ============ Airway Surface Liquid Measurements ============
       ASLHeight:
         description: Airway surface liquid height in micrometers
       PericiliaryLayerDepth:
         description: Depth of periciliary liquid layer (reduced in disease)
       MucusLayerThickness:
         description: Thickness of the mucus gel layer
-
-      # ============ Mucociliary Clearance Measurements ============
       MucociliaryTransportRate:
         description: Rate of mucociliary transport (mm/min)
         meaning: GO:0120197
@@ -1401,8 +1394,6 @@ enums:
         description: Directionality and coordination of mucociliary transport
       ParticleClearanceRate:
         description: Rate of particle clearance from airways
-
-      # ============ Goblet Cell & Mucin Measurements ============
       GobletCellCount:
         description: Number or percentage of goblet cells
         meaning: CL:0000160
@@ -1412,16 +1403,12 @@ enums:
         description: Concentration of secreted mucin protein
       MucusViscosity:
         description: Viscosity of airway mucus
-
-      # ============ CFTR Function Measurements ============
       CFTRChlorideSecretion:
         description: CFTR-mediated chloride secretory current
       InhibitorSensitiveCurrent:
         description: Current sensitive to CFTR inhibitors (e.g., CFTRinh-172)
       SweatChlorideConcentration:
         description: Chloride concentration in sweat (CF diagnostic)
-
-      # ============ Oxidative Stress Measurements ============
       ReactiveOxygenSpecies:
         description: Reactive oxygen species (ROS) level
         meaning: CHEBI:26523
@@ -1441,14 +1428,10 @@ enums:
         description: Glutathione peroxidase (GPx) activity
       TotalAntioxidantCapacity:
         description: Total antioxidant capacity of sample
-
-      # ============ Barrier Integrity Measurements ============
       TEER:
         description: Transepithelial electrical resistance
       ParacellularPermeability:
         description: Paracellular permeability coefficient
-
-      # ============ Inflammatory Markers ============
       IL6Level:
         description: Interleukin-6 concentration
         meaning: NCIT:C20487
@@ -1469,8 +1452,6 @@ enums:
         description: Percentage of macrophages in BALF or sputum
       TotalInflammatoryCell:
         description: Total inflammatory cell count
-
-      # ============ Cytotoxicity Measurements ============
       LDHRelease:
         description: Lactate dehydrogenase release (cell damage marker)
       CellViability:
@@ -1479,10 +1460,6 @@ enums:
         description: MTT assay result (metabolic activity)
       ApoptosisRate:
         description: Rate of apoptotic cell death
-
-      # ============ Expression Measurements ============
-      # Note: For expression measurements, use GeneExpressionMeasurement or
-      # ProteinExpressionMeasurement classes which capture target, tissue, and assay details.
       GeneExpression:
         description: >-
           Gene expression level (mRNA). Use with GeneExpressionMeasurement class
@@ -1505,8 +1482,6 @@ enums:
           (e.g., MUC5AC/MUC5B ratio). Specify both targets in description.
       PercentagePositiveCells:
         description: Percentage of cells positive for a marker (IHC, flow cytometry)
-
-      # ============ Environmental Exposure Biomarkers ============
       BloodLeadLevel:
         description: Blood lead concentration
         meaning: HHEAR:00000001
@@ -1530,8 +1505,6 @@ enums:
         description: Nitrogen dioxide exposure concentration
       PolycyclicAromaticHydrocarbons:
         description: PAH metabolite levels
-
-      # ============ Anthropometric Measurements ============
       BodyMassIndex:
         description: Body mass index (BMI)
         meaning: NCIT:C16358
@@ -1541,16 +1514,12 @@ enums:
       Height:
         description: Height measurement
         meaning: NCIT:C25347
-
-      # ============ Microbiome Measurements ============
       AlphaDiversity:
         description: Microbiome alpha diversity metric
       BetaDiversity:
         description: Microbiome beta diversity metric
       BacterialLoad:
         description: Total bacterial load (CFU or 16S copies)
-
-      # ============ Other ============
       Other:
         description: Other measurement type not listed
 
