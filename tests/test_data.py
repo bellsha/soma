@@ -16,11 +16,13 @@ INVALID_EXAMPLE_FILES = glob.glob(os.path.join(DATA_DIR_INVALID, '*.yaml'))
 
 @pytest.mark.parametrize("filepath", VALID_EXAMPLE_FILES)
 def test_valid_data_files(filepath):
-    """Test loading of all valid data files."""
-    target_class_name = Path(filepath).stem.split("-")[0]
-    tgt_class = getattr(
-        outcomes_working_group.datamodel.outcomes_working_group,
-        target_class_name,
-    )
+    """Test loading of all valid data files.
+
+    All valid data files are loaded against the Container class (tree_root),
+    which holds collections of various measurement types.
+    """
+    # Use Container as the target class since it's the tree_root
+    # that holds all measurement collections
+    tgt_class = outcomes_working_group.datamodel.outcomes_working_group.Container
     obj = yaml_loader.load(filepath, target_class=tgt_class)
     assert obj

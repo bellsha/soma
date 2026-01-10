@@ -1,6 +1,7 @@
 # In vitro airway epithelial cell measurements
 # Demonstrates measurements from primary human bronchial epithelial cells (HBECs)
 # cultured at air-liquid interface (ALI), commonly used in asthma/toxicology research
+# Uses OntologyReference pattern with id + name for readability
 
 # ============ Ciliary Function Measurements ============
 ciliary_measurements:
@@ -112,7 +113,7 @@ asl_measurements:
       unit_label: "um"
     measured_entity:
       id: UBERON:0001913
-      name: Milk
+      name: Airway surface liquid
     measurement_method: Confocal z-stack with Texas Red-dextran
     measurement_date: "2024-03-16"
 
@@ -134,7 +135,7 @@ asl_measurements:
       unit_label: "um"
     measured_entity:
       id: UBERON:0001913
-      name: Milk
+      name: Airway surface liquid
     measurement_method: Confocal z-stack with Texas Red-dextran
     measurement_date: "2024-03-16"
 
@@ -207,7 +208,6 @@ mcc_measurements:
     measurement_date: "2024-03-17"
 
 # ============ Goblet Cell Measurements ============
-# Note: Expression measurements (MUC5AC, MUC5B mRNA/protein) are in expression_measurements.yaml
 goblet_cell_measurements:
   - id: owg:goblet-001-control
     name: Goblet cell percentage - Control
@@ -451,7 +451,7 @@ cytotoxicity_measurements:
       unit_label: "% of total"
     measured_entity:
       id: GO:0004134
-      name: 4-alpha-glucanotransferase activity
+      name: Lactate dehydrogenase
     measurement_method: CytoTox 96 Non-Radioactive Cytotoxicity Assay
     measurement_date: "2024-03-20"
 
@@ -473,6 +473,6 @@ cytotoxicity_measurements:
       unit_label: "% of total"
     measured_entity:
       id: GO:0004134
-      name: 4-alpha-glucanotransferase activity
+      name: Lactate dehydrogenase
     measurement_method: CytoTox 96 Non-Radioactive Cytotoxicity Assay
     measurement_date: "2024-03-20"

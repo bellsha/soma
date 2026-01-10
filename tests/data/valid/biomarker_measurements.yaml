@@ -1,5 +1,6 @@
 # Example BiomarkerMeasurement data for respiratory health research
 # Includes oxidative stress markers, inflammatory cytokines, and CFTR function
+# Uses OntologyReference pattern with id + name for readability
 
 biomarker_measurements:
   # Oxidative Stress Markers

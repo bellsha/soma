@@ -1,6 +1,7 @@
 # Expression Measurement Examples
 # Demonstrates the structured GeneExpressionMeasurement and ProteinExpressionMeasurement classes
 # with proper target specification, tissue/cell context, and assay methodology
+# Uses GeneReference, ProteinReference, TissueReference, CellTypeReference for readability
 
 # ============ Gene Expression Measurements ============
 gene_expression_measurements:
@@ -15,7 +16,7 @@ gene_expression_measurements:
       unit_label: "fold change"
     target_gene:
       id: NCBIGENE:4586
-      name: MUC5AC
+      name: Mucin 5AC, oligomeric mucus/gel-forming
       symbol: MUC5AC
     tissue_context:
       id: UBERON:0002031
@@ -37,7 +38,7 @@ gene_expression_measurements:
       unit_label: "fold change vs control"
     target_gene:
       id: NCBIGENE:4586
-      name: MUC5AC
+      name: Mucin 5AC, oligomeric mucus/gel-forming
       symbol: MUC5AC
     tissue_context:
       id: UBERON:0002031
@@ -60,7 +61,7 @@ gene_expression_measurements:
       unit_label: "fold change"
     target_gene:
       id: NCBIGENE:727897
-      name: MUC5B
+      name: Mucin 5B, oligomeric mucus/gel-forming
       symbol: MUC5B
     tissue_context:
       id: UBERON:0002031
@@ -111,7 +112,7 @@ gene_expression_measurements:
       unit_label: "fold change"
     target_gene:
       id: NCBIGENE:3576
-      name: Interleukin-8
+      name: C-X-C motif chemokine ligand 8
       symbol: CXCL8
     tissue_context:
       id: UBERON:0002031
@@ -133,7 +134,7 @@ gene_expression_measurements:
       unit_label: "fold change vs control"
     target_gene:
       id: NCBIGENE:3576
-      name: Interleukin-8
+      name: C-X-C motif chemokine ligand 8
       symbol: CXCL8
     tissue_context:
       id: UBERON:0002031

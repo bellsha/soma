@@ -1,5 +1,6 @@
 # Example ExposureMeasurement data for environmental toxicant research
 # Demonstrates the new Quantity pattern with value + unit + unit_label
+# and OntologyReference pattern with id + name for readability
 
 exposure_measurements:
   - id: owg:exposure-001
@@ -62,7 +63,7 @@ exposure_measurements:
       unit_label: "ug/m3"
     measured_entity:
       id: ENVO:01000415
-      name: Particulate matter with diameter less than 2.5 micrometers
+      name: Particulate matter with aerodynamic diameter less than or equal to 2.5 micrometers
     participant:
       id: owg:participant-002
     measurement_method: Personal exposure monitor (RTI MicroPEM)

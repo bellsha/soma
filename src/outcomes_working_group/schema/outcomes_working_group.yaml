@@ -1,11 +1,11 @@
-                        name: outcome-measurement-model
+name: outcomes_working_group
 description: >-
   A LinkML data model for representing biological measurements, assays,
   and experimental protocols in the context of outcomes research.
 title: Outcome Measurement Data Model
 see_also:
 - https://EHS-Data-Standards.github.io/outcomes-working-group
-id: https://w3id.org/EHS-Data-Standards/outcome-measurement-model
+id: https://w3id.org/EHS-Data-Standards/outcomes_working_group
 imports:
 - linkml:types
 license: MIT
@@ -37,6 +37,9 @@ prefixes:
   RO: http://purl.obolibrary.org/obo/RO_
   UO: http://purl.obolibrary.org/obo/UO_
   NCIT: http://purl.obolibrary.org/obo/NCIT_
+  OBI: http://purl.obolibrary.org/obo/OBI_
+  GO: http://purl.obolibrary.org/obo/GO_
+  PR: http://purl.obolibrary.org/obo/PR_
   fhir: http://hl7.org/fhir/
   qudt: http://qudt.org/vocab/unit/
   UCUM: http://unitsofmeasure.org/
@@ -59,6 +62,90 @@ default_range: string
 
 
 classes:
+  Container:
+    tree_root: true
+    description: >-
+      A container for collections of measurements and related entities.
+      Used as the root class for data validation.
+    attributes:
+      exposure_measurements:
+        range: ExposureMeasurement
+        multivalued: true
+        inlined_as_list: true
+      biomarker_measurements:
+        range: BiomarkerMeasurement
+        multivalued: true
+        inlined_as_list: true
+      phenotype_measurements:
+        range: PhenotypeMeasurement
+        multivalued: true
+        inlined_as_list: true
+      gene_expression_measurements:
+        range: GeneExpressionMeasurement
+        multivalued: true
+        inlined_as_list: true
+      protein_expression_measurements:
+        range: ProteinExpressionMeasurement
+        multivalued: true
+        inlined_as_list: true
+      aggregated_measurements:
+        range: AggregatedMeasurement
+        multivalued: true
+        inlined_as_list: true
+      studies:
+        range: Study
+        multivalued: true
+        inlined_as_list: true
+      cohorts:
+        range: Cohort
+        multivalued: true
+        inlined_as_list: true
+      participants:
+        range: Participant
+        multivalued: true
+        inlined_as_list: true
+      chemicals:
+        range: ChemicalEntity
+        multivalued: true
+        inlined_as_list: true
+      genes:
+        range: Gene
+        multivalued: true
+        inlined_as_list: true
+      proteins:
+        range: Protein
+        multivalued: true
+        inlined_as_list: true
+      # Aliases for in-vitro measurement collections
+      ciliary_measurements:
+        range: PhenotypeMeasurement
+        multivalued: true
+        inlined_as_list: true
+      asl_measurements:
+        range: PhenotypeMeasurement
+        multivalued: true
+        inlined_as_list: true
+      mcc_measurements:
+        range: PhenotypeMeasurement
+        multivalued: true
+        inlined_as_list: true
+      goblet_cell_measurements:
+        range: PhenotypeMeasurement
+        multivalued: true
+        inlined_as_list: true
+      oxidative_stress_measurements:
+        range: BiomarkerMeasurement
+        multivalued: true
+        inlined_as_list: true
+      barrier_measurements:
+        range: BiomarkerMeasurement
+        multivalued: true
+        inlined_as_list: true
+      cytotoxicity_measurements:
+        range: BiomarkerMeasurement
+        multivalued: true
+        inlined_as_list: true
+
   NamedThing:
     description: >-
       A generic grouping for any identifiable entity in the exposome
@@ -112,6 +199,86 @@ classes:
       upper_bound:
         range: Quantity
         description: The upper bound of the range
+
+  # ============ Reference Classes (for inline id + name) ============
+  # These classes allow structured references with both identifier and human-readable name,
+  # improving readability and AI-friendliness of data files.
+
+  OntologyReference:
+    description: >-
+      A reference to an ontology term with both identifier and human-readable name.
+      Used for measured entities, phenotypes, and other ontology-backed concepts.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The ontology term identifier (e.g., CHEBI:25016, GO:0005929)
+      name:
+        range: string
+        description: Human-readable name for the term (e.g., "Lead", "Cilium")
+
+  GeneReference:
+    description: >-
+      A reference to a gene with identifier, name, and symbol.
+      Used for target_gene in expression measurements.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The gene identifier (e.g., NCBIGENE:4586)
+      name:
+        range: string
+        description: Full gene name (e.g., "Mucin 5AC, oligomeric mucus/gel-forming")
+      symbol:
+        range: string
+        description: Gene symbol (e.g., "MUC5AC")
+
+  ProteinReference:
+    description: >-
+      A reference to a protein with identifier, name, and encoding gene.
+      Used for target_protein in expression measurements.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The protein identifier (e.g., PR:000007223)
+      name:
+        range: string
+        description: Protein name (e.g., "Epidermal growth factor receptor")
+      encoded_by_gene:
+        range: GeneReference
+        inlined: true
+        description: The gene that encodes this protein
+
+  TissueReference:
+    description: >-
+      A reference to an anatomical tissue or structure with identifier and name.
+      Used for tissue_context in expression measurements.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The anatomy identifier (e.g., UBERON:0002031)
+      name:
+        range: string
+        description: Tissue/anatomy name (e.g., "bronchial epithelium")
+
+  CellTypeReference:
+    description: >-
+      A reference to a cell type with identifier and name.
+      Used for cell_type_context in expression measurements.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The cell type identifier (e.g., CL:0000160)
+      name:
+        range: string
+        description: Cell type name (e.g., "goblet cell")
+
+  ParticipantReference:
+    description: >-
+      A reference to a study participant with identifier.
+      Used when referring to participants in measurements.
+    attributes:
+      id:
+        range: uriorcurie
+        description: The participant identifier (e.g., owg:participant-001)
 
   BiologicalEntity:
     abstract: true
@@ -359,10 +526,12 @@ classes:
   PhenotypeMeasurement:
     is_a: Measurement
     description: >-
-      A measurement of a phenotypic trait
+      A measurement of a phenotypic trait or functional assay
     slots:
       - phenotype
+      - measured_entity
       - participant
+      - measurement_method
       - measurement_date
 
   AggregatedMeasurement:
@@ -774,12 +943,16 @@ slots:
       Set to NULL if not provided.
 
   measured_entity:
-    range: NamedThing
-    description: The entity being measured
+    range: OntologyReference
+    inlined: true
+    description: >-
+      The entity being measured, with both identifier and human-readable name.
+      Examples: chemical compounds (CHEBI), cell types (CL), biological processes (GO).
 
   participant:
-    range: Participant
-    description: The participant being measured
+    range: ParticipantReference
+    inlined: true
+    description: The participant being measured, with identifier.
 
   measurement_method:
     range: string
@@ -794,16 +967,17 @@ slots:
     description: Type of biological sample
 
   source_database_record:
-    range: DatabaseRecord
-    description: Link to original database record
+    range: uriorcurie
+    description: Link to original database record (URI or CURIE)
 
   biomarker_type:
     range: string
     description: Type of biomarker
 
   phenotype:
-    range: Phenotype
-    description: The phenotype being measured
+    range: OntologyReference
+    inlined: true
+    description: The phenotype being measured, with identifier and name.
 
   cohort:
     range: Cohort
@@ -823,28 +997,32 @@ slots:
 
   # Expression measurement slots
   target_gene:
-    range: Gene
+    range: GeneReference
+    inlined: true
     description: >-
-      The gene whose expression is being measured.
+      The gene whose expression is being measured, with identifier, name, and symbol.
       Use this to specify the exact gene target (e.g., MUC5AC, EGFR, IL8).
 
   target_protein:
-    range: Protein
+    range: ProteinReference
+    inlined: true
     description: >-
-      The protein whose expression or modification is being measured.
-      Use this to specify the exact protein target.
+      The protein whose expression or modification is being measured,
+      with identifier, name, and optionally the encoding gene.
 
   tissue_context:
-    range: AnatomicalEntity
+    range: TissueReference
+    inlined: true
     description: >-
-      The anatomical tissue or structure where expression was measured
-      (e.g., bronchial epithelium, lung, nasal mucosa).
+      The anatomical tissue or structure where expression was measured,
+      with identifier and name (e.g., bronchial epithelium, lung, nasal mucosa).
 
   cell_type_context:
-    range: CellType
+    range: CellTypeReference
+    inlined: true
     description: >-
-      The specific cell type where expression was measured
-      (e.g., goblet cell, ciliated cell, basal cell).
+      The specific cell type where expression was measured,
+      with identifier and name (e.g., goblet cell, ciliated cell, basal cell).
 
   assay_method:
     range: ExpressionAssayMethodEnum
@@ -1125,7 +1303,7 @@ enums:
         description: Unknown
 
   SampleTypeEnum:
-    description: Types of biological samples
+    description: Types of biological and environmental samples
     permissible_values:
       Blood:
         description: Blood sample
@@ -1143,6 +1321,12 @@ enums:
         description: Hair sample
       Nail:
         description: Nail sample
+      Air:
+        description: Air sample (environmental)
+      Water:
+        description: Water sample (environmental)
+      Soil:
+        description: Soil sample (environmental)
       Other:
         description: Other sample type
 
