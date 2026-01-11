@@ -116,6 +116,13 @@ classes:
         - cell_lines
         - environmental_measurements
         - mechanical_measurements
+        # In vitro exposure entities
+        - in_vitro_exposures
+        - exposure_materials
+        - particle_properties_collection
+        - aerosol_generations
+        - sample_preparations
+        - analyses
 
 
   NamedThing:
@@ -661,6 +668,151 @@ classes:
       - substrate_type
     id_prefixes:
       - owg
+
+  # ==========================================================================
+  # In Vitro Exposure and Test Material Classes
+  # ==========================================================================
+
+  ExposureMaterial:
+    is_a: NamedThing
+    description: >-
+      Detailed specification of the test article or substance used in an exposure
+      experiment. Extends chemical entity information with physical form, purity,
+      and particle properties relevant for toxicology studies.
+    slots:
+      - test_substance
+      - chemical_form
+      - nominal_concentration
+      - applied_dose
+      - purity
+      - composition
+      - vehicle_solvent
+      - particle_properties
+      - source_lot_number
+      - manufacturer
+      - catalog_number
+
+  ParticleProperties:
+    is_a: NamedThing
+    description: >-
+      Physical and chemical properties of particulate test materials including
+      nanoparticles, aerosols, and other particle-based exposures. Essential for
+      characterizing inhaled toxicants and nanomaterials.
+    slots:
+      - particle_size
+      - particle_size_distribution
+      - surface_area
+      - zeta_potential
+      - hydrodynamic_diameter
+      - polydispersity_index
+      - particle_morphology
+      - particle_composition
+      - agglomeration_state
+
+  InVitroExposure:
+    is_a: ExposureEvent
+    description: >-
+      An in vitro exposure event describing how cells or tissues were exposed
+      to a test substance. Captures exposure timing, frequency, aerosol generation
+      parameters, and other in vitro-specific details.
+    slots:
+      - exposure_material
+      - exposure_frequency
+      - exposure_regiment
+      - time_post_exposure
+      - exposure_temperature
+      - control_description
+      - control_type
+      - number_of_replicates
+      - effective_deposition
+      - deposited_dose
+      - baseline_teer
+      - aerosol_generation
+      - sample_preparation
+      - dose_normalization_method
+
+  AerosolGeneration:
+    is_a: NamedThing
+    description: >-
+      Parameters describing aerosol generation for inhalation toxicology studies.
+      Includes generation method, equipment, and characterization of the generated
+      aerosol for air-liquid interface and other exposure systems.
+    slots:
+      - aerosol_generation_method
+      - aerosol_generation_equipment
+      - aerosol_concentration
+      - aerosol_flow_rate
+      - aerosol_exposure_duration
+      - mass_median_aerodynamic_diameter
+      - geometric_standard_deviation
+      - aerosol_characterization_method
+
+  SamplePreparation:
+    is_a: NamedThing
+    description: >-
+      Pre-exposure sample preparation procedures for in vitro systems.
+      Includes ASL-specific preparations like mucus removal and other
+      treatments applied before exposure.
+    slots:
+      - mucus_removal_performed
+      - mucus_removal_method
+      - debris_removal_performed
+      - debris_removal_method
+      - wash_steps
+      - equilibration_time
+      - pre_exposure_treatment
+      - surface_preparation
+
+  # ==========================================================================
+  # Data Analysis and Processing Classes
+  # ==========================================================================
+
+  Analysis:
+    is_a: NamedThing
+    description: >-
+      Data analysis and processing parameters describing how measurement data
+      was acquired, processed, normalized, and quality controlled. Links to
+      measurements to provide complete provenance of derived values.
+    slots:
+      # Normalization
+      - normalization_performed
+      - data_normalization_method
+      - viability_normalized
+      - baseline_definition
+      - dose_normalization_method
+      # Data acquisition
+      - raw_data_type
+      - analysis_software
+      - analysis_software_version
+      - automation_level
+      - algorithm_type
+      - pipeline_reference
+      # Data transformation
+      - data_transformation
+      - replicate_combination_method
+      - outlier_detection_method
+      - outlier_removal_performed
+      # Imaging parameters
+      - imaging_magnification
+      - pixel_size
+      - voxel_depth
+      - z_step_size
+      - number_of_z_slices
+      # Video/temporal parameters
+      - temporal_resolution
+      - acquisition_duration
+      - motion_stabilization_applied
+      - frame_rate
+      # Context-specific
+      - flow_profile_during_imaging
+      - measurements_per_replicate
+      # QC
+      - qc_acceptance_criteria
+      - qc_passed
+      - comparison_to_historical_controls
+      # Output
+      - final_metric
+      - final_metric_unit
 
   Gene:
     is_a: BiologicalEntity
@@ -2092,6 +2244,497 @@ slots:
     inlined_as_list: true
     description: Collection of cell lines.
 
+  # ============================================================================
+  # In Vitro Exposure and Test Material Slots
+  # ============================================================================
+
+  # ExposureMaterial slots
+  test_substance:
+    range: ChemicalEntity
+    description: >-
+      The chemical entity being tested, with full identifier information.
+    inlined: true
+
+  chemical_form:
+    range: ChemicalFormEnum
+    description: >-
+      Physical form of the test substance (solid, aerosol, solution, vapor, etc.)
+
+  nominal_concentration:
+    range: QuantityValue
+    description: >-
+      Nominal or intended concentration of the test substance as prepared.
+    inlined: true
+
+  applied_dose:
+    range: QuantityValue
+    description: >-
+      The dose applied to cells or tissue (may differ from nominal concentration).
+    inlined: true
+
+  purity:
+    range: QuantityValue
+    description: >-
+      Purity of the test substance as percentage.
+    inlined: true
+
+  composition:
+    range: string
+    description: >-
+      Detailed composition of the test material, especially for complex mixtures.
+
+  vehicle_solvent:
+    range: string
+    description: >-
+      Vehicle or solvent used to deliver the test substance (e.g., DMSO, PBS, culture medium).
+
+  particle_properties:
+    range: ParticleProperties
+    description: >-
+      Physical properties of particulate test materials.
+    inlined: true
+
+  source_lot_number:
+    range: string
+    description: >-
+      Lot number from the source/manufacturer of the test article.
+
+  # ParticleProperties slots
+  particle_size:
+    range: QuantityValue
+    description: >-
+      Primary particle size (e.g., diameter) in nanometers or micrometers.
+    inlined: true
+
+  particle_size_distribution:
+    range: string
+    description: >-
+      Description of particle size distribution (e.g., monodisperse, polydisperse, D10/D50/D90 values).
+
+  surface_area:
+    range: QuantityValue
+    description: >-
+      Specific surface area of particles (e.g., m2/g by BET method).
+    inlined: true
+
+  zeta_potential:
+    range: QuantityValue
+    description: >-
+      Zeta potential in mV, indicating surface charge in the vehicle/medium.
+    inlined: true
+
+  hydrodynamic_diameter:
+    range: QuantityValue
+    description: >-
+      Hydrodynamic diameter measured by dynamic light scattering (DLS).
+    inlined: true
+
+  polydispersity_index:
+    range: float
+    description: >-
+      Polydispersity index (PDI) from DLS, indicating size distribution width.
+
+  particle_morphology:
+    range: string
+    description: >-
+      Particle shape and morphology (e.g., spherical, rod, fiber, agglomerate).
+
+  particle_composition:
+    range: string
+    description: >-
+      Chemical composition of particles if different from bulk material.
+
+  agglomeration_state:
+    range: string
+    description: >-
+      State of agglomeration/aggregation in the exposure medium.
+
+  # InVitroExposure slots
+  exposure_material:
+    range: ExposureMaterial
+    description: >-
+      The test material used for the exposure.
+    inlined: true
+
+  exposure_frequency:
+    range: string
+    description: >-
+      Frequency of exposure (e.g., single, daily, twice daily).
+
+  exposure_regiment:
+    range: ExposureRegimentEnum
+    description: >-
+      Type of exposure regiment (continuous, repeated, intermittent, etc.)
+
+  time_post_exposure:
+    range: QuantityValue
+    description: >-
+      Time elapsed between end of exposure and measurement (recovery period).
+    inlined: true
+
+  exposure_temperature:
+    range: QuantityValue
+    description: >-
+      Temperature during exposure in degrees Celsius.
+    inlined: true
+
+  control_description:
+    range: string
+    description: >-
+      Description of control conditions used in the experiment.
+
+  control_type:
+    range: ControlTypeEnum
+    description: >-
+      Type of control used (vehicle, untreated, positive, etc.)
+
+  number_of_replicates:
+    range: integer
+    description: >-
+      Number of replicate wells/inserts/samples per condition.
+
+  effective_deposition:
+    range: QuantityValue
+    description: >-
+      Actual amount of material deposited on cells (measured or calculated).
+    inlined: true
+
+  deposited_dose:
+    range: QuantityValue
+    description: >-
+      Dose that reached the cell surface (may be calculated from ISDD or measured).
+    inlined: true
+
+  baseline_teer:
+    range: QuantityValue
+    description: >-
+      Baseline TEER measurement before exposure, used to assess barrier integrity.
+    inlined: true
+
+  aerosol_generation:
+    range: AerosolGeneration
+    description: >-
+      Parameters for aerosol generation (for inhalation studies).
+    inlined: true
+
+  sample_preparation:
+    range: SamplePreparation
+    description: >-
+      Pre-exposure sample preparation procedures.
+    inlined: true
+
+  dose_normalization_method:
+    range: DoseNormalizationMethodEnum
+    description: >-
+      Method used to normalize dose (per area, per cell count, per protein, etc.)
+
+  # AerosolGeneration slots
+  aerosol_generation_method:
+    range: AerosolGenerationMethodEnum
+    description: >-
+      Method used to generate the aerosol (nebulization, condensation, etc.)
+
+  aerosol_generation_equipment:
+    range: string
+    description: >-
+      Equipment used for aerosol generation (e.g., Vitrocell Cloud, ALICE, nebulizer type).
+
+  aerosol_concentration:
+    range: QuantityValue
+    description: >-
+      Concentration of aerosol in the exposure chamber or at the ALI.
+    inlined: true
+
+  aerosol_flow_rate:
+    range: QuantityValue
+    description: >-
+      Flow rate of aerosol delivery system.
+    inlined: true
+
+  aerosol_exposure_duration:
+    range: QuantityValue
+    description: >-
+      Duration of aerosol exposure.
+    inlined: true
+
+  mass_median_aerodynamic_diameter:
+    aliases:
+      - MMAD
+    range: QuantityValue
+    description: >-
+      Mass median aerodynamic diameter of generated aerosol particles.
+    inlined: true
+
+  geometric_standard_deviation:
+    aliases:
+      - GSD
+    range: float
+    description: >-
+      Geometric standard deviation of aerosol particle size distribution.
+
+  aerosol_characterization_method:
+    range: string
+    description: >-
+      Methods used to characterize aerosol (e.g., APS, SMPS, impactor, gravimetric).
+
+  # SamplePreparation slots (ASL-specific)
+  mucus_removal_performed:
+    range: boolean
+    description: >-
+      Whether mucus was removed from the apical surface before exposure.
+
+  mucus_removal_method:
+    range: string
+    description: >-
+      Method used to remove mucus (e.g., PBS wash, mucolytic agent, aspiration).
+
+  debris_removal_performed:
+    range: boolean
+    description: >-
+      Whether debris was removed from the sample before exposure.
+
+  debris_removal_method:
+    range: string
+    description: >-
+      Method used to remove debris from samples.
+
+  wash_steps:
+    range: string
+    description: >-
+      Description of wash steps performed before exposure (buffer, number, duration).
+
+  equilibration_time:
+    range: QuantityValue
+    description: >-
+      Time allowed for sample equilibration before exposure.
+    inlined: true
+
+  pre_exposure_treatment:
+    range: string
+    description: >-
+      Any pre-treatment applied before exposure (e.g., cytokine priming).
+
+  surface_preparation:
+    range: string
+    description: >-
+      Surface preparation procedures (e.g., coating, conditioning).
+
+  # ============================================================================
+  # Data Analysis and Processing Slots
+  # ============================================================================
+
+  # Normalization slots
+  normalization_performed:
+    range: boolean
+    description: >-
+      Whether data normalization was performed.
+
+  data_normalization_method:
+    range: DataNormalizationMethodEnum
+    description: >-
+      Method used for data normalization (per area, per cell count, baseline, control).
+
+  viability_normalized:
+    range: boolean
+    description: >-
+      Whether data were normalized to account for cell viability/cytotoxicity.
+
+  baseline_definition:
+    range: string
+    description: >-
+      How baseline is defined (e.g., response of solvent control, pre-exposure value).
+
+  # Data acquisition slots
+  raw_data_type:
+    range: RawDataTypeEnum
+    description: >-
+      Type of raw data collected (image stack, video, fluorescence intensity, etc.)
+
+  analysis_software:
+    range: string
+    description: >-
+      Software used for data analysis (e.g., CellProfiler, ImageJ, R, MATLAB).
+
+  analysis_software_version:
+    range: string
+    description: >-
+      Version of the analysis software used.
+
+  automation_level:
+    range: AutomationLevelEnum
+    description: >-
+      Level of automation in data processing (manual, semi-automated, fully automated).
+
+  algorithm_type:
+    range: string
+    description: >-
+      Type of algorithm used for analysis (e.g., thresholding, segmentation, machine learning).
+
+  pipeline_reference:
+    range: string
+    description: >-
+      Reference to analysis pipeline (workflow name/version, GitHub URL, DOI).
+
+  # Data transformation slots
+  data_transformation:
+    range: DataTransformationEnum
+    description: >-
+      Mathematical transformation applied to data (log, square root, etc.)
+
+  replicate_combination_method:
+    range: ReplicateCombinationMethodEnum
+    description: >-
+      Method for combining replicate measurements (mean, median, fitted model).
+
+  outlier_detection_method:
+    range: string
+    description: >-
+      Method used for outlier detection (e.g., IQR, Grubbs test, ROUT).
+
+  outlier_removal_performed:
+    range: boolean
+    description: >-
+      Whether outliers were removed from the dataset.
+
+  # Imaging parameters
+  imaging_magnification:
+    range: string
+    description: >-
+      Microscope magnification used (e.g., 10x, 20x, 40x).
+
+  pixel_size:
+    range: QuantityValue
+    description: >-
+      Size of image pixels in micrometers or nanometers.
+    inlined: true
+
+  voxel_depth:
+    range: QuantityValue
+    description: >-
+      Depth of voxels for 3D imaging in micrometers.
+    inlined: true
+
+  z_step_size:
+    range: QuantityValue
+    description: >-
+      Z-step size for optical stacks (usually in micrometers).
+    inlined: true
+
+  number_of_z_slices:
+    range: integer
+    description: >-
+      Number of Z-slices in an optical stack.
+
+  # Video/temporal parameters
+  temporal_resolution:
+    range: QuantityValue
+    description: >-
+      Temporal resolution for video acquisition (fps or acquisition rate).
+    inlined: true
+
+  acquisition_duration:
+    range: QuantityValue
+    description: >-
+      Total duration of video or time-series acquisition.
+    inlined: true
+
+  motion_stabilization_applied:
+    range: boolean
+    description: >-
+      Whether motion stabilization/drift correction was applied to images or video.
+
+  frame_rate:
+    range: QuantityValue
+    description: >-
+      Frame rate of video acquisition in frames per second.
+    inlined: true
+
+  # Context-specific slots
+  flow_profile_during_imaging:
+    range: string
+    description: >-
+      Flow conditions during imaging (for lung-on-chip or perfusion systems).
+
+  measurements_per_replicate:
+    range: integer
+    description: >-
+      Number of images or individual measurements per replicate.
+
+  # QC slots
+  qc_acceptance_criteria:
+    range: string
+    description: >-
+      Criteria used to determine data validity (e.g., CV threshold, comparison to historical controls).
+
+  qc_passed:
+    range: boolean
+    description: >-
+      Whether the data passed quality control criteria.
+
+  comparison_to_historical_controls:
+    range: string
+    description: >-
+      How data were compared to historical control values.
+
+  # Output slots
+  final_metric:
+    range: string
+    description: >-
+      The final output metric reported (e.g., CBF in Hz, MCC rate in mm/min).
+
+  final_metric_unit:
+    range: Unit
+    description: >-
+      Unit of the final metric.
+    inlined: true
+
+  # ============================================================================
+  # Collection slots for new classes in Container
+  # ============================================================================
+
+  in_vitro_exposures:
+    range: InVitroExposure
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of in vitro exposure events.
+
+  exposure_materials:
+    range: ExposureMaterial
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of exposure materials/test articles.
+
+  aerosol_generations:
+    range: AerosolGeneration
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of aerosol generation specifications.
+
+  analyses:
+    range: Analysis
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of data analysis specifications.
+
+  sample_preparations:
+    range: SamplePreparation
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of sample preparation protocols.
+
+  particle_properties_collection:
+    range: ParticleProperties
+    multivalued: true
+    inlined_as_list: true
+    description: Collection of particle property characterizations.
+
+  # Slot to link measurements to their analysis
+  analysis:
+    range: Analysis
+    description: >-
+      Reference to the analysis method and parameters used for this measurement.
+    inlined: true
+
 enums:
 
   ExposureRouteEnum:
@@ -2713,4 +3356,239 @@ enums:
         description: One cell type forms core, another forms surrounding shell
       patterned:
         description: Cell types arranged in defined spatial patterns
+
+  # ============================================================================
+  # In Vitro Exposure Enums
+  # ============================================================================
+
+  ChemicalFormEnum:
+    description: >-
+      Physical form of a test substance or chemical in an exposure experiment.
+    permissible_values:
+      solid:
+        description: Solid form (powder, crystite, etc.)
+        meaning: PATO:0001546
+      solution:
+        description: Dissolved in liquid vehicle
+      suspension:
+        description: Particles suspended in liquid
+      aerosol:
+        description: Fine particles or droplets suspended in air
+        meaning: ENVO:01000415
+      vapor:
+        description: Gaseous form of normally liquid or solid substance
+      gas:
+        description: Gaseous chemical substance
+        meaning: PATO:0001547
+      nanoparticle:
+        description: Nanoparticulate form (1-100 nm)
+      microparticle:
+        description: Microparticulate form (0.1-100 um)
+      emulsion:
+        description: Mixture of immiscible liquids
+      gel:
+        description: Semi-solid gel form
+
+  ExposureRegimentEnum:
+    description: >-
+      Pattern or schedule of exposure events in an in vitro experiment.
+    permissible_values:
+      single:
+        description: Single exposure event
+      continuous:
+        description: Continuous exposure throughout experiment duration
+      repeated:
+        description: Multiple discrete exposure events
+      intermittent:
+        description: Alternating periods of exposure and recovery
+      continuous_perfusion:
+        description: Continuous exposure via perfusion system
+      acute:
+        description: Short-term exposure (minutes to hours)
+      subchronic:
+        description: Medium-term exposure (days)
+      chronic:
+        description: Long-term exposure (weeks or longer)
+
+  ControlTypeEnum:
+    description: >-
+      Types of experimental controls used in in vitro exposure studies.
+    permissible_values:
+      untreated:
+        description: No treatment applied (negative control)
+      vehicle:
+        description: Vehicle/solvent only control
+      positive:
+        description: Known positive control compound
+      historical:
+        description: Comparison to historical control data
+      air:
+        description: Clean air exposure (for aerosol studies)
+      media_only:
+        description: Culture medium only control
+      sham:
+        description: Sham exposure procedure
+
+  DoseNormalizationMethodEnum:
+    description: >-
+      Methods for normalizing dose in exposure experiments.
+    permissible_values:
+      per_surface_area:
+        description: Dose normalized to surface area (ug/cm2)
+      per_cell_count:
+        description: Dose normalized to cell number
+      per_protein:
+        description: Dose normalized to total protein content
+      per_well:
+        description: Dose per well (absolute)
+      per_insert:
+        description: Dose per transwell insert
+      per_volume:
+        description: Concentration in volume (ug/mL)
+      deposited_fraction:
+        description: Based on measured deposited fraction
+      isdd_modeled:
+        description: Calculated using In Vitro Sedimentation, Diffusion, and Dosimetry model
+
+  AerosolGenerationMethodEnum:
+    description: >-
+      Methods for generating aerosols in inhalation toxicology studies.
+    permissible_values:
+      nebulization:
+        description: Liquid nebulization (jet, ultrasonic, vibrating mesh)
+      dry_powder_dispersion:
+        description: Aerosolization of dry powder
+      condensation:
+        description: Condensation aerosol generation
+      electrospray:
+        description: Electrospray atomization
+      spark_discharge:
+        description: Spark discharge for nanoparticle generation
+      combustion:
+        description: Combustion-generated aerosols
+      evaporation_condensation:
+        description: Evaporation-condensation method
+      atomization:
+        description: Mechanical atomization
+      cloud_system:
+        description: Cloud-based deposition system (e.g., Vitrocell Cloud)
+      alice:
+        description: Air-Liquid Interface Cell Exposure system
+
+  # ============================================================================
+  # Data Analysis Enums
+  # ============================================================================
+
+  DataNormalizationMethodEnum:
+    description: >-
+      Methods for normalizing measurement data in analysis.
+    permissible_values:
+      per_area:
+        description: Normalized to surface area
+      per_cell_count:
+        description: Normalized to cell number
+      per_baseline:
+        description: Normalized to baseline/pre-exposure value
+      to_internal_control:
+        description: Normalized to internal control on same plate/experiment
+      to_vehicle_control:
+        description: Normalized to vehicle control
+      to_positive_control:
+        description: Normalized to positive control
+      to_historical_control:
+        description: Normalized to historical control values
+      per_protein:
+        description: Normalized to total protein
+      z_score:
+        description: Z-score normalization
+      percent_of_control:
+        description: Expressed as percentage of control
+      fold_change:
+        description: Expressed as fold change from baseline
+
+  RawDataTypeEnum:
+    description: >-
+      Types of raw data collected from measurements.
+    permissible_values:
+      image_stack:
+        description: Z-stack of images
+      single_image:
+        description: Single 2D image
+      video:
+        description: Time-lapse video recording
+      fluorescence_intensity:
+        description: Fluorescence intensity readings
+      absorbance:
+        description: Absorbance/optical density readings
+      luminescence:
+        description: Luminescence readings
+      electrical:
+        description: Electrical measurements (TEER, patch clamp)
+      flow_cytometry:
+        description: Flow cytometry data files
+      spectral:
+        description: Spectral data (Raman, FTIR)
+      mass_spec:
+        description: Mass spectrometry data
+      sequencing:
+        description: Sequencing reads
+      tabular:
+        description: Tabular/numeric data
+
+  AutomationLevelEnum:
+    description: >-
+      Level of automation in data processing and analysis.
+    permissible_values:
+      manual:
+        description: Fully manual analysis
+      semi_automated:
+        description: Partially automated with manual verification
+      fully_automated:
+        description: Fully automated pipeline
+      ai_assisted:
+        description: AI/ML-assisted analysis with human oversight
+
+  DataTransformationEnum:
+    description: >-
+      Mathematical transformations applied to data.
+    permissible_values:
+      none:
+        description: No transformation applied
+      log10:
+        description: Log base 10 transformation
+      log2:
+        description: Log base 2 transformation
+      natural_log:
+        description: Natural logarithm transformation
+      square_root:
+        description: Square root transformation
+      arcsine:
+        description: Arcsine transformation (for proportions)
+      box_cox:
+        description: Box-Cox transformation
+      inverse:
+        description: Inverse transformation
+      z_transform:
+        description: Z-score transformation
+
+  ReplicateCombinationMethodEnum:
+    description: >-
+      Methods for combining replicate measurements.
+    permissible_values:
+      mean:
+        description: Arithmetic mean of replicates
+      median:
+        description: Median of replicates
+      weighted_mean:
+        description: Weighted mean based on quality scores
+      geometric_mean:
+        description: Geometric mean of replicates
+      fitted_model:
+        description: Value from fitted statistical model
+      surface_fit:
+        description: Fitted surface model for spatial data
+      best_replicate:
+        description: Best quality replicate selected
+      sum:
+        description: Sum of replicate values
 

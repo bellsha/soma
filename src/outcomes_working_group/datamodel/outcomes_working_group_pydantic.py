@@ -1103,6 +1103,414 @@ class CoCultureConfigurationEnum(str, Enum):
     """
 
 
+class ChemicalFormEnum(str, Enum):
+    """
+    Physical form of a test substance or chemical in an exposure experiment.
+    """
+    solid = "solid"
+    """
+    Solid form (powder, crystite, etc.)
+    """
+    solution = "solution"
+    """
+    Dissolved in liquid vehicle
+    """
+    suspension = "suspension"
+    """
+    Particles suspended in liquid
+    """
+    aerosol = "aerosol"
+    """
+    Fine particles or droplets suspended in air
+    """
+    vapor = "vapor"
+    """
+    Gaseous form of normally liquid or solid substance
+    """
+    gas = "gas"
+    """
+    Gaseous chemical substance
+    """
+    nanoparticle = "nanoparticle"
+    """
+    Nanoparticulate form (1-100 nm)
+    """
+    microparticle = "microparticle"
+    """
+    Microparticulate form (0.1-100 um)
+    """
+    emulsion = "emulsion"
+    """
+    Mixture of immiscible liquids
+    """
+    gel = "gel"
+    """
+    Semi-solid gel form
+    """
+
+
+class ExposureRegimentEnum(str, Enum):
+    """
+    Pattern or schedule of exposure events in an in vitro experiment.
+    """
+    single = "single"
+    """
+    Single exposure event
+    """
+    continuous = "continuous"
+    """
+    Continuous exposure throughout experiment duration
+    """
+    repeated = "repeated"
+    """
+    Multiple discrete exposure events
+    """
+    intermittent = "intermittent"
+    """
+    Alternating periods of exposure and recovery
+    """
+    continuous_perfusion = "continuous_perfusion"
+    """
+    Continuous exposure via perfusion system
+    """
+    acute = "acute"
+    """
+    Short-term exposure (minutes to hours)
+    """
+    subchronic = "subchronic"
+    """
+    Medium-term exposure (days)
+    """
+    chronic = "chronic"
+    """
+    Long-term exposure (weeks or longer)
+    """
+
+
+class ControlTypeEnum(str, Enum):
+    """
+    Types of experimental controls used in in vitro exposure studies.
+    """
+    untreated = "untreated"
+    """
+    No treatment applied (negative control)
+    """
+    vehicle = "vehicle"
+    """
+    Vehicle/solvent only control
+    """
+    positive = "positive"
+    """
+    Known positive control compound
+    """
+    historical = "historical"
+    """
+    Comparison to historical control data
+    """
+    air = "air"
+    """
+    Clean air exposure (for aerosol studies)
+    """
+    media_only = "media_only"
+    """
+    Culture medium only control
+    """
+    sham = "sham"
+    """
+    Sham exposure procedure
+    """
+
+
+class DoseNormalizationMethodEnum(str, Enum):
+    """
+    Methods for normalizing dose in exposure experiments.
+    """
+    per_surface_area = "per_surface_area"
+    """
+    Dose normalized to surface area (ug/cm2)
+    """
+    per_cell_count = "per_cell_count"
+    """
+    Dose normalized to cell number
+    """
+    per_protein = "per_protein"
+    """
+    Dose normalized to total protein content
+    """
+    per_well = "per_well"
+    """
+    Dose per well (absolute)
+    """
+    per_insert = "per_insert"
+    """
+    Dose per transwell insert
+    """
+    per_volume = "per_volume"
+    """
+    Concentration in volume (ug/mL)
+    """
+    deposited_fraction = "deposited_fraction"
+    """
+    Based on measured deposited fraction
+    """
+    isdd_modeled = "isdd_modeled"
+    """
+    Calculated using In Vitro Sedimentation, Diffusion, and Dosimetry model
+    """
+
+
+class AerosolGenerationMethodEnum(str, Enum):
+    """
+    Methods for generating aerosols in inhalation toxicology studies.
+    """
+    nebulization = "nebulization"
+    """
+    Liquid nebulization (jet, ultrasonic, vibrating mesh)
+    """
+    dry_powder_dispersion = "dry_powder_dispersion"
+    """
+    Aerosolization of dry powder
+    """
+    condensation = "condensation"
+    """
+    Condensation aerosol generation
+    """
+    electrospray = "electrospray"
+    """
+    Electrospray atomization
+    """
+    spark_discharge = "spark_discharge"
+    """
+    Spark discharge for nanoparticle generation
+    """
+    combustion = "combustion"
+    """
+    Combustion-generated aerosols
+    """
+    evaporation_condensation = "evaporation_condensation"
+    """
+    Evaporation-condensation method
+    """
+    atomization = "atomization"
+    """
+    Mechanical atomization
+    """
+    cloud_system = "cloud_system"
+    """
+    Cloud-based deposition system (e.g., Vitrocell Cloud)
+    """
+    alice = "alice"
+    """
+    Air-Liquid Interface Cell Exposure system
+    """
+
+
+class DataNormalizationMethodEnum(str, Enum):
+    """
+    Methods for normalizing measurement data in analysis.
+    """
+    per_area = "per_area"
+    """
+    Normalized to surface area
+    """
+    per_cell_count = "per_cell_count"
+    """
+    Normalized to cell number
+    """
+    per_baseline = "per_baseline"
+    """
+    Normalized to baseline/pre-exposure value
+    """
+    to_internal_control = "to_internal_control"
+    """
+    Normalized to internal control on same plate/experiment
+    """
+    to_vehicle_control = "to_vehicle_control"
+    """
+    Normalized to vehicle control
+    """
+    to_positive_control = "to_positive_control"
+    """
+    Normalized to positive control
+    """
+    to_historical_control = "to_historical_control"
+    """
+    Normalized to historical control values
+    """
+    per_protein = "per_protein"
+    """
+    Normalized to total protein
+    """
+    z_score = "z_score"
+    """
+    Z-score normalization
+    """
+    percent_of_control = "percent_of_control"
+    """
+    Expressed as percentage of control
+    """
+    fold_change = "fold_change"
+    """
+    Expressed as fold change from baseline
+    """
+
+
+class RawDataTypeEnum(str, Enum):
+    """
+    Types of raw data collected from measurements.
+    """
+    image_stack = "image_stack"
+    """
+    Z-stack of images
+    """
+    single_image = "single_image"
+    """
+    Single 2D image
+    """
+    video = "video"
+    """
+    Time-lapse video recording
+    """
+    fluorescence_intensity = "fluorescence_intensity"
+    """
+    Fluorescence intensity readings
+    """
+    absorbance = "absorbance"
+    """
+    Absorbance/optical density readings
+    """
+    luminescence = "luminescence"
+    """
+    Luminescence readings
+    """
+    electrical = "electrical"
+    """
+    Electrical measurements (TEER, patch clamp)
+    """
+    flow_cytometry = "flow_cytometry"
+    """
+    Flow cytometry data files
+    """
+    spectral = "spectral"
+    """
+    Spectral data (Raman, FTIR)
+    """
+    mass_spec = "mass_spec"
+    """
+    Mass spectrometry data
+    """
+    sequencing = "sequencing"
+    """
+    Sequencing reads
+    """
+    tabular = "tabular"
+    """
+    Tabular/numeric data
+    """
+
+
+class AutomationLevelEnum(str, Enum):
+    """
+    Level of automation in data processing and analysis.
+    """
+    manual = "manual"
+    """
+    Fully manual analysis
+    """
+    semi_automated = "semi_automated"
+    """
+    Partially automated with manual verification
+    """
+    fully_automated = "fully_automated"
+    """
+    Fully automated pipeline
+    """
+    ai_assisted = "ai_assisted"
+    """
+    AI/ML-assisted analysis with human oversight
+    """
+
+
+class DataTransformationEnum(str, Enum):
+    """
+    Mathematical transformations applied to data.
+    """
+    none = "none"
+    """
+    No transformation applied
+    """
+    log10 = "log10"
+    """
+    Log base 10 transformation
+    """
+    log2 = "log2"
+    """
+    Log base 2 transformation
+    """
+    natural_log = "natural_log"
+    """
+    Natural logarithm transformation
+    """
+    square_root = "square_root"
+    """
+    Square root transformation
+    """
+    arcsine = "arcsine"
+    """
+    Arcsine transformation (for proportions)
+    """
+    box_cox = "box_cox"
+    """
+    Box-Cox transformation
+    """
+    inverse = "inverse"
+    """
+    Inverse transformation
+    """
+    z_transform = "z_transform"
+    """
+    Z-score transformation
+    """
+
+
+class ReplicateCombinationMethodEnum(str, Enum):
+    """
+    Methods for combining replicate measurements.
+    """
+    mean = "mean"
+    """
+    Arithmetic mean of replicates
+    """
+    median = "median"
+    """
+    Median of replicates
+    """
+    weighted_mean = "weighted_mean"
+    """
+    Weighted mean based on quality scores
+    """
+    geometric_mean = "geometric_mean"
+    """
+    Geometric mean of replicates
+    """
+    fitted_model = "fitted_model"
+    """
+    Value from fitted statistical model
+    """
+    surface_fit = "surface_fit"
+    """
+    Fitted surface model for spatial data
+    """
+    best_replicate = "best_replicate"
+    """
+    Best quality replicate selected
+    """
+    sum = "sum"
+    """
+    Sum of replicate values
+    """
+
+
 
 class Container(ConfiguredBaseModel):
     """
@@ -1149,6 +1557,12 @@ class Container(ConfiguredBaseModel):
     cell_lines: Optional[list[CellLine]] = Field(default=[], description="""Collection of cell lines.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
     environmental_measurements: Optional[list[EnvironmentalMeasurement]] = Field(default=[], description="""Collection of environmental condition measurements (CO2, O2, temperature, humidity, pH) for the culture system.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'CellCultureConditions', 'CellularSystem']} })
     mechanical_measurements: Optional[list[MechanicalMeasurement]] = Field(default=[], description="""Collection of mechanical stimulation measurements (stretch, shear, flow) for advanced culture systems like organ-on-chip.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'CellularSystem']} })
+    in_vitro_exposures: Optional[list[InVitroExposure]] = Field(default=[], description="""Collection of in vitro exposure events.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    exposure_materials: Optional[list[ExposureMaterial]] = Field(default=[], description="""Collection of exposure materials/test articles.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    particle_properties_collection: Optional[list[ParticleProperties]] = Field(default=[], description="""Collection of particle property characterizations.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    aerosol_generations: Optional[list[AerosolGeneration]] = Field(default=[], description="""Collection of aerosol generation specifications.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    sample_preparations: Optional[list[SamplePreparation]] = Field(default=[], description="""Collection of sample preparation protocols.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    analyses: Optional[list[Analysis]] = Field(default=[], description="""Collection of data analysis specifications.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
 
 
 class NamedThing(ConfiguredBaseModel):
@@ -1933,7 +2347,10 @@ class CellLine(NamedThing):
     tissue_origin: Optional[AnatomicalEntity] = Field(default=None, description="""Tissue from which the cell line was derived.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine']} })
     disease_state: Optional[Disease] = Field(default=None, description="""Disease state of the cell line donor (if applicable).""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine']} })
     supplier: Optional[str] = Field(default=None, description="""Supplier or repository of the cell line (e.g., ATCC, Coriell).""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine']} })
-    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine', 'CellCultureMedium', 'MediumSupplement']} })
+    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine',
+                       'CellCultureMedium',
+                       'MediumSupplement',
+                       'ExposureMaterial']} })
     authentication_method: Optional[str] = Field(default=None, description="""Method used to authenticate the cell line (e.g., STR profiling).""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine']} })
     mycoplasma_status: Optional[str] = Field(default=None, description="""Mycoplasma testing status (positive, negative, not tested).""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
@@ -1981,8 +2398,11 @@ class CellCultureMedium(NamedThing):
     serum_concentration: Optional[QuantityValue] = Field(default=None, description="""Serum concentration as percentage.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium']} })
     supplements: Optional[list[MediumSupplement]] = Field(default=[], description="""List of medium supplements with concentrations.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium']} })
     osmolality: Optional[QuantityValue] = Field(default=None, description="""Osmolality of the medium in mOsm/kg.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium']} })
-    manufacturer: Optional[str] = Field(default=None, description="""Manufacturer of the product.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium', 'MediumSupplement']} })
-    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine', 'CellCultureMedium', 'MediumSupplement']} })
+    manufacturer: Optional[str] = Field(default=None, description="""Manufacturer of the product.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium', 'MediumSupplement', 'ExposureMaterial']} })
+    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine',
+                       'CellCultureMedium',
+                       'MediumSupplement',
+                       'ExposureMaterial']} })
     lot_number: Optional[str] = Field(default=None, description="""Lot or batch number.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium']} })
     preparation_date: Optional[date] = Field(default=None, description="""Date when medium was prepared.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
@@ -2001,8 +2421,11 @@ class MediumSupplement(NamedThing):
     supplement_type: Optional[SupplementTypeEnum] = Field(default=None, description="""Category of supplement (growth factor, antibiotic, hormone, vitamin, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['MediumSupplement']} })
     supplement_entity: Optional[ChemicalEntity] = Field(default=None, description="""The chemical entity representing the supplement.""", json_schema_extra = { "linkml_meta": {'domain_of': ['MediumSupplement']} })
     concentration: Optional[QuantityValue] = Field(default=None, description="""Concentration of supplement or reagent.""", json_schema_extra = { "linkml_meta": {'domain_of': ['MediumSupplement']} })
-    manufacturer: Optional[str] = Field(default=None, description="""Manufacturer of the product.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium', 'MediumSupplement']} })
-    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine', 'CellCultureMedium', 'MediumSupplement']} })
+    manufacturer: Optional[str] = Field(default=None, description="""Manufacturer of the product.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium', 'MediumSupplement', 'ExposureMaterial']} })
+    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine',
+                       'CellCultureMedium',
+                       'MediumSupplement',
+                       'ExposureMaterial']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
     name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
     description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
@@ -2162,6 +2585,173 @@ class CoCulture(CellularSystem):
     mechanical_measurements: Optional[list[MechanicalMeasurement]] = Field(default=[], description="""Collection of mechanical stimulation measurements (stretch, shear, flow) for advanced culture systems like organ-on-chip.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'CellularSystem']} })
     membrane_properties: Optional[list[MembranePropertyMeasurement]] = Field(default=[], description="""Collection of membrane property measurements (pore size, TEER) for transwell and organ-on-chip systems.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellularSystem']} })
     model_species: Optional[Organism] = Field(default=None, description="""The species of origin for the cells in the model system.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine', 'ModelSystem']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class ExposureMaterial(NamedThing):
+    """
+    Detailed specification of the test article or substance used in an exposure experiment. Extends chemical entity information with physical form, purity, and particle properties relevant for toxicology studies.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    test_substance: Optional[ChemicalEntity] = Field(default=None, description="""The chemical entity being tested, with full identifier information.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    chemical_form: Optional[ChemicalFormEnum] = Field(default=None, description="""Physical form of the test substance (solid, aerosol, solution, vapor, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    nominal_concentration: Optional[QuantityValue] = Field(default=None, description="""Nominal or intended concentration of the test substance as prepared.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    applied_dose: Optional[QuantityValue] = Field(default=None, description="""The dose applied to cells or tissue (may differ from nominal concentration).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    purity: Optional[QuantityValue] = Field(default=None, description="""Purity of the test substance as percentage.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    composition: Optional[str] = Field(default=None, description="""Detailed composition of the test material, especially for complex mixtures.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    vehicle_solvent: Optional[str] = Field(default=None, description="""Vehicle or solvent used to deliver the test substance (e.g., DMSO, PBS, culture medium).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    particle_properties: Optional[ParticleProperties] = Field(default=None, description="""Physical properties of particulate test materials.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    source_lot_number: Optional[str] = Field(default=None, description="""Lot number from the source/manufacturer of the test article.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureMaterial']} })
+    manufacturer: Optional[str] = Field(default=None, description="""Manufacturer of the product.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellCultureMedium', 'MediumSupplement', 'ExposureMaterial']} })
+    catalog_number: Optional[str] = Field(default=None, description="""Catalog number from manufacturer.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CellLine',
+                       'CellCultureMedium',
+                       'MediumSupplement',
+                       'ExposureMaterial']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class ParticleProperties(NamedThing):
+    """
+    Physical and chemical properties of particulate test materials including nanoparticles, aerosols, and other particle-based exposures. Essential for characterizing inhaled toxicants and nanomaterials.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    particle_size: Optional[QuantityValue] = Field(default=None, description="""Primary particle size (e.g., diameter) in nanometers or micrometers.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    particle_size_distribution: Optional[str] = Field(default=None, description="""Description of particle size distribution (e.g., monodisperse, polydisperse, D10/D50/D90 values).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    surface_area: Optional[QuantityValue] = Field(default=None, description="""Specific surface area of particles (e.g., m2/g by BET method).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    zeta_potential: Optional[QuantityValue] = Field(default=None, description="""Zeta potential in mV, indicating surface charge in the vehicle/medium.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    hydrodynamic_diameter: Optional[QuantityValue] = Field(default=None, description="""Hydrodynamic diameter measured by dynamic light scattering (DLS).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    polydispersity_index: Optional[float] = Field(default=None, description="""Polydispersity index (PDI) from DLS, indicating size distribution width.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    particle_morphology: Optional[str] = Field(default=None, description="""Particle shape and morphology (e.g., spherical, rod, fiber, agglomerate).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    particle_composition: Optional[str] = Field(default=None, description="""Chemical composition of particles if different from bulk material.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    agglomeration_state: Optional[str] = Field(default=None, description="""State of agglomeration/aggregation in the exposure medium.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ParticleProperties']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class InVitroExposure(ExposureEvent):
+    """
+    An in vitro exposure event describing how cells or tissues were exposed to a test substance. Captures exposure timing, frequency, aerosol generation parameters, and other in vitro-specific details.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    exposure_material: Optional[ExposureMaterial] = Field(default=None, description="""The test material used for the exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    exposure_frequency: Optional[str] = Field(default=None, description="""Frequency of exposure (e.g., single, daily, twice daily).""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    exposure_regiment: Optional[ExposureRegimentEnum] = Field(default=None, description="""Type of exposure regiment (continuous, repeated, intermittent, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    time_post_exposure: Optional[QuantityValue] = Field(default=None, description="""Time elapsed between end of exposure and measurement (recovery period).""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    exposure_temperature: Optional[QuantityValue] = Field(default=None, description="""Temperature during exposure in degrees Celsius.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    control_description: Optional[str] = Field(default=None, description="""Description of control conditions used in the experiment.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    control_type: Optional[ControlTypeEnum] = Field(default=None, description="""Type of control used (vehicle, untreated, positive, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    number_of_replicates: Optional[int] = Field(default=None, description="""Number of replicate wells/inserts/samples per condition.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    effective_deposition: Optional[QuantityValue] = Field(default=None, description="""Actual amount of material deposited on cells (measured or calculated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    deposited_dose: Optional[QuantityValue] = Field(default=None, description="""Dose that reached the cell surface (may be calculated from ISDD or measured).""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    baseline_teer: Optional[QuantityValue] = Field(default=None, description="""Baseline TEER measurement before exposure, used to assess barrier integrity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    aerosol_generation: Optional[AerosolGeneration] = Field(default=None, description="""Parameters for aerosol generation (for inhalation studies).""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    sample_preparation: Optional[SamplePreparation] = Field(default=None, description="""Pre-exposure sample preparation procedures.""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure']} })
+    dose_normalization_method: Optional[DoseNormalizationMethodEnum] = Field(default=None, description="""Method used to normalize dose (per area, per cell count, per protein, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure', 'Analysis']} })
+    exposed_to_chemical: Optional[ChemicalEntity] = Field(default=None, description="""The chemical entity involved in the exposure""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent'], 'slot_uri': 'CHEBI:24431'} })
+    exposure_route: Optional[ExposureRouteEnum] = Field(default=None, description="""Route of exposure""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    exposure_duration: Optional[str] = Field(default=None, description="""Duration of exposure""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    exposure_concentration: Optional[float] = Field(default=None, description="""Concentration of exposure""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    exposure_medium: Optional[ExposureMediumEnum] = Field(default=None, description="""Medium through which exposure occurs""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class AerosolGeneration(NamedThing):
+    """
+    Parameters describing aerosol generation for inhalation toxicology studies. Includes generation method, equipment, and characterization of the generated aerosol for air-liquid interface and other exposure systems.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    aerosol_generation_method: Optional[AerosolGenerationMethodEnum] = Field(default=None, description="""Method used to generate the aerosol (nebulization, condensation, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    aerosol_generation_equipment: Optional[str] = Field(default=None, description="""Equipment used for aerosol generation (e.g., Vitrocell Cloud, ALICE, nebulizer type).""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    aerosol_concentration: Optional[QuantityValue] = Field(default=None, description="""Concentration of aerosol in the exposure chamber or at the ALI.""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    aerosol_flow_rate: Optional[QuantityValue] = Field(default=None, description="""Flow rate of aerosol delivery system.""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    aerosol_exposure_duration: Optional[QuantityValue] = Field(default=None, description="""Duration of aerosol exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    mass_median_aerodynamic_diameter: Optional[QuantityValue] = Field(default=None, description="""Mass median aerodynamic diameter of generated aerosol particles.""", json_schema_extra = { "linkml_meta": {'aliases': ['MMAD'], 'domain_of': ['AerosolGeneration']} })
+    geometric_standard_deviation: Optional[float] = Field(default=None, description="""Geometric standard deviation of aerosol particle size distribution.""", json_schema_extra = { "linkml_meta": {'aliases': ['GSD'], 'domain_of': ['AerosolGeneration']} })
+    aerosol_characterization_method: Optional[str] = Field(default=None, description="""Methods used to characterize aerosol (e.g., APS, SMPS, impactor, gravimetric).""", json_schema_extra = { "linkml_meta": {'domain_of': ['AerosolGeneration']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class SamplePreparation(NamedThing):
+    """
+    Pre-exposure sample preparation procedures for in vitro systems. Includes ASL-specific preparations like mucus removal and other treatments applied before exposure.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    mucus_removal_performed: Optional[bool] = Field(default=None, description="""Whether mucus was removed from the apical surface before exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    mucus_removal_method: Optional[str] = Field(default=None, description="""Method used to remove mucus (e.g., PBS wash, mucolytic agent, aspiration).""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    debris_removal_performed: Optional[bool] = Field(default=None, description="""Whether debris was removed from the sample before exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    debris_removal_method: Optional[str] = Field(default=None, description="""Method used to remove debris from samples.""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    wash_steps: Optional[str] = Field(default=None, description="""Description of wash steps performed before exposure (buffer, number, duration).""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    equilibration_time: Optional[QuantityValue] = Field(default=None, description="""Time allowed for sample equilibration before exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    pre_exposure_treatment: Optional[str] = Field(default=None, description="""Any pre-treatment applied before exposure (e.g., cytokine priming).""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    surface_preparation: Optional[str] = Field(default=None, description="""Surface preparation procedures (e.g., coating, conditioning).""", json_schema_extra = { "linkml_meta": {'domain_of': ['SamplePreparation']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class Analysis(NamedThing):
+    """
+    Data analysis and processing parameters describing how measurement data was acquired, processed, normalized, and quality controlled. Links to measurements to provide complete provenance of derived values.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    normalization_performed: Optional[bool] = Field(default=None, description="""Whether data normalization was performed.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    data_normalization_method: Optional[DataNormalizationMethodEnum] = Field(default=None, description="""Method used for data normalization (per area, per cell count, baseline, control).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    viability_normalized: Optional[bool] = Field(default=None, description="""Whether data were normalized to account for cell viability/cytotoxicity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    baseline_definition: Optional[str] = Field(default=None, description="""How baseline is defined (e.g., response of solvent control, pre-exposure value).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    dose_normalization_method: Optional[DoseNormalizationMethodEnum] = Field(default=None, description="""Method used to normalize dose (per area, per cell count, per protein, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['InVitroExposure', 'Analysis']} })
+    raw_data_type: Optional[RawDataTypeEnum] = Field(default=None, description="""Type of raw data collected (image stack, video, fluorescence intensity, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    analysis_software: Optional[str] = Field(default=None, description="""Software used for data analysis (e.g., CellProfiler, ImageJ, R, MATLAB).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    analysis_software_version: Optional[str] = Field(default=None, description="""Version of the analysis software used.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    automation_level: Optional[AutomationLevelEnum] = Field(default=None, description="""Level of automation in data processing (manual, semi-automated, fully automated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    algorithm_type: Optional[str] = Field(default=None, description="""Type of algorithm used for analysis (e.g., thresholding, segmentation, machine learning).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    pipeline_reference: Optional[str] = Field(default=None, description="""Reference to analysis pipeline (workflow name/version, GitHub URL, DOI).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    data_transformation: Optional[DataTransformationEnum] = Field(default=None, description="""Mathematical transformation applied to data (log, square root, etc.)""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    replicate_combination_method: Optional[ReplicateCombinationMethodEnum] = Field(default=None, description="""Method for combining replicate measurements (mean, median, fitted model).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    outlier_detection_method: Optional[str] = Field(default=None, description="""Method used for outlier detection (e.g., IQR, Grubbs test, ROUT).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    outlier_removal_performed: Optional[bool] = Field(default=None, description="""Whether outliers were removed from the dataset.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    imaging_magnification: Optional[str] = Field(default=None, description="""Microscope magnification used (e.g., 10x, 20x, 40x).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    pixel_size: Optional[QuantityValue] = Field(default=None, description="""Size of image pixels in micrometers or nanometers.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    voxel_depth: Optional[QuantityValue] = Field(default=None, description="""Depth of voxels for 3D imaging in micrometers.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    z_step_size: Optional[QuantityValue] = Field(default=None, description="""Z-step size for optical stacks (usually in micrometers).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    number_of_z_slices: Optional[int] = Field(default=None, description="""Number of Z-slices in an optical stack.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    temporal_resolution: Optional[QuantityValue] = Field(default=None, description="""Temporal resolution for video acquisition (fps or acquisition rate).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    acquisition_duration: Optional[QuantityValue] = Field(default=None, description="""Total duration of video or time-series acquisition.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    motion_stabilization_applied: Optional[bool] = Field(default=None, description="""Whether motion stabilization/drift correction was applied to images or video.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    frame_rate: Optional[QuantityValue] = Field(default=None, description="""Frame rate of video acquisition in frames per second.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    flow_profile_during_imaging: Optional[str] = Field(default=None, description="""Flow conditions during imaging (for lung-on-chip or perfusion systems).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    measurements_per_replicate: Optional[int] = Field(default=None, description="""Number of images or individual measurements per replicate.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    qc_acceptance_criteria: Optional[str] = Field(default=None, description="""Criteria used to determine data validity (e.g., CV threshold, comparison to historical controls).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    qc_passed: Optional[bool] = Field(default=None, description="""Whether the data passed quality control criteria.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    comparison_to_historical_controls: Optional[str] = Field(default=None, description="""How data were compared to historical control values.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    final_metric: Optional[str] = Field(default=None, description="""The final output metric reported (e.g., CBF in Hz, MCC rate in mm/min).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
+    final_metric_unit: Optional[Unit] = Field(default=None, description="""Unit of the final metric.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Analysis']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
     name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
     description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
@@ -2631,6 +3221,12 @@ CellularSystem.model_rebuild()
 TwoDCellCulture.model_rebuild()
 ThreeDCellCulture.model_rebuild()
 CoCulture.model_rebuild()
+ExposureMaterial.model_rebuild()
+ParticleProperties.model_rebuild()
+InVitroExposure.model_rebuild()
+AerosolGeneration.model_rebuild()
+SamplePreparation.model_rebuild()
+Analysis.model_rebuild()
 Gene.model_rebuild()
 Protein.model_rebuild()
 CellType.model_rebuild()

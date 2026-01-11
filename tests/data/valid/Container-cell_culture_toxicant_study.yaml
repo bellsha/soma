@@ -380,7 +380,7 @@ co_cultures:
             id: UO:0000027
             name: degree Celsius
 
-# ============ Chemical Exposures ============
+# ============ Chemical Exposures (Simple) ============
 chemical_exposures:
   - id: owg:exposure-bap-low
     name: BaP Low Dose Exposure
@@ -405,6 +405,283 @@ chemical_exposures:
     exposure_route: inhalation
     exposure_duration: "24 hours"
     exposure_concentration: 1.0
+
+# ============ Exposure Materials (Detailed Test Articles) ============
+# ExposureMaterial provides detailed specification of test substances
+# including physical form, purity, and particle properties
+exposure_materials:
+  - id: owg:material-bap-solution
+    name: Benzo[a]pyrene Solution Stock
+    description: BaP dissolved in DMSO for cell culture exposure
+    test_substance:
+      id: CHEBI:29865
+      name: benzo[a]pyrene
+      chebi_id: CHEBI:29865
+      cas_number: "50-32-8"
+      pubchem_cid: 2336
+      smiles: "C1=CC2=C3C(=C1)C=CC4=CC=CC(=C43)C=C2"
+    chemical_form: solution
+    nominal_concentration:
+      value: "10"
+      unit:
+        id: UO:0000063
+        name: millimolar
+    purity:
+      value: "99.5"
+      unit:
+        id: UO:0000187
+        name: percent
+    vehicle_solvent: "DMSO (0.1% final concentration)"
+    source_lot_number: "BaP-2024-001"
+    manufacturer: Sigma-Aldrich
+    catalog_number: B1760
+
+  - id: owg:material-diesel-exhaust-particles
+    name: Diesel Exhaust Particles (DEP)
+    description: Standard reference material for particulate matter exposure studies
+    test_substance:
+      id: owg:substance-dep
+      name: Diesel Exhaust Particles
+      cas_number: "1333-86-4"
+    chemical_form: nanoparticle
+    composition: "Carbon core with adsorbed PAHs, metals, and organic compounds"
+    source_lot_number: "SRM-2975-batch3"
+    manufacturer: NIST
+    catalog_number: SRM 2975
+    # Particle properties for this particulate test material
+    particle_properties:
+      id: owg:dep-particle-props
+      name: DEP Particle Characterization
+      particle_size:
+        value: "150"
+        unit:
+          id: UO:0000018
+          name: nanometer
+      particle_size_distribution: "Polydisperse, D10=80nm, D50=150nm, D90=320nm"
+      surface_area:
+        value: "45"
+        unit:
+          id: UO:0000084
+          name: square meter per gram
+      hydrodynamic_diameter:
+        value: "280"
+        unit:
+          id: UO:0000018
+          name: nanometer
+      polydispersity_index: 0.35
+      zeta_potential:
+        value: "-25"
+        unit:
+          id: UO:0010042
+          name: millivolt
+      particle_morphology: "Agglomerated spherical primary particles"
+      agglomeration_state: "Partially agglomerated in culture medium"
+
+# ============ In Vitro Exposures (Detailed Exposure Events) ============
+# InVitroExposure extends ExposureEvent with in vitro-specific parameters
+# including aerosol generation, sample preparation, and dosimetry
+in_vitro_exposures:
+  - id: owg:invitro-bap-ali-exposure
+    name: ALI BaP Aerosol Exposure
+    description: Aerosol exposure of ALI-differentiated HBECs to BaP
+    # Inherits from ExposureEvent
+    exposed_to_chemical:
+      id: CHEBI:29865
+      name: benzo[a]pyrene
+    exposure_route: inhalation
+    exposure_duration: "4 hours"
+    # In vitro-specific slots
+    exposure_material:
+      id: owg:material-bap-solution
+      name: Benzo[a]pyrene Solution Stock
+    exposure_frequency: "Single acute exposure"
+    exposure_regiment: acute
+    time_post_exposure:
+      value: "24"
+      unit:
+        id: UO:0000032
+        name: hour
+    exposure_temperature:
+      value: "37"
+      unit:
+        id: UO:0000027
+        name: degree Celsius
+    control_type: vehicle
+    control_description: "0.1% DMSO in PBS aerosol"
+    number_of_replicates: 6
+    dose_normalization_method: per_surface_area
+    deposited_dose:
+      value: "0.5"
+      unit:
+        id: UO:0010059
+        name: microgram per square centimeter
+    baseline_teer:
+      value: "520"
+      unit:
+        id: UO:0010045
+        name: ohm square centimeter
+    # Aerosol generation parameters
+    aerosol_generation:
+      id: owg:aerosol-gen-vitrocell
+      name: Vitrocell Cloud Aerosol Generation
+      aerosol_generation_method: cloud_system
+      aerosol_generation_equipment: "Vitrocell Cloud 12"
+      aerosol_concentration:
+        value: "100"
+        unit:
+          id: UO:0010042
+          name: microgram per milliliter
+      mass_median_aerodynamic_diameter:
+        value: "2.5"
+        unit:
+          id: UO:0000017
+          name: micrometer
+      geometric_standard_deviation: 1.8
+      aerosol_characterization_method: "Cascade impactor, gravimetric"
+    # Sample preparation (ASL-specific)
+    sample_preparation:
+      id: owg:sample-prep-ali
+      name: ALI Sample Preparation
+      mucus_removal_performed: true
+      mucus_removal_method: "PBS wash, 3x gentle aspiration"
+      debris_removal_performed: true
+      debris_removal_method: "PBS rinse, visual inspection"
+      wash_steps: "3x PBS, 200uL per well, 5 min each"
+      equilibration_time:
+        value: "30"
+        unit:
+          id: UO:0000031
+          name: minute
+
+  - id: owg:invitro-dep-submerged-exposure
+    name: DEP Submerged Exposure
+    description: Submerged exposure of A549 cells to diesel exhaust particles
+    exposed_to_chemical:
+      id: owg:substance-dep
+      name: Diesel Exhaust Particles
+    exposure_route: inhalation
+    exposure_duration: "24 hours"
+    exposure_material:
+      id: owg:material-diesel-exhaust-particles
+      name: Diesel Exhaust Particles (DEP)
+    exposure_frequency: "Single exposure"
+    exposure_regiment: single
+    time_post_exposure:
+      value: "0"
+      unit:
+        id: UO:0000032
+        name: hour
+    control_type: media_only
+    control_description: "Complete culture medium only"
+    number_of_replicates: 4
+    dose_normalization_method: isdd_modeled
+    effective_deposition:
+      value: "85"
+      unit:
+        id: UO:0000187
+        name: percent
+
+# ============ Data Analysis Methods ============
+# Analysis documents how measurement data was acquired and processed
+# Can be referenced from measurements to provide data provenance
+analyses:
+  - id: owg:analysis-qpcr-gene-expression
+    name: qRT-PCR Gene Expression Analysis
+    description: Standard qRT-PCR analysis pipeline for gene expression measurements
+    # Data acquisition
+    raw_data_type: tabular
+    analysis_software: "QuantStudio Design & Analysis Software"
+    analysis_software_version: "2.6.0"
+    automation_level: semi_automated
+    algorithm_type: "Delta-delta Ct method"
+    # Normalization
+    normalization_performed: true
+    data_normalization_method: to_internal_control
+    baseline_definition: "Vehicle control (0.1% DMSO)"
+    # Data transformation
+    data_transformation: log2
+    replicate_combination_method: mean
+    outlier_detection_method: "Grubbs test, alpha=0.05"
+    outlier_removal_performed: true
+    # QC
+    qc_acceptance_criteria: "Ct < 35, efficiency 90-110%, R2 > 0.98"
+    qc_passed: true
+    # Output
+    final_metric: "Fold change vs control"
+    final_metric_unit:
+      id: UO:0000186
+      name: dimensionless unit
+
+  - id: owg:analysis-cbf-video
+    name: Ciliary Beat Frequency Video Analysis
+    description: High-speed video microscopy analysis of ciliary beating
+    # Data acquisition
+    raw_data_type: video
+    analysis_software: "Sisson-Ammons Video Analysis (SAVA)"
+    analysis_software_version: "2.1.15"
+    automation_level: semi_automated
+    algorithm_type: "FFT-based frequency detection"
+    pipeline_reference: "https://doi.org/10.1016/j.jcf.2012.07.007"
+    # Imaging parameters
+    imaging_magnification: "40x"
+    frame_rate:
+      value: "200"
+      unit:
+        id: UO:0000106
+        name: hertz
+    temporal_resolution:
+      value: "5"
+      unit:
+        id: UO:0010011
+        name: millisecond
+    acquisition_duration:
+      value: "3"
+      unit:
+        id: UO:0000010
+        name: second
+    motion_stabilization_applied: true
+    measurements_per_replicate: 5
+    # Normalization
+    normalization_performed: false
+    viability_normalized: false
+    # Data transformation
+    data_transformation: none
+    replicate_combination_method: mean
+    outlier_detection_method: "IQR method, 1.5x IQR"
+    outlier_removal_performed: true
+    # QC
+    qc_acceptance_criteria: "Min 3 valid regions per insert, coefficient of variation < 15%"
+    qc_passed: true
+    comparison_to_historical_controls: "Within 2 SD of historical control mean (11-14 Hz)"
+    # Output
+    final_metric: "Mean CBF"
+    final_metric_unit:
+      id: UO:0000106
+      name: hertz
+
+  - id: owg:analysis-ros-plate-reader
+    name: ROS Plate Reader Analysis
+    description: Fluorescence-based ROS measurement analysis
+    raw_data_type: fluorescence_intensity
+    analysis_software: "Gen5 Microplate Reader Software"
+    analysis_software_version: "3.11"
+    automation_level: fully_automated
+    # Normalization
+    normalization_performed: true
+    data_normalization_method: to_vehicle_control
+    viability_normalized: true
+    baseline_definition: "Pre-treatment fluorescence, t=0"
+    # Data transformation
+    data_transformation: none
+    replicate_combination_method: mean
+    # QC
+    qc_acceptance_criteria: "Z-factor > 0.5, CV < 20%"
+    qc_passed: true
+    # Output
+    final_metric: "Fold change ROS"
+    final_metric_unit:
+      id: UO:0000186
+      name: dimensionless unit
 
 # ============ Gene Expression Measurements ============
 gene_expression_measurements:
@@ -613,11 +890,6 @@ phenotypes:
     description: Toxic effect on lung tissue
     severity: moderate
     onset_age: acute
-
-  - id: owg:phenotype-oxidative-damage
-    name: Oxidative DNA damage
-    description: DNA damage caused by reactive oxygen species
-    severity: mild
 
 # ============ Exposure to Phenotype Associations ============
 exposure_to_phenotype_associations:

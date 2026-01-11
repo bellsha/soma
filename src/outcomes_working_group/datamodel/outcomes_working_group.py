@@ -1,5 +1,5 @@
 # Auto generated from outcomes_working_group.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-01-10T18:25:37
+# Generation date: 2026-01-10T19:02:18
 # Schema: outcomes_working_group
 #
 # id: https://w3id.org/EHS-Data-Standards/outcomes_working_group
@@ -289,6 +289,30 @@ class CoCultureId(CellularSystemId):
     pass
 
 
+class ExposureMaterialId(NamedThingId):
+    pass
+
+
+class ParticlePropertiesId(NamedThingId):
+    pass
+
+
+class InVitroExposureId(ExposureEventId):
+    pass
+
+
+class AerosolGenerationId(NamedThingId):
+    pass
+
+
+class SamplePreparationId(NamedThingId):
+    pass
+
+
+class AnalysisId(NamedThingId):
+    pass
+
+
 class GeneId(BiologicalEntityId):
     pass
 
@@ -407,6 +431,12 @@ class Container(YAMLRoot):
     cell_lines: Optional[Union[dict[Union[str, CellLineId], Union[dict, "CellLine"]], list[Union[dict, "CellLine"]]]] = empty_dict()
     environmental_measurements: Optional[Union[dict[Union[str, EnvironmentalMeasurementId], Union[dict, "EnvironmentalMeasurement"]], list[Union[dict, "EnvironmentalMeasurement"]]]] = empty_dict()
     mechanical_measurements: Optional[Union[dict[Union[str, MechanicalMeasurementId], Union[dict, "MechanicalMeasurement"]], list[Union[dict, "MechanicalMeasurement"]]]] = empty_dict()
+    in_vitro_exposures: Optional[Union[dict[Union[str, InVitroExposureId], Union[dict, "InVitroExposure"]], list[Union[dict, "InVitroExposure"]]]] = empty_dict()
+    exposure_materials: Optional[Union[dict[Union[str, ExposureMaterialId], Union[dict, "ExposureMaterial"]], list[Union[dict, "ExposureMaterial"]]]] = empty_dict()
+    particle_properties_collection: Optional[Union[dict[Union[str, ParticlePropertiesId], Union[dict, "ParticleProperties"]], list[Union[dict, "ParticleProperties"]]]] = empty_dict()
+    aerosol_generations: Optional[Union[dict[Union[str, AerosolGenerationId], Union[dict, "AerosolGeneration"]], list[Union[dict, "AerosolGeneration"]]]] = empty_dict()
+    sample_preparations: Optional[Union[dict[Union[str, SamplePreparationId], Union[dict, "SamplePreparation"]], list[Union[dict, "SamplePreparation"]]]] = empty_dict()
+    analyses: Optional[Union[dict[Union[str, AnalysisId], Union[dict, "Analysis"]], list[Union[dict, "Analysis"]]]] = empty_dict()
 
     def __post_init__(self, *_: str, **kwargs: Any):
         self._normalize_inlined_as_list(slot_name="studies", slot_type=Study, key_name="id", keyed=True)
@@ -484,6 +514,18 @@ class Container(YAMLRoot):
         self._normalize_inlined_as_list(slot_name="environmental_measurements", slot_type=EnvironmentalMeasurement, key_name="id", keyed=True)
 
         self._normalize_inlined_as_list(slot_name="mechanical_measurements", slot_type=MechanicalMeasurement, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="in_vitro_exposures", slot_type=InVitroExposure, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="exposure_materials", slot_type=ExposureMaterial, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="particle_properties_collection", slot_type=ParticleProperties, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="aerosol_generations", slot_type=AerosolGeneration, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="sample_preparations", slot_type=SamplePreparation, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="analyses", slot_type=Analysis, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -2163,6 +2205,474 @@ class CoCulture(CellularSystem):
 
 
 @dataclass(repr=False)
+class ExposureMaterial(NamedThing):
+    """
+    Detailed specification of the test article or substance used in an exposure experiment. Extends chemical entity
+    information with physical form, purity, and particle properties relevant for toxicology studies.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["ExposureMaterial"]
+    class_class_curie: ClassVar[str] = "owg:ExposureMaterial"
+    class_name: ClassVar[str] = "ExposureMaterial"
+    class_model_uri: ClassVar[URIRef] = OWG.ExposureMaterial
+
+    id: Union[str, ExposureMaterialId] = None
+    test_substance: Optional[Union[dict, ChemicalEntity]] = None
+    chemical_form: Optional[Union[str, "ChemicalFormEnum"]] = None
+    nominal_concentration: Optional[Union[dict, QuantityValue]] = None
+    applied_dose: Optional[Union[dict, QuantityValue]] = None
+    purity: Optional[Union[dict, QuantityValue]] = None
+    composition: Optional[str] = None
+    vehicle_solvent: Optional[str] = None
+    particle_properties: Optional[Union[dict, "ParticleProperties"]] = None
+    source_lot_number: Optional[str] = None
+    manufacturer: Optional[str] = None
+    catalog_number: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ExposureMaterialId):
+            self.id = ExposureMaterialId(self.id)
+
+        if self.test_substance is not None and not isinstance(self.test_substance, ChemicalEntity):
+            self.test_substance = ChemicalEntity(**as_dict(self.test_substance))
+
+        if self.chemical_form is not None and not isinstance(self.chemical_form, ChemicalFormEnum):
+            self.chemical_form = ChemicalFormEnum(self.chemical_form)
+
+        if self.nominal_concentration is not None and not isinstance(self.nominal_concentration, QuantityValue):
+            self.nominal_concentration = QuantityValue(**as_dict(self.nominal_concentration))
+
+        if self.applied_dose is not None and not isinstance(self.applied_dose, QuantityValue):
+            self.applied_dose = QuantityValue(**as_dict(self.applied_dose))
+
+        if self.purity is not None and not isinstance(self.purity, QuantityValue):
+            self.purity = QuantityValue(**as_dict(self.purity))
+
+        if self.composition is not None and not isinstance(self.composition, str):
+            self.composition = str(self.composition)
+
+        if self.vehicle_solvent is not None and not isinstance(self.vehicle_solvent, str):
+            self.vehicle_solvent = str(self.vehicle_solvent)
+
+        if self.particle_properties is not None and not isinstance(self.particle_properties, ParticleProperties):
+            self.particle_properties = ParticleProperties(**as_dict(self.particle_properties))
+
+        if self.source_lot_number is not None and not isinstance(self.source_lot_number, str):
+            self.source_lot_number = str(self.source_lot_number)
+
+        if self.manufacturer is not None and not isinstance(self.manufacturer, str):
+            self.manufacturer = str(self.manufacturer)
+
+        if self.catalog_number is not None and not isinstance(self.catalog_number, str):
+            self.catalog_number = str(self.catalog_number)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class ParticleProperties(NamedThing):
+    """
+    Physical and chemical properties of particulate test materials including nanoparticles, aerosols, and other
+    particle-based exposures. Essential for characterizing inhaled toxicants and nanomaterials.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["ParticleProperties"]
+    class_class_curie: ClassVar[str] = "owg:ParticleProperties"
+    class_name: ClassVar[str] = "ParticleProperties"
+    class_model_uri: ClassVar[URIRef] = OWG.ParticleProperties
+
+    id: Union[str, ParticlePropertiesId] = None
+    particle_size: Optional[Union[dict, QuantityValue]] = None
+    particle_size_distribution: Optional[str] = None
+    surface_area: Optional[Union[dict, QuantityValue]] = None
+    zeta_potential: Optional[Union[dict, QuantityValue]] = None
+    hydrodynamic_diameter: Optional[Union[dict, QuantityValue]] = None
+    polydispersity_index: Optional[float] = None
+    particle_morphology: Optional[str] = None
+    particle_composition: Optional[str] = None
+    agglomeration_state: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ParticlePropertiesId):
+            self.id = ParticlePropertiesId(self.id)
+
+        if self.particle_size is not None and not isinstance(self.particle_size, QuantityValue):
+            self.particle_size = QuantityValue(**as_dict(self.particle_size))
+
+        if self.particle_size_distribution is not None and not isinstance(self.particle_size_distribution, str):
+            self.particle_size_distribution = str(self.particle_size_distribution)
+
+        if self.surface_area is not None and not isinstance(self.surface_area, QuantityValue):
+            self.surface_area = QuantityValue(**as_dict(self.surface_area))
+
+        if self.zeta_potential is not None and not isinstance(self.zeta_potential, QuantityValue):
+            self.zeta_potential = QuantityValue(**as_dict(self.zeta_potential))
+
+        if self.hydrodynamic_diameter is not None and not isinstance(self.hydrodynamic_diameter, QuantityValue):
+            self.hydrodynamic_diameter = QuantityValue(**as_dict(self.hydrodynamic_diameter))
+
+        if self.polydispersity_index is not None and not isinstance(self.polydispersity_index, float):
+            self.polydispersity_index = float(self.polydispersity_index)
+
+        if self.particle_morphology is not None and not isinstance(self.particle_morphology, str):
+            self.particle_morphology = str(self.particle_morphology)
+
+        if self.particle_composition is not None and not isinstance(self.particle_composition, str):
+            self.particle_composition = str(self.particle_composition)
+
+        if self.agglomeration_state is not None and not isinstance(self.agglomeration_state, str):
+            self.agglomeration_state = str(self.agglomeration_state)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class InVitroExposure(ExposureEvent):
+    """
+    An in vitro exposure event describing how cells or tissues were exposed to a test substance. Captures exposure
+    timing, frequency, aerosol generation parameters, and other in vitro-specific details.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["InVitroExposure"]
+    class_class_curie: ClassVar[str] = "owg:InVitroExposure"
+    class_name: ClassVar[str] = "InVitroExposure"
+    class_model_uri: ClassVar[URIRef] = OWG.InVitroExposure
+
+    id: Union[str, InVitroExposureId] = None
+    exposure_material: Optional[Union[dict, ExposureMaterial]] = None
+    exposure_frequency: Optional[str] = None
+    exposure_regiment: Optional[Union[str, "ExposureRegimentEnum"]] = None
+    time_post_exposure: Optional[Union[dict, QuantityValue]] = None
+    exposure_temperature: Optional[Union[dict, QuantityValue]] = None
+    control_description: Optional[str] = None
+    control_type: Optional[Union[str, "ControlTypeEnum"]] = None
+    number_of_replicates: Optional[int] = None
+    effective_deposition: Optional[Union[dict, QuantityValue]] = None
+    deposited_dose: Optional[Union[dict, QuantityValue]] = None
+    baseline_teer: Optional[Union[dict, QuantityValue]] = None
+    aerosol_generation: Optional[Union[dict, "AerosolGeneration"]] = None
+    sample_preparation: Optional[Union[dict, "SamplePreparation"]] = None
+    dose_normalization_method: Optional[Union[str, "DoseNormalizationMethodEnum"]] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, InVitroExposureId):
+            self.id = InVitroExposureId(self.id)
+
+        if self.exposure_material is not None and not isinstance(self.exposure_material, ExposureMaterial):
+            self.exposure_material = ExposureMaterial(**as_dict(self.exposure_material))
+
+        if self.exposure_frequency is not None and not isinstance(self.exposure_frequency, str):
+            self.exposure_frequency = str(self.exposure_frequency)
+
+        if self.exposure_regiment is not None and not isinstance(self.exposure_regiment, ExposureRegimentEnum):
+            self.exposure_regiment = ExposureRegimentEnum(self.exposure_regiment)
+
+        if self.time_post_exposure is not None and not isinstance(self.time_post_exposure, QuantityValue):
+            self.time_post_exposure = QuantityValue(**as_dict(self.time_post_exposure))
+
+        if self.exposure_temperature is not None and not isinstance(self.exposure_temperature, QuantityValue):
+            self.exposure_temperature = QuantityValue(**as_dict(self.exposure_temperature))
+
+        if self.control_description is not None and not isinstance(self.control_description, str):
+            self.control_description = str(self.control_description)
+
+        if self.control_type is not None and not isinstance(self.control_type, ControlTypeEnum):
+            self.control_type = ControlTypeEnum(self.control_type)
+
+        if self.number_of_replicates is not None and not isinstance(self.number_of_replicates, int):
+            self.number_of_replicates = int(self.number_of_replicates)
+
+        if self.effective_deposition is not None and not isinstance(self.effective_deposition, QuantityValue):
+            self.effective_deposition = QuantityValue(**as_dict(self.effective_deposition))
+
+        if self.deposited_dose is not None and not isinstance(self.deposited_dose, QuantityValue):
+            self.deposited_dose = QuantityValue(**as_dict(self.deposited_dose))
+
+        if self.baseline_teer is not None and not isinstance(self.baseline_teer, QuantityValue):
+            self.baseline_teer = QuantityValue(**as_dict(self.baseline_teer))
+
+        if self.aerosol_generation is not None and not isinstance(self.aerosol_generation, AerosolGeneration):
+            self.aerosol_generation = AerosolGeneration(**as_dict(self.aerosol_generation))
+
+        if self.sample_preparation is not None and not isinstance(self.sample_preparation, SamplePreparation):
+            self.sample_preparation = SamplePreparation(**as_dict(self.sample_preparation))
+
+        if self.dose_normalization_method is not None and not isinstance(self.dose_normalization_method, DoseNormalizationMethodEnum):
+            self.dose_normalization_method = DoseNormalizationMethodEnum(self.dose_normalization_method)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class AerosolGeneration(NamedThing):
+    """
+    Parameters describing aerosol generation for inhalation toxicology studies. Includes generation method, equipment,
+    and characterization of the generated aerosol for air-liquid interface and other exposure systems.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["AerosolGeneration"]
+    class_class_curie: ClassVar[str] = "owg:AerosolGeneration"
+    class_name: ClassVar[str] = "AerosolGeneration"
+    class_model_uri: ClassVar[URIRef] = OWG.AerosolGeneration
+
+    id: Union[str, AerosolGenerationId] = None
+    aerosol_generation_method: Optional[Union[str, "AerosolGenerationMethodEnum"]] = None
+    aerosol_generation_equipment: Optional[str] = None
+    aerosol_concentration: Optional[Union[dict, QuantityValue]] = None
+    aerosol_flow_rate: Optional[Union[dict, QuantityValue]] = None
+    aerosol_exposure_duration: Optional[Union[dict, QuantityValue]] = None
+    mass_median_aerodynamic_diameter: Optional[Union[dict, QuantityValue]] = None
+    geometric_standard_deviation: Optional[float] = None
+    aerosol_characterization_method: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, AerosolGenerationId):
+            self.id = AerosolGenerationId(self.id)
+
+        if self.aerosol_generation_method is not None and not isinstance(self.aerosol_generation_method, AerosolGenerationMethodEnum):
+            self.aerosol_generation_method = AerosolGenerationMethodEnum(self.aerosol_generation_method)
+
+        if self.aerosol_generation_equipment is not None and not isinstance(self.aerosol_generation_equipment, str):
+            self.aerosol_generation_equipment = str(self.aerosol_generation_equipment)
+
+        if self.aerosol_concentration is not None and not isinstance(self.aerosol_concentration, QuantityValue):
+            self.aerosol_concentration = QuantityValue(**as_dict(self.aerosol_concentration))
+
+        if self.aerosol_flow_rate is not None and not isinstance(self.aerosol_flow_rate, QuantityValue):
+            self.aerosol_flow_rate = QuantityValue(**as_dict(self.aerosol_flow_rate))
+
+        if self.aerosol_exposure_duration is not None and not isinstance(self.aerosol_exposure_duration, QuantityValue):
+            self.aerosol_exposure_duration = QuantityValue(**as_dict(self.aerosol_exposure_duration))
+
+        if self.mass_median_aerodynamic_diameter is not None and not isinstance(self.mass_median_aerodynamic_diameter, QuantityValue):
+            self.mass_median_aerodynamic_diameter = QuantityValue(**as_dict(self.mass_median_aerodynamic_diameter))
+
+        if self.geometric_standard_deviation is not None and not isinstance(self.geometric_standard_deviation, float):
+            self.geometric_standard_deviation = float(self.geometric_standard_deviation)
+
+        if self.aerosol_characterization_method is not None and not isinstance(self.aerosol_characterization_method, str):
+            self.aerosol_characterization_method = str(self.aerosol_characterization_method)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class SamplePreparation(NamedThing):
+    """
+    Pre-exposure sample preparation procedures for in vitro systems. Includes ASL-specific preparations like mucus
+    removal and other treatments applied before exposure.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["SamplePreparation"]
+    class_class_curie: ClassVar[str] = "owg:SamplePreparation"
+    class_name: ClassVar[str] = "SamplePreparation"
+    class_model_uri: ClassVar[URIRef] = OWG.SamplePreparation
+
+    id: Union[str, SamplePreparationId] = None
+    mucus_removal_performed: Optional[Union[bool, Bool]] = None
+    mucus_removal_method: Optional[str] = None
+    debris_removal_performed: Optional[Union[bool, Bool]] = None
+    debris_removal_method: Optional[str] = None
+    wash_steps: Optional[str] = None
+    equilibration_time: Optional[Union[dict, QuantityValue]] = None
+    pre_exposure_treatment: Optional[str] = None
+    surface_preparation: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SamplePreparationId):
+            self.id = SamplePreparationId(self.id)
+
+        if self.mucus_removal_performed is not None and not isinstance(self.mucus_removal_performed, Bool):
+            self.mucus_removal_performed = Bool(self.mucus_removal_performed)
+
+        if self.mucus_removal_method is not None and not isinstance(self.mucus_removal_method, str):
+            self.mucus_removal_method = str(self.mucus_removal_method)
+
+        if self.debris_removal_performed is not None and not isinstance(self.debris_removal_performed, Bool):
+            self.debris_removal_performed = Bool(self.debris_removal_performed)
+
+        if self.debris_removal_method is not None and not isinstance(self.debris_removal_method, str):
+            self.debris_removal_method = str(self.debris_removal_method)
+
+        if self.wash_steps is not None and not isinstance(self.wash_steps, str):
+            self.wash_steps = str(self.wash_steps)
+
+        if self.equilibration_time is not None and not isinstance(self.equilibration_time, QuantityValue):
+            self.equilibration_time = QuantityValue(**as_dict(self.equilibration_time))
+
+        if self.pre_exposure_treatment is not None and not isinstance(self.pre_exposure_treatment, str):
+            self.pre_exposure_treatment = str(self.pre_exposure_treatment)
+
+        if self.surface_preparation is not None and not isinstance(self.surface_preparation, str):
+            self.surface_preparation = str(self.surface_preparation)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class Analysis(NamedThing):
+    """
+    Data analysis and processing parameters describing how measurement data was acquired, processed, normalized, and
+    quality controlled. Links to measurements to provide complete provenance of derived values.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["Analysis"]
+    class_class_curie: ClassVar[str] = "owg:Analysis"
+    class_name: ClassVar[str] = "Analysis"
+    class_model_uri: ClassVar[URIRef] = OWG.Analysis
+
+    id: Union[str, AnalysisId] = None
+    normalization_performed: Optional[Union[bool, Bool]] = None
+    data_normalization_method: Optional[Union[str, "DataNormalizationMethodEnum"]] = None
+    viability_normalized: Optional[Union[bool, Bool]] = None
+    baseline_definition: Optional[str] = None
+    dose_normalization_method: Optional[Union[str, "DoseNormalizationMethodEnum"]] = None
+    raw_data_type: Optional[Union[str, "RawDataTypeEnum"]] = None
+    analysis_software: Optional[str] = None
+    analysis_software_version: Optional[str] = None
+    automation_level: Optional[Union[str, "AutomationLevelEnum"]] = None
+    algorithm_type: Optional[str] = None
+    pipeline_reference: Optional[str] = None
+    data_transformation: Optional[Union[str, "DataTransformationEnum"]] = None
+    replicate_combination_method: Optional[Union[str, "ReplicateCombinationMethodEnum"]] = None
+    outlier_detection_method: Optional[str] = None
+    outlier_removal_performed: Optional[Union[bool, Bool]] = None
+    imaging_magnification: Optional[str] = None
+    pixel_size: Optional[Union[dict, QuantityValue]] = None
+    voxel_depth: Optional[Union[dict, QuantityValue]] = None
+    z_step_size: Optional[Union[dict, QuantityValue]] = None
+    number_of_z_slices: Optional[int] = None
+    temporal_resolution: Optional[Union[dict, QuantityValue]] = None
+    acquisition_duration: Optional[Union[dict, QuantityValue]] = None
+    motion_stabilization_applied: Optional[Union[bool, Bool]] = None
+    frame_rate: Optional[Union[dict, QuantityValue]] = None
+    flow_profile_during_imaging: Optional[str] = None
+    measurements_per_replicate: Optional[int] = None
+    qc_acceptance_criteria: Optional[str] = None
+    qc_passed: Optional[Union[bool, Bool]] = None
+    comparison_to_historical_controls: Optional[str] = None
+    final_metric: Optional[str] = None
+    final_metric_unit: Optional[Union[dict, Unit]] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, AnalysisId):
+            self.id = AnalysisId(self.id)
+
+        if self.normalization_performed is not None and not isinstance(self.normalization_performed, Bool):
+            self.normalization_performed = Bool(self.normalization_performed)
+
+        if self.data_normalization_method is not None and not isinstance(self.data_normalization_method, DataNormalizationMethodEnum):
+            self.data_normalization_method = DataNormalizationMethodEnum(self.data_normalization_method)
+
+        if self.viability_normalized is not None and not isinstance(self.viability_normalized, Bool):
+            self.viability_normalized = Bool(self.viability_normalized)
+
+        if self.baseline_definition is not None and not isinstance(self.baseline_definition, str):
+            self.baseline_definition = str(self.baseline_definition)
+
+        if self.dose_normalization_method is not None and not isinstance(self.dose_normalization_method, DoseNormalizationMethodEnum):
+            self.dose_normalization_method = DoseNormalizationMethodEnum(self.dose_normalization_method)
+
+        if self.raw_data_type is not None and not isinstance(self.raw_data_type, RawDataTypeEnum):
+            self.raw_data_type = RawDataTypeEnum(self.raw_data_type)
+
+        if self.analysis_software is not None and not isinstance(self.analysis_software, str):
+            self.analysis_software = str(self.analysis_software)
+
+        if self.analysis_software_version is not None and not isinstance(self.analysis_software_version, str):
+            self.analysis_software_version = str(self.analysis_software_version)
+
+        if self.automation_level is not None and not isinstance(self.automation_level, AutomationLevelEnum):
+            self.automation_level = AutomationLevelEnum(self.automation_level)
+
+        if self.algorithm_type is not None and not isinstance(self.algorithm_type, str):
+            self.algorithm_type = str(self.algorithm_type)
+
+        if self.pipeline_reference is not None and not isinstance(self.pipeline_reference, str):
+            self.pipeline_reference = str(self.pipeline_reference)
+
+        if self.data_transformation is not None and not isinstance(self.data_transformation, DataTransformationEnum):
+            self.data_transformation = DataTransformationEnum(self.data_transformation)
+
+        if self.replicate_combination_method is not None and not isinstance(self.replicate_combination_method, ReplicateCombinationMethodEnum):
+            self.replicate_combination_method = ReplicateCombinationMethodEnum(self.replicate_combination_method)
+
+        if self.outlier_detection_method is not None and not isinstance(self.outlier_detection_method, str):
+            self.outlier_detection_method = str(self.outlier_detection_method)
+
+        if self.outlier_removal_performed is not None and not isinstance(self.outlier_removal_performed, Bool):
+            self.outlier_removal_performed = Bool(self.outlier_removal_performed)
+
+        if self.imaging_magnification is not None and not isinstance(self.imaging_magnification, str):
+            self.imaging_magnification = str(self.imaging_magnification)
+
+        if self.pixel_size is not None and not isinstance(self.pixel_size, QuantityValue):
+            self.pixel_size = QuantityValue(**as_dict(self.pixel_size))
+
+        if self.voxel_depth is not None and not isinstance(self.voxel_depth, QuantityValue):
+            self.voxel_depth = QuantityValue(**as_dict(self.voxel_depth))
+
+        if self.z_step_size is not None and not isinstance(self.z_step_size, QuantityValue):
+            self.z_step_size = QuantityValue(**as_dict(self.z_step_size))
+
+        if self.number_of_z_slices is not None and not isinstance(self.number_of_z_slices, int):
+            self.number_of_z_slices = int(self.number_of_z_slices)
+
+        if self.temporal_resolution is not None and not isinstance(self.temporal_resolution, QuantityValue):
+            self.temporal_resolution = QuantityValue(**as_dict(self.temporal_resolution))
+
+        if self.acquisition_duration is not None and not isinstance(self.acquisition_duration, QuantityValue):
+            self.acquisition_duration = QuantityValue(**as_dict(self.acquisition_duration))
+
+        if self.motion_stabilization_applied is not None and not isinstance(self.motion_stabilization_applied, Bool):
+            self.motion_stabilization_applied = Bool(self.motion_stabilization_applied)
+
+        if self.frame_rate is not None and not isinstance(self.frame_rate, QuantityValue):
+            self.frame_rate = QuantityValue(**as_dict(self.frame_rate))
+
+        if self.flow_profile_during_imaging is not None and not isinstance(self.flow_profile_during_imaging, str):
+            self.flow_profile_during_imaging = str(self.flow_profile_during_imaging)
+
+        if self.measurements_per_replicate is not None and not isinstance(self.measurements_per_replicate, int):
+            self.measurements_per_replicate = int(self.measurements_per_replicate)
+
+        if self.qc_acceptance_criteria is not None and not isinstance(self.qc_acceptance_criteria, str):
+            self.qc_acceptance_criteria = str(self.qc_acceptance_criteria)
+
+        if self.qc_passed is not None and not isinstance(self.qc_passed, Bool):
+            self.qc_passed = Bool(self.qc_passed)
+
+        if self.comparison_to_historical_controls is not None and not isinstance(self.comparison_to_historical_controls, str):
+            self.comparison_to_historical_controls = str(self.comparison_to_historical_controls)
+
+        if self.final_metric is not None and not isinstance(self.final_metric, str):
+            self.final_metric = str(self.final_metric)
+
+        if self.final_metric_unit is not None and not isinstance(self.final_metric_unit, Unit):
+            self.final_metric_unit = Unit(**as_dict(self.final_metric_unit))
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
 class Gene(BiologicalEntity):
     """
     A gene or genetic element
@@ -3651,6 +4161,370 @@ class CoCultureConfigurationEnum(EnumDefinitionImpl):
         description="Physical configurations for co-culture systems combining multiple cell types.",
     )
 
+class ChemicalFormEnum(EnumDefinitionImpl):
+    """
+    Physical form of a test substance or chemical in an exposure experiment.
+    """
+    solid = PermissibleValue(
+        text="solid",
+        description="Solid form (powder, crystite, etc.)",
+        meaning=PATO["0001546"])
+    solution = PermissibleValue(
+        text="solution",
+        description="Dissolved in liquid vehicle")
+    suspension = PermissibleValue(
+        text="suspension",
+        description="Particles suspended in liquid")
+    aerosol = PermissibleValue(
+        text="aerosol",
+        description="Fine particles or droplets suspended in air",
+        meaning=ENVO["01000415"])
+    vapor = PermissibleValue(
+        text="vapor",
+        description="Gaseous form of normally liquid or solid substance")
+    gas = PermissibleValue(
+        text="gas",
+        description="Gaseous chemical substance",
+        meaning=PATO["0001547"])
+    nanoparticle = PermissibleValue(
+        text="nanoparticle",
+        description="Nanoparticulate form (1-100 nm)")
+    microparticle = PermissibleValue(
+        text="microparticle",
+        description="Microparticulate form (0.1-100 um)")
+    emulsion = PermissibleValue(
+        text="emulsion",
+        description="Mixture of immiscible liquids")
+    gel = PermissibleValue(
+        text="gel",
+        description="Semi-solid gel form")
+
+    _defn = EnumDefinition(
+        name="ChemicalFormEnum",
+        description="Physical form of a test substance or chemical in an exposure experiment.",
+    )
+
+class ExposureRegimentEnum(EnumDefinitionImpl):
+    """
+    Pattern or schedule of exposure events in an in vitro experiment.
+    """
+    single = PermissibleValue(
+        text="single",
+        description="Single exposure event")
+    continuous = PermissibleValue(
+        text="continuous",
+        description="Continuous exposure throughout experiment duration")
+    repeated = PermissibleValue(
+        text="repeated",
+        description="Multiple discrete exposure events")
+    intermittent = PermissibleValue(
+        text="intermittent",
+        description="Alternating periods of exposure and recovery")
+    continuous_perfusion = PermissibleValue(
+        text="continuous_perfusion",
+        description="Continuous exposure via perfusion system")
+    acute = PermissibleValue(
+        text="acute",
+        description="Short-term exposure (minutes to hours)")
+    subchronic = PermissibleValue(
+        text="subchronic",
+        description="Medium-term exposure (days)")
+    chronic = PermissibleValue(
+        text="chronic",
+        description="Long-term exposure (weeks or longer)")
+
+    _defn = EnumDefinition(
+        name="ExposureRegimentEnum",
+        description="Pattern or schedule of exposure events in an in vitro experiment.",
+    )
+
+class ControlTypeEnum(EnumDefinitionImpl):
+    """
+    Types of experimental controls used in in vitro exposure studies.
+    """
+    untreated = PermissibleValue(
+        text="untreated",
+        description="No treatment applied (negative control)")
+    vehicle = PermissibleValue(
+        text="vehicle",
+        description="Vehicle/solvent only control")
+    positive = PermissibleValue(
+        text="positive",
+        description="Known positive control compound")
+    historical = PermissibleValue(
+        text="historical",
+        description="Comparison to historical control data")
+    air = PermissibleValue(
+        text="air",
+        description="Clean air exposure (for aerosol studies)")
+    media_only = PermissibleValue(
+        text="media_only",
+        description="Culture medium only control")
+    sham = PermissibleValue(
+        text="sham",
+        description="Sham exposure procedure")
+
+    _defn = EnumDefinition(
+        name="ControlTypeEnum",
+        description="Types of experimental controls used in in vitro exposure studies.",
+    )
+
+class DoseNormalizationMethodEnum(EnumDefinitionImpl):
+    """
+    Methods for normalizing dose in exposure experiments.
+    """
+    per_surface_area = PermissibleValue(
+        text="per_surface_area",
+        description="Dose normalized to surface area (ug/cm2)")
+    per_cell_count = PermissibleValue(
+        text="per_cell_count",
+        description="Dose normalized to cell number")
+    per_protein = PermissibleValue(
+        text="per_protein",
+        description="Dose normalized to total protein content")
+    per_well = PermissibleValue(
+        text="per_well",
+        description="Dose per well (absolute)")
+    per_insert = PermissibleValue(
+        text="per_insert",
+        description="Dose per transwell insert")
+    per_volume = PermissibleValue(
+        text="per_volume",
+        description="Concentration in volume (ug/mL)")
+    deposited_fraction = PermissibleValue(
+        text="deposited_fraction",
+        description="Based on measured deposited fraction")
+    isdd_modeled = PermissibleValue(
+        text="isdd_modeled",
+        description="Calculated using In Vitro Sedimentation, Diffusion, and Dosimetry model")
+
+    _defn = EnumDefinition(
+        name="DoseNormalizationMethodEnum",
+        description="Methods for normalizing dose in exposure experiments.",
+    )
+
+class AerosolGenerationMethodEnum(EnumDefinitionImpl):
+    """
+    Methods for generating aerosols in inhalation toxicology studies.
+    """
+    nebulization = PermissibleValue(
+        text="nebulization",
+        description="Liquid nebulization (jet, ultrasonic, vibrating mesh)")
+    dry_powder_dispersion = PermissibleValue(
+        text="dry_powder_dispersion",
+        description="Aerosolization of dry powder")
+    condensation = PermissibleValue(
+        text="condensation",
+        description="Condensation aerosol generation")
+    electrospray = PermissibleValue(
+        text="electrospray",
+        description="Electrospray atomization")
+    spark_discharge = PermissibleValue(
+        text="spark_discharge",
+        description="Spark discharge for nanoparticle generation")
+    combustion = PermissibleValue(
+        text="combustion",
+        description="Combustion-generated aerosols")
+    evaporation_condensation = PermissibleValue(
+        text="evaporation_condensation",
+        description="Evaporation-condensation method")
+    atomization = PermissibleValue(
+        text="atomization",
+        description="Mechanical atomization")
+    cloud_system = PermissibleValue(
+        text="cloud_system",
+        description="Cloud-based deposition system (e.g., Vitrocell Cloud)")
+    alice = PermissibleValue(
+        text="alice",
+        description="Air-Liquid Interface Cell Exposure system")
+
+    _defn = EnumDefinition(
+        name="AerosolGenerationMethodEnum",
+        description="Methods for generating aerosols in inhalation toxicology studies.",
+    )
+
+class DataNormalizationMethodEnum(EnumDefinitionImpl):
+    """
+    Methods for normalizing measurement data in analysis.
+    """
+    per_area = PermissibleValue(
+        text="per_area",
+        description="Normalized to surface area")
+    per_cell_count = PermissibleValue(
+        text="per_cell_count",
+        description="Normalized to cell number")
+    per_baseline = PermissibleValue(
+        text="per_baseline",
+        description="Normalized to baseline/pre-exposure value")
+    to_internal_control = PermissibleValue(
+        text="to_internal_control",
+        description="Normalized to internal control on same plate/experiment")
+    to_vehicle_control = PermissibleValue(
+        text="to_vehicle_control",
+        description="Normalized to vehicle control")
+    to_positive_control = PermissibleValue(
+        text="to_positive_control",
+        description="Normalized to positive control")
+    to_historical_control = PermissibleValue(
+        text="to_historical_control",
+        description="Normalized to historical control values")
+    per_protein = PermissibleValue(
+        text="per_protein",
+        description="Normalized to total protein")
+    z_score = PermissibleValue(
+        text="z_score",
+        description="Z-score normalization")
+    percent_of_control = PermissibleValue(
+        text="percent_of_control",
+        description="Expressed as percentage of control")
+    fold_change = PermissibleValue(
+        text="fold_change",
+        description="Expressed as fold change from baseline")
+
+    _defn = EnumDefinition(
+        name="DataNormalizationMethodEnum",
+        description="Methods for normalizing measurement data in analysis.",
+    )
+
+class RawDataTypeEnum(EnumDefinitionImpl):
+    """
+    Types of raw data collected from measurements.
+    """
+    image_stack = PermissibleValue(
+        text="image_stack",
+        description="Z-stack of images")
+    single_image = PermissibleValue(
+        text="single_image",
+        description="Single 2D image")
+    video = PermissibleValue(
+        text="video",
+        description="Time-lapse video recording")
+    fluorescence_intensity = PermissibleValue(
+        text="fluorescence_intensity",
+        description="Fluorescence intensity readings")
+    absorbance = PermissibleValue(
+        text="absorbance",
+        description="Absorbance/optical density readings")
+    luminescence = PermissibleValue(
+        text="luminescence",
+        description="Luminescence readings")
+    electrical = PermissibleValue(
+        text="electrical",
+        description="Electrical measurements (TEER, patch clamp)")
+    flow_cytometry = PermissibleValue(
+        text="flow_cytometry",
+        description="Flow cytometry data files")
+    spectral = PermissibleValue(
+        text="spectral",
+        description="Spectral data (Raman, FTIR)")
+    mass_spec = PermissibleValue(
+        text="mass_spec",
+        description="Mass spectrometry data")
+    sequencing = PermissibleValue(
+        text="sequencing",
+        description="Sequencing reads")
+    tabular = PermissibleValue(
+        text="tabular",
+        description="Tabular/numeric data")
+
+    _defn = EnumDefinition(
+        name="RawDataTypeEnum",
+        description="Types of raw data collected from measurements.",
+    )
+
+class AutomationLevelEnum(EnumDefinitionImpl):
+    """
+    Level of automation in data processing and analysis.
+    """
+    manual = PermissibleValue(
+        text="manual",
+        description="Fully manual analysis")
+    semi_automated = PermissibleValue(
+        text="semi_automated",
+        description="Partially automated with manual verification")
+    fully_automated = PermissibleValue(
+        text="fully_automated",
+        description="Fully automated pipeline")
+    ai_assisted = PermissibleValue(
+        text="ai_assisted",
+        description="AI/ML-assisted analysis with human oversight")
+
+    _defn = EnumDefinition(
+        name="AutomationLevelEnum",
+        description="Level of automation in data processing and analysis.",
+    )
+
+class DataTransformationEnum(EnumDefinitionImpl):
+    """
+    Mathematical transformations applied to data.
+    """
+    none = PermissibleValue(
+        text="none",
+        description="No transformation applied")
+    log10 = PermissibleValue(
+        text="log10",
+        description="Log base 10 transformation")
+    log2 = PermissibleValue(
+        text="log2",
+        description="Log base 2 transformation")
+    natural_log = PermissibleValue(
+        text="natural_log",
+        description="Natural logarithm transformation")
+    square_root = PermissibleValue(
+        text="square_root",
+        description="Square root transformation")
+    arcsine = PermissibleValue(
+        text="arcsine",
+        description="Arcsine transformation (for proportions)")
+    box_cox = PermissibleValue(
+        text="box_cox",
+        description="Box-Cox transformation")
+    inverse = PermissibleValue(
+        text="inverse",
+        description="Inverse transformation")
+    z_transform = PermissibleValue(
+        text="z_transform",
+        description="Z-score transformation")
+
+    _defn = EnumDefinition(
+        name="DataTransformationEnum",
+        description="Mathematical transformations applied to data.",
+    )
+
+class ReplicateCombinationMethodEnum(EnumDefinitionImpl):
+    """
+    Methods for combining replicate measurements.
+    """
+    mean = PermissibleValue(
+        text="mean",
+        description="Arithmetic mean of replicates")
+    median = PermissibleValue(
+        text="median",
+        description="Median of replicates")
+    weighted_mean = PermissibleValue(
+        text="weighted_mean",
+        description="Weighted mean based on quality scores")
+    geometric_mean = PermissibleValue(
+        text="geometric_mean",
+        description="Geometric mean of replicates")
+    fitted_model = PermissibleValue(
+        text="fitted_model",
+        description="Value from fitted statistical model")
+    surface_fit = PermissibleValue(
+        text="surface_fit",
+        description="Fitted surface model for spatial data")
+    best_replicate = PermissibleValue(
+        text="best_replicate",
+        description="Best quality replicate selected")
+    sum = PermissibleValue(
+        text="sum",
+        description="Sum of replicate values")
+
+    _defn = EnumDefinition(
+        name="ReplicateCombinationMethodEnum",
+        description="Methods for combining replicate measurements.",
+    )
+
 # Slots
 class slots:
     pass
@@ -4287,6 +5161,261 @@ slots.co_cultures = Slot(uri=OWG.co_cultures, name="co_cultures", curie=OWG.curi
 
 slots.cell_lines = Slot(uri=OWG.cell_lines, name="cell_lines", curie=OWG.curie('cell_lines'),
                    model_uri=OWG.cell_lines, domain=None, range=Optional[Union[dict[Union[str, CellLineId], Union[dict, CellLine]], list[Union[dict, CellLine]]]])
+
+slots.test_substance = Slot(uri=OWG.test_substance, name="test_substance", curie=OWG.curie('test_substance'),
+                   model_uri=OWG.test_substance, domain=None, range=Optional[Union[dict, ChemicalEntity]])
+
+slots.chemical_form = Slot(uri=OWG.chemical_form, name="chemical_form", curie=OWG.curie('chemical_form'),
+                   model_uri=OWG.chemical_form, domain=None, range=Optional[Union[str, "ChemicalFormEnum"]])
+
+slots.nominal_concentration = Slot(uri=OWG.nominal_concentration, name="nominal_concentration", curie=OWG.curie('nominal_concentration'),
+                   model_uri=OWG.nominal_concentration, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.applied_dose = Slot(uri=OWG.applied_dose, name="applied_dose", curie=OWG.curie('applied_dose'),
+                   model_uri=OWG.applied_dose, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.purity = Slot(uri=OWG.purity, name="purity", curie=OWG.curie('purity'),
+                   model_uri=OWG.purity, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.composition = Slot(uri=OWG.composition, name="composition", curie=OWG.curie('composition'),
+                   model_uri=OWG.composition, domain=None, range=Optional[str])
+
+slots.vehicle_solvent = Slot(uri=OWG.vehicle_solvent, name="vehicle_solvent", curie=OWG.curie('vehicle_solvent'),
+                   model_uri=OWG.vehicle_solvent, domain=None, range=Optional[str])
+
+slots.particle_properties = Slot(uri=OWG.particle_properties, name="particle_properties", curie=OWG.curie('particle_properties'),
+                   model_uri=OWG.particle_properties, domain=None, range=Optional[Union[dict, ParticleProperties]])
+
+slots.source_lot_number = Slot(uri=OWG.source_lot_number, name="source_lot_number", curie=OWG.curie('source_lot_number'),
+                   model_uri=OWG.source_lot_number, domain=None, range=Optional[str])
+
+slots.particle_size = Slot(uri=OWG.particle_size, name="particle_size", curie=OWG.curie('particle_size'),
+                   model_uri=OWG.particle_size, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.particle_size_distribution = Slot(uri=OWG.particle_size_distribution, name="particle_size_distribution", curie=OWG.curie('particle_size_distribution'),
+                   model_uri=OWG.particle_size_distribution, domain=None, range=Optional[str])
+
+slots.surface_area = Slot(uri=OWG.surface_area, name="surface_area", curie=OWG.curie('surface_area'),
+                   model_uri=OWG.surface_area, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.zeta_potential = Slot(uri=OWG.zeta_potential, name="zeta_potential", curie=OWG.curie('zeta_potential'),
+                   model_uri=OWG.zeta_potential, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.hydrodynamic_diameter = Slot(uri=OWG.hydrodynamic_diameter, name="hydrodynamic_diameter", curie=OWG.curie('hydrodynamic_diameter'),
+                   model_uri=OWG.hydrodynamic_diameter, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.polydispersity_index = Slot(uri=OWG.polydispersity_index, name="polydispersity_index", curie=OWG.curie('polydispersity_index'),
+                   model_uri=OWG.polydispersity_index, domain=None, range=Optional[float])
+
+slots.particle_morphology = Slot(uri=OWG.particle_morphology, name="particle_morphology", curie=OWG.curie('particle_morphology'),
+                   model_uri=OWG.particle_morphology, domain=None, range=Optional[str])
+
+slots.particle_composition = Slot(uri=OWG.particle_composition, name="particle_composition", curie=OWG.curie('particle_composition'),
+                   model_uri=OWG.particle_composition, domain=None, range=Optional[str])
+
+slots.agglomeration_state = Slot(uri=OWG.agglomeration_state, name="agglomeration_state", curie=OWG.curie('agglomeration_state'),
+                   model_uri=OWG.agglomeration_state, domain=None, range=Optional[str])
+
+slots.exposure_material = Slot(uri=OWG.exposure_material, name="exposure_material", curie=OWG.curie('exposure_material'),
+                   model_uri=OWG.exposure_material, domain=None, range=Optional[Union[dict, ExposureMaterial]])
+
+slots.exposure_frequency = Slot(uri=OWG.exposure_frequency, name="exposure_frequency", curie=OWG.curie('exposure_frequency'),
+                   model_uri=OWG.exposure_frequency, domain=None, range=Optional[str])
+
+slots.exposure_regiment = Slot(uri=OWG.exposure_regiment, name="exposure_regiment", curie=OWG.curie('exposure_regiment'),
+                   model_uri=OWG.exposure_regiment, domain=None, range=Optional[Union[str, "ExposureRegimentEnum"]])
+
+slots.time_post_exposure = Slot(uri=OWG.time_post_exposure, name="time_post_exposure", curie=OWG.curie('time_post_exposure'),
+                   model_uri=OWG.time_post_exposure, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.exposure_temperature = Slot(uri=OWG.exposure_temperature, name="exposure_temperature", curie=OWG.curie('exposure_temperature'),
+                   model_uri=OWG.exposure_temperature, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.control_description = Slot(uri=OWG.control_description, name="control_description", curie=OWG.curie('control_description'),
+                   model_uri=OWG.control_description, domain=None, range=Optional[str])
+
+slots.control_type = Slot(uri=OWG.control_type, name="control_type", curie=OWG.curie('control_type'),
+                   model_uri=OWG.control_type, domain=None, range=Optional[Union[str, "ControlTypeEnum"]])
+
+slots.number_of_replicates = Slot(uri=OWG.number_of_replicates, name="number_of_replicates", curie=OWG.curie('number_of_replicates'),
+                   model_uri=OWG.number_of_replicates, domain=None, range=Optional[int])
+
+slots.effective_deposition = Slot(uri=OWG.effective_deposition, name="effective_deposition", curie=OWG.curie('effective_deposition'),
+                   model_uri=OWG.effective_deposition, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.deposited_dose = Slot(uri=OWG.deposited_dose, name="deposited_dose", curie=OWG.curie('deposited_dose'),
+                   model_uri=OWG.deposited_dose, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.baseline_teer = Slot(uri=OWG.baseline_teer, name="baseline_teer", curie=OWG.curie('baseline_teer'),
+                   model_uri=OWG.baseline_teer, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.aerosol_generation = Slot(uri=OWG.aerosol_generation, name="aerosol_generation", curie=OWG.curie('aerosol_generation'),
+                   model_uri=OWG.aerosol_generation, domain=None, range=Optional[Union[dict, AerosolGeneration]])
+
+slots.sample_preparation = Slot(uri=OWG.sample_preparation, name="sample_preparation", curie=OWG.curie('sample_preparation'),
+                   model_uri=OWG.sample_preparation, domain=None, range=Optional[Union[dict, SamplePreparation]])
+
+slots.dose_normalization_method = Slot(uri=OWG.dose_normalization_method, name="dose_normalization_method", curie=OWG.curie('dose_normalization_method'),
+                   model_uri=OWG.dose_normalization_method, domain=None, range=Optional[Union[str, "DoseNormalizationMethodEnum"]])
+
+slots.aerosol_generation_method = Slot(uri=OWG.aerosol_generation_method, name="aerosol_generation_method", curie=OWG.curie('aerosol_generation_method'),
+                   model_uri=OWG.aerosol_generation_method, domain=None, range=Optional[Union[str, "AerosolGenerationMethodEnum"]])
+
+slots.aerosol_generation_equipment = Slot(uri=OWG.aerosol_generation_equipment, name="aerosol_generation_equipment", curie=OWG.curie('aerosol_generation_equipment'),
+                   model_uri=OWG.aerosol_generation_equipment, domain=None, range=Optional[str])
+
+slots.aerosol_concentration = Slot(uri=OWG.aerosol_concentration, name="aerosol_concentration", curie=OWG.curie('aerosol_concentration'),
+                   model_uri=OWG.aerosol_concentration, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.aerosol_flow_rate = Slot(uri=OWG.aerosol_flow_rate, name="aerosol_flow_rate", curie=OWG.curie('aerosol_flow_rate'),
+                   model_uri=OWG.aerosol_flow_rate, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.aerosol_exposure_duration = Slot(uri=OWG.aerosol_exposure_duration, name="aerosol_exposure_duration", curie=OWG.curie('aerosol_exposure_duration'),
+                   model_uri=OWG.aerosol_exposure_duration, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.mass_median_aerodynamic_diameter = Slot(uri=OWG.mass_median_aerodynamic_diameter, name="mass_median_aerodynamic_diameter", curie=OWG.curie('mass_median_aerodynamic_diameter'),
+                   model_uri=OWG.mass_median_aerodynamic_diameter, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.geometric_standard_deviation = Slot(uri=OWG.geometric_standard_deviation, name="geometric_standard_deviation", curie=OWG.curie('geometric_standard_deviation'),
+                   model_uri=OWG.geometric_standard_deviation, domain=None, range=Optional[float])
+
+slots.aerosol_characterization_method = Slot(uri=OWG.aerosol_characterization_method, name="aerosol_characterization_method", curie=OWG.curie('aerosol_characterization_method'),
+                   model_uri=OWG.aerosol_characterization_method, domain=None, range=Optional[str])
+
+slots.mucus_removal_performed = Slot(uri=OWG.mucus_removal_performed, name="mucus_removal_performed", curie=OWG.curie('mucus_removal_performed'),
+                   model_uri=OWG.mucus_removal_performed, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.mucus_removal_method = Slot(uri=OWG.mucus_removal_method, name="mucus_removal_method", curie=OWG.curie('mucus_removal_method'),
+                   model_uri=OWG.mucus_removal_method, domain=None, range=Optional[str])
+
+slots.debris_removal_performed = Slot(uri=OWG.debris_removal_performed, name="debris_removal_performed", curie=OWG.curie('debris_removal_performed'),
+                   model_uri=OWG.debris_removal_performed, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.debris_removal_method = Slot(uri=OWG.debris_removal_method, name="debris_removal_method", curie=OWG.curie('debris_removal_method'),
+                   model_uri=OWG.debris_removal_method, domain=None, range=Optional[str])
+
+slots.wash_steps = Slot(uri=OWG.wash_steps, name="wash_steps", curie=OWG.curie('wash_steps'),
+                   model_uri=OWG.wash_steps, domain=None, range=Optional[str])
+
+slots.equilibration_time = Slot(uri=OWG.equilibration_time, name="equilibration_time", curie=OWG.curie('equilibration_time'),
+                   model_uri=OWG.equilibration_time, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.pre_exposure_treatment = Slot(uri=OWG.pre_exposure_treatment, name="pre_exposure_treatment", curie=OWG.curie('pre_exposure_treatment'),
+                   model_uri=OWG.pre_exposure_treatment, domain=None, range=Optional[str])
+
+slots.surface_preparation = Slot(uri=OWG.surface_preparation, name="surface_preparation", curie=OWG.curie('surface_preparation'),
+                   model_uri=OWG.surface_preparation, domain=None, range=Optional[str])
+
+slots.normalization_performed = Slot(uri=OWG.normalization_performed, name="normalization_performed", curie=OWG.curie('normalization_performed'),
+                   model_uri=OWG.normalization_performed, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.data_normalization_method = Slot(uri=OWG.data_normalization_method, name="data_normalization_method", curie=OWG.curie('data_normalization_method'),
+                   model_uri=OWG.data_normalization_method, domain=None, range=Optional[Union[str, "DataNormalizationMethodEnum"]])
+
+slots.viability_normalized = Slot(uri=OWG.viability_normalized, name="viability_normalized", curie=OWG.curie('viability_normalized'),
+                   model_uri=OWG.viability_normalized, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.baseline_definition = Slot(uri=OWG.baseline_definition, name="baseline_definition", curie=OWG.curie('baseline_definition'),
+                   model_uri=OWG.baseline_definition, domain=None, range=Optional[str])
+
+slots.raw_data_type = Slot(uri=OWG.raw_data_type, name="raw_data_type", curie=OWG.curie('raw_data_type'),
+                   model_uri=OWG.raw_data_type, domain=None, range=Optional[Union[str, "RawDataTypeEnum"]])
+
+slots.analysis_software = Slot(uri=OWG.analysis_software, name="analysis_software", curie=OWG.curie('analysis_software'),
+                   model_uri=OWG.analysis_software, domain=None, range=Optional[str])
+
+slots.analysis_software_version = Slot(uri=OWG.analysis_software_version, name="analysis_software_version", curie=OWG.curie('analysis_software_version'),
+                   model_uri=OWG.analysis_software_version, domain=None, range=Optional[str])
+
+slots.automation_level = Slot(uri=OWG.automation_level, name="automation_level", curie=OWG.curie('automation_level'),
+                   model_uri=OWG.automation_level, domain=None, range=Optional[Union[str, "AutomationLevelEnum"]])
+
+slots.algorithm_type = Slot(uri=OWG.algorithm_type, name="algorithm_type", curie=OWG.curie('algorithm_type'),
+                   model_uri=OWG.algorithm_type, domain=None, range=Optional[str])
+
+slots.pipeline_reference = Slot(uri=OWG.pipeline_reference, name="pipeline_reference", curie=OWG.curie('pipeline_reference'),
+                   model_uri=OWG.pipeline_reference, domain=None, range=Optional[str])
+
+slots.data_transformation = Slot(uri=OWG.data_transformation, name="data_transformation", curie=OWG.curie('data_transformation'),
+                   model_uri=OWG.data_transformation, domain=None, range=Optional[Union[str, "DataTransformationEnum"]])
+
+slots.replicate_combination_method = Slot(uri=OWG.replicate_combination_method, name="replicate_combination_method", curie=OWG.curie('replicate_combination_method'),
+                   model_uri=OWG.replicate_combination_method, domain=None, range=Optional[Union[str, "ReplicateCombinationMethodEnum"]])
+
+slots.outlier_detection_method = Slot(uri=OWG.outlier_detection_method, name="outlier_detection_method", curie=OWG.curie('outlier_detection_method'),
+                   model_uri=OWG.outlier_detection_method, domain=None, range=Optional[str])
+
+slots.outlier_removal_performed = Slot(uri=OWG.outlier_removal_performed, name="outlier_removal_performed", curie=OWG.curie('outlier_removal_performed'),
+                   model_uri=OWG.outlier_removal_performed, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.imaging_magnification = Slot(uri=OWG.imaging_magnification, name="imaging_magnification", curie=OWG.curie('imaging_magnification'),
+                   model_uri=OWG.imaging_magnification, domain=None, range=Optional[str])
+
+slots.pixel_size = Slot(uri=OWG.pixel_size, name="pixel_size", curie=OWG.curie('pixel_size'),
+                   model_uri=OWG.pixel_size, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.voxel_depth = Slot(uri=OWG.voxel_depth, name="voxel_depth", curie=OWG.curie('voxel_depth'),
+                   model_uri=OWG.voxel_depth, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.z_step_size = Slot(uri=OWG.z_step_size, name="z_step_size", curie=OWG.curie('z_step_size'),
+                   model_uri=OWG.z_step_size, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.number_of_z_slices = Slot(uri=OWG.number_of_z_slices, name="number_of_z_slices", curie=OWG.curie('number_of_z_slices'),
+                   model_uri=OWG.number_of_z_slices, domain=None, range=Optional[int])
+
+slots.temporal_resolution = Slot(uri=OWG.temporal_resolution, name="temporal_resolution", curie=OWG.curie('temporal_resolution'),
+                   model_uri=OWG.temporal_resolution, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.acquisition_duration = Slot(uri=OWG.acquisition_duration, name="acquisition_duration", curie=OWG.curie('acquisition_duration'),
+                   model_uri=OWG.acquisition_duration, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.motion_stabilization_applied = Slot(uri=OWG.motion_stabilization_applied, name="motion_stabilization_applied", curie=OWG.curie('motion_stabilization_applied'),
+                   model_uri=OWG.motion_stabilization_applied, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.frame_rate = Slot(uri=OWG.frame_rate, name="frame_rate", curie=OWG.curie('frame_rate'),
+                   model_uri=OWG.frame_rate, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.flow_profile_during_imaging = Slot(uri=OWG.flow_profile_during_imaging, name="flow_profile_during_imaging", curie=OWG.curie('flow_profile_during_imaging'),
+                   model_uri=OWG.flow_profile_during_imaging, domain=None, range=Optional[str])
+
+slots.measurements_per_replicate = Slot(uri=OWG.measurements_per_replicate, name="measurements_per_replicate", curie=OWG.curie('measurements_per_replicate'),
+                   model_uri=OWG.measurements_per_replicate, domain=None, range=Optional[int])
+
+slots.qc_acceptance_criteria = Slot(uri=OWG.qc_acceptance_criteria, name="qc_acceptance_criteria", curie=OWG.curie('qc_acceptance_criteria'),
+                   model_uri=OWG.qc_acceptance_criteria, domain=None, range=Optional[str])
+
+slots.qc_passed = Slot(uri=OWG.qc_passed, name="qc_passed", curie=OWG.curie('qc_passed'),
+                   model_uri=OWG.qc_passed, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.comparison_to_historical_controls = Slot(uri=OWG.comparison_to_historical_controls, name="comparison_to_historical_controls", curie=OWG.curie('comparison_to_historical_controls'),
+                   model_uri=OWG.comparison_to_historical_controls, domain=None, range=Optional[str])
+
+slots.final_metric = Slot(uri=OWG.final_metric, name="final_metric", curie=OWG.curie('final_metric'),
+                   model_uri=OWG.final_metric, domain=None, range=Optional[str])
+
+slots.final_metric_unit = Slot(uri=OWG.final_metric_unit, name="final_metric_unit", curie=OWG.curie('final_metric_unit'),
+                   model_uri=OWG.final_metric_unit, domain=None, range=Optional[Union[dict, Unit]])
+
+slots.in_vitro_exposures = Slot(uri=OWG.in_vitro_exposures, name="in_vitro_exposures", curie=OWG.curie('in_vitro_exposures'),
+                   model_uri=OWG.in_vitro_exposures, domain=None, range=Optional[Union[dict[Union[str, InVitroExposureId], Union[dict, InVitroExposure]], list[Union[dict, InVitroExposure]]]])
+
+slots.exposure_materials = Slot(uri=OWG.exposure_materials, name="exposure_materials", curie=OWG.curie('exposure_materials'),
+                   model_uri=OWG.exposure_materials, domain=None, range=Optional[Union[dict[Union[str, ExposureMaterialId], Union[dict, ExposureMaterial]], list[Union[dict, ExposureMaterial]]]])
+
+slots.aerosol_generations = Slot(uri=OWG.aerosol_generations, name="aerosol_generations", curie=OWG.curie('aerosol_generations'),
+                   model_uri=OWG.aerosol_generations, domain=None, range=Optional[Union[dict[Union[str, AerosolGenerationId], Union[dict, AerosolGeneration]], list[Union[dict, AerosolGeneration]]]])
+
+slots.analyses = Slot(uri=OWG.analyses, name="analyses", curie=OWG.curie('analyses'),
+                   model_uri=OWG.analyses, domain=None, range=Optional[Union[dict[Union[str, AnalysisId], Union[dict, Analysis]], list[Union[dict, Analysis]]]])
+
+slots.sample_preparations = Slot(uri=OWG.sample_preparations, name="sample_preparations", curie=OWG.curie('sample_preparations'),
+                   model_uri=OWG.sample_preparations, domain=None, range=Optional[Union[dict[Union[str, SamplePreparationId], Union[dict, SamplePreparation]], list[Union[dict, SamplePreparation]]]])
+
+slots.particle_properties_collection = Slot(uri=OWG.particle_properties_collection, name="particle_properties_collection", curie=OWG.curie('particle_properties_collection'),
+                   model_uri=OWG.particle_properties_collection, domain=None, range=Optional[Union[dict[Union[str, ParticlePropertiesId], Union[dict, ParticleProperties]], list[Union[dict, ParticleProperties]]]])
+
+slots.analysis = Slot(uri=OWG.analysis, name="analysis", curie=OWG.curie('analysis'),
+                   model_uri=OWG.analysis, domain=None, range=Optional[Union[dict, Analysis]])
 
 slots.quantityValue__unit = Slot(uri=OWG.unit, name="quantityValue__unit", curie=OWG.curie('unit'),
                    model_uri=OWG.quantityValue__unit, domain=None, range=Optional[Union[dict, Unit]])
