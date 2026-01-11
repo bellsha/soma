@@ -1168,156 +1168,187 @@ slots:
     range: ExposureMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of exposure measurements in the container.
 
   biomarker_measurements:
     range: BiomarkerMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of biomarker measurements in the container.
 
   phenotype_measurements:
     range: PhenotypeMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of phenotype measurements in the container.
 
   gene_expression_measurements:
     range: GeneExpressionMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of gene expression measurements in the container.
 
   protein_expression_measurements:
     range: ProteinExpressionMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of protein expression measurements in the container.
 
   aggregated_measurements:
     range: AggregatedMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of aggregated or summary measurements in the container.
 
   studies:
     range: Study
     multivalued: true
     inlined_as_list: true
+    description: Collection of research studies in the container.
 
   cohorts:
     range: Cohort
     multivalued: true
     inlined_as_list: true
+    description: Collection of study cohorts in the container.
 
   participants:
     range: Participant
     multivalued: true
     inlined_as_list: true
+    description: Collection of study participants in the container.
 
   chemicals:
     range: ChemicalEntity
     multivalued: true
     inlined_as_list: true
+    description: Collection of chemical entities in the container.
 
   genes:
     range: Gene
     multivalued: true
     inlined_as_list: true
+    description: Collection of genes in the container.
 
   proteins:
     range: Protein
     multivalued: true
     inlined_as_list: true
+    description: Collection of proteins in the container.
 
   ciliary_measurements:
     range: PhenotypeMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of ciliary function measurements in the container.
 
   asl_measurements:
     range: PhenotypeMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of airway surface liquid measurements in the container.
 
   mcc_measurements:
     range: PhenotypeMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of mucociliary clearance measurements in the container.
 
   goblet_cell_measurements:
     range: PhenotypeMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of goblet cell measurements in the container.
 
   oxidative_stress_measurements:
     range: BiomarkerMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of oxidative stress biomarker measurements in the container.
 
   barrier_measurements:
     range: BiomarkerMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of epithelial barrier function measurements in the container.
 
   cytotoxicity_measurements:
     range: BiomarkerMeasurement
     multivalued: true
     inlined_as_list: true
+    description: Collection of cytotoxicity measurements in the container.
 
   chemical_exposures:
     range: ChemicalExposure
     multivalued: true
     inlined_as_list: true
+    description: Collection of chemical exposure events in the container.
 
   dietary_exposures:
     range: DietaryExposure
     multivalued: true
     inlined_as_list: true
+    description: Collection of dietary exposure events in the container.
 
   environmental_exposures:
     range: EnvironmentalExposure
     multivalued: true
     inlined_as_list: true
+    description: Collection of environmental exposure events in the container.
 
   occupational_exposures:
     range: OccupationalExposure
     multivalued: true
     inlined_as_list: true
+    description: Collection of occupational exposure events in the container.
 
   phenotypes:
     range: Phenotype
     multivalued: true
     inlined_as_list: true
+    description: Collection of phenotypes in the container.
 
   diseases:
     range: Disease
     multivalued: true
     inlined_as_list: true
+    description: Collection of diseases in the container.
 
   adverse_outcomes:
     range: AdverseOutcome
     multivalued: true
     inlined_as_list: true
+    description: Collection of adverse outcomes in the container.
 
   adverse_outcome_pathways:
     range: AdverseOutcomePathway
     multivalued: true
     inlined_as_list: true
+    description: Collection of adverse outcome pathways in the container.
 
   cell_types:
     range: CellType
     multivalued: true
     inlined_as_list: true
+    description: Collection of cell types in the container.
 
   anatomical_entities:
     range: AnatomicalEntity
     multivalued: true
     inlined_as_list: true
+    description: Collection of anatomical entities in the container.
 
   organisms:
     range: Organism
     multivalued: true
     inlined_as_list: true
+    description: Collection of organisms in the container.
 
   exposure_to_phenotype_associations:
     range: ExposureToPhenotypeAssociation
     multivalued: true
     inlined_as_list: true
+    description: Collection of exposure-to-phenotype associations in the container.
 
   # =============================================================================
   # Synthetic Population Slots
@@ -1541,40 +1572,40 @@ enums:
   ExposureRouteEnum:
     description: Routes of exposure to chemicals or environmental factors
     permissible_values:
-      Oral:
+      oral:
         description: Oral ingestion
         meaning: ECTO:0000895
-      Dermal:
+      dermal:
         description: Dermal contact
         meaning: ECTO:0000896
-      Inhalation:
+      inhalation:
         description: Inhalation
         meaning: ECTO:0000897
-      Injection:
+      injection:
         description: Injection
-      Unknown:
+      unknown:
         description: Unknown route
 
   ExposureMediumEnum:
     description: Medium through which exposure occurs
     permissible_values:
-      Air:
+      air:
         description: Air
         meaning: ENVO:00002005
-      Water:
+      water:
         description: Water
         meaning: ENVO:00002006
-      Food:
+      food:
         description: Food
         meaning: FOODON:00002403
-      Soil:
+      soil:
         description: Soil
         meaning: ENVO:00001998
-      Dust:
+      dust:
         description: Dust
-      ConsumerProduct:
+      consumer_product:
         description: Consumer product
-      Unknown:
+      unknown:
         description: Unknown medium
 
   ExpressionAssayMethodEnum:
@@ -1583,158 +1614,158 @@ enums:
       Includes transcriptomic, proteomic, and imaging-based approaches.
     permissible_values:
       # Transcriptomic methods
-      qRT_PCR:
+      qrt_pcr:
         description: Quantitative real-time polymerase chain reaction
         meaning: OBI:0000893
-      RNA_Seq:
+      rna_seq:
         description: RNA sequencing (bulk)
         meaning: OBI:0001271
-      Single_Cell_RNA_Seq:
+      single_cell_rna_seq:
         description: Single-cell RNA sequencing
         meaning: OBI:0002631
-      Microarray:
+      microarray:
         description: Gene expression microarray
         meaning: OBI:0000424
-      NanoString:
+      nanostring:
         description: NanoString nCounter gene expression assay
         meaning: OBI:0002142
-      Northern_Blot:
+      northern_blot:
         description: Northern blot for RNA detection
         meaning: OBI:0000822
-      In_Situ_Hybridization:
+      in_situ_hybridization:
         description: In situ hybridization (ISH, FISH, RNAscope)
         meaning: OBI:0001686
       # Proteomic methods
-      Western_Blot:
+      western_blot:
         description: Western blot (immunoblot) for protein detection
         meaning: OBI:0000714
-      ELISA:
+      elisa:
         description: Enzyme-linked immunosorbent assay
         meaning: OBI:0000661
-      Immunohistochemistry:
+      immunohistochemistry:
         description: Immunohistochemistry on tissue sections
         meaning: OBI:0001986
-      Immunofluorescence:
+      immunofluorescence:
         description: Immunofluorescence staining
         meaning: OBI:0001501
-      Flow_Cytometry:
+      flow_cytometry:
         description: Flow cytometry for protein expression
         meaning: OBI:0000916
-      Mass_Spectrometry:
+      mass_spectrometry:
         description: Mass spectrometry-based proteomics
         meaning: OBI:0000470
-      Immunoprecipitation:
+      immunoprecipitation:
         description: Immunoprecipitation followed by detection
         meaning: OBI:0000928
       # Other methods
-      Luminex:
+      luminex:
         description: Luminex multiplex bead-based assay
         meaning: OBI:0001632
-      Other:
+      other:
         description: Other assay method not listed
 
   BiologicalOrganizationLevelEnum:
     description: Levels of biological organization
     permissible_values:
-      Molecular:
+      molecular:
         description: Molecular level
         meaning: EFO:0001432
-      Cellular:
+      cellular:
         description: Cellular level
         meaning: CL:0000000
-      Tissue:
+      tissue:
         description: Tissue level
         meaning: UBERON:0000479
-      Organ:
+      organ:
         description: Organ level
         meaning: UBERON:0000062
-      Organism:
+      organism:
         description: Organism level
         meaning: UBERON:0000468
-      Population:
+      population:
         description: Population level
 
   StudyTypeEnum:
     description: Types of research studies
     permissible_values:
-      Cohort:
+      cohort:
         description: Cohort study
         meaning: EFO:0001444
-      CrossSectional:
+      cross_sectional:
         description: Cross-sectional study
         meaning: EFO:0001745
-      CaseControl:
+      case_control:
         description: Case-control study
         meaning: EFO:0001427
-      RandomizedControlledTrial:
+      randomized_controlled_trial:
         description: Randomized controlled trial
         meaning: EFO:0001427
-      Survey:
+      survey:
         description: Survey
-      Gwas:
+      gwas:
         description: Genome-wide association study
         meaning: EFO:0000508
-      Other:
+      other:
         description: Other study type
 
   SexEnum:
     description: Biological sex
     permissible_values:
-      Male:
+      male:
         description: Male
         meaning: PATO:0000384
-      Female:
+      female:
         description: Female
         meaning: PATO:0000383
-      Unknown:
+      unknown:
         description: Unknown
 
   SampleTypeEnum:
     description: Types of biological and environmental samples
     permissible_values:
-      Blood:
+      blood:
         description: Blood sample
-      Urine:
+      urine:
         description: Urine sample
-      Serum:
+      serum:
         description: Serum sample
-      Plasma:
+      plasma:
         description: Plasma sample
-      Tissue:
+      tissue:
         description: Tissue sample
-      Saliva:
+      saliva:
         description: Saliva sample
-      Hair:
+      hair:
         description: Hair sample
-      Nail:
+      nail:
         description: Nail sample
-      Air:
+      air:
         description: Air sample (environmental)
-      Water:
+      water:
         description: Water sample (environmental)
-      Soil:
+      soil:
         description: Soil sample (environmental)
-      Other:
+      other:
         description: Other sample type
 
   SummaryStatisticEnum:
     description: Types of summary statistics
     permissible_values:
-      Mean:
+      mean:
         description: Arithmetic mean
-      Median:
+      median:
         description: Median
-      Mode:
+      mode:
         description: Mode
-      Percentile:
+      percentile:
         description: Percentile
-      StandardDeviation:
+      standard_deviation:
         description: Standard deviation
-      Variance:
+      variance:
         description: Variance
-      Range:
+      range:
         description: Range
-      InterquartileRange:
+      interquartile_range:
         description: Interquartile range
 
   MeasurementTypeEnum:
