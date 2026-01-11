@@ -131,6 +131,8 @@ linkml_meta = LinkMLMeta({'default_prefix': 'owg',
                              'prefix_reference': 'https://wwwn.cdc.gov/Nchs/Nhanes/'},
                   'OBI': {'prefix_prefix': 'OBI',
                           'prefix_reference': 'http://purl.obolibrary.org/obo/OBI_'},
+                  'OMRSE': {'prefix_prefix': 'OMRSE',
+                            'prefix_reference': 'http://purl.obolibrary.org/obo/OMRSE_'},
                   'PATO': {'prefix_prefix': 'PATO',
                            'prefix_reference': 'http://purl.obolibrary.org/obo/PATO_'},
                   'PR': {'prefix_prefix': 'PR',
@@ -164,7 +166,9 @@ linkml_meta = LinkMLMeta({'default_prefix': 'owg',
                   'qudt': {'prefix_prefix': 'qudt',
                            'prefix_reference': 'http://qudt.org/vocab/unit/'},
                   'schema': {'prefix_prefix': 'schema',
-                             'prefix_reference': 'http://schema.org/'}},
+                             'prefix_reference': 'http://schema.org/'},
+                  'wikidata': {'prefix_prefix': 'wikidata',
+                               'prefix_reference': 'http://www.wikidata.org/entity/'}},
      'see_also': ['https://EHS-Data-Standards.github.io/outcomes-working-group'],
      'source_file': 'src/outcomes_working_group/schema/outcomes_working_group.yaml',
      'title': 'Outcome Measurement Data Model'} )
@@ -775,6 +779,44 @@ class MeasurementTypeEnum(str, Enum):
     """
 
 
+class RelationshipToHouseholdHeadEnum(str, Enum):
+    """
+    Relationship of a person to the household head (householder) in census data. Based on PUMS RELP variable coding.
+    """
+    Householder = "Householder"
+    """
+    Reference person (head of household)
+    """
+    Spouse = "Spouse"
+    """
+    Husband or wife of the householder
+    """
+    Child = "Child"
+    """
+    Biological, adopted, or stepchild of the householder
+    """
+    OtherRelative = "OtherRelative"
+    """
+    Other relative of the householder (parent, sibling, grandchild, etc.)
+    """
+    Nonrelative = "Nonrelative"
+    """
+    Non-relative of the householder (roommate, boarder, etc.)
+    """
+    FosterChild = "FosterChild"
+    """
+    Foster child
+    """
+    FosterParent = "FosterParent"
+    """
+    Foster parent
+    """
+    OtherNonrelative = "OtherNonrelative"
+    """
+    Other non-relative
+    """
+
+
 
 class Container(ConfiguredBaseModel):
     """
@@ -806,6 +848,14 @@ class Container(ConfiguredBaseModel):
     anatomical_entities: Optional[list[AnatomicalEntity]] = Field(default=[], json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
     organisms: Optional[list[Organism]] = Field(default=[], json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
     exposure_to_phenotype_associations: Optional[list[ExposureToPhenotypeAssociation]] = Field(default=[], json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    states: Optional[list[State]] = Field(default=[], description="""U.S. states or territories with their geographic hierarchies.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    public_use_microdata_areas: Optional[list[PublicUseMicrodataArea]] = Field(default=[], description="""Public Use Microdata Areas (PUMAs) within a state. PUMAs are non-overlapping statistical geographic areas containing no fewer than 100,000 people each.""", json_schema_extra = { "linkml_meta": {'aliases': ['pumas'], 'domain_of': ['Container', 'State']} })
+    counties: Optional[list[County]] = Field(default=[], description="""Counties within a state or geographic region.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'State']} })
+    census_tracts: Optional[list[CensusTract]] = Field(default=[], description="""Census tracts within a county.""", json_schema_extra = { "linkml_meta": {'aliases': ['tracts'], 'domain_of': ['Container', 'County']} })
+    block_groups: Optional[list[BlockGroup]] = Field(default=[], description="""Block groups within a census tract.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'CensusTract']} })
+    households: Optional[list[Household]] = Field(default=[], description="""Households within a block group or geographic area.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'BlockGroup']} })
+    persons: Optional[list[Person]] = Field(default=[], description="""Persons (individuals) in the container. Can be used for top-level person collections or for linking persons to study participants.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
+    schools: Optional[list[School]] = Field(default=[], description="""Schools where synthetic population persons may be assigned.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container']} })
 
 
 class NamedThing(ConfiguredBaseModel):
@@ -1297,15 +1347,31 @@ class Cohort(StudyEntity):
 
 class Participant(StudyEntity):
     """
-    An individual participant in a study
+    A role representing an individual's participation in a study. Links a Person to a specific study cohort and captures study-specific identifiers and attributes. Age and sex are recorded at enrollment and may differ from the Person's current values or values in other study registrations.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group',
+         'slot_usage': {'age': {'description': 'Age of the participant in years at the '
+                                               'time of study enrollment. This is a '
+                                               'study-specific value that may differ '
+                                               'from other study registrations or the '
+                                               "person's current age.",
+                                'name': 'age'},
+                        'sex': {'description': 'Biological sex of the participant as '
+                                               'recorded at study enrollment. This is '
+                                               'the value captured during study '
+                                               'registration and may be used for '
+                                               'stratification or eligibility '
+                                               'criteria.',
+                                'name': 'sex'}}})
 
+    person: Optional[str] = Field(default=None, description="""The person (individual) who is participating in this study. Links the study participation role to the actual individual.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
     part_of_cohort: Optional[str] = Field(default=None, description="""Cohort that this participant is part of.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant'], 'slot_uri': 'biolink:member_of'} })
     participant_id: Optional[str] = Field(default=None, description="""Participant identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
-    age: Optional[int] = Field(default=None, description="""Age in years""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
-    sex: Optional[SexEnum] = Field(default=None, description="""Biological sex""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
-    species: Optional[str] = Field(default=None, description="""Species name""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Organism']} })
+    age: Optional[int] = Field(default=None, description="""Age of the participant in years at the time of study enrollment. This is a study-specific value that may differ from other study registrations or the person's current age.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Person']} })
+    sex: Optional[SexEnum] = Field(default=None, description="""Biological sex of the participant as recorded at study enrollment. This is the value captured during study registration and may be used for stratification or eligibility criteria.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Person']} })
+    enrollment_date: Optional[date] = Field(default=None, description="""Date when the person enrolled in the study as a participant.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
+    withdrawal_date: Optional[date] = Field(default=None, description="""Date when the participant withdrew from or completed the study. Null if participant is still active.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
+    study_arm: Optional[str] = Field(default=None, description="""Study arm or group to which the participant was assigned (e.g., treatment, control, placebo).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
     name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
     description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
@@ -1589,7 +1655,7 @@ class Organism(BiologicalEntity):
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
 
-    species: Optional[str] = Field(default=None, description="""Species name""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Organism']} })
+    species: Optional[str] = Field(default=None, description="""Species name""", json_schema_extra = { "linkml_meta": {'domain_of': ['Organism', 'Person']} })
     taxon_id: Optional[str] = Field(default=None, description="""NCBI Taxonomy identifier""", json_schema_extra = { "linkml_meta": {'domain_of': ['Organism']} })
     id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
     name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
@@ -1647,6 +1713,280 @@ class GeneToDiseaseAssociation(Association):
     xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
 
 
+class GeographicEntity(NamedThing):
+    """
+    Abstract base class for geographic entities used in synthetic population modeling. Provides common geographic identifier infrastructure.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class State(GeographicEntity):
+    """
+    A U.S. state or equivalent territory with associated geographic properties. Contains counties and public use microdata areas.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['wikidata:Q7275'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    abbreviation: Optional[str] = Field(default=None, description="""Standard two-letter abbreviation for a U.S. state or territory.""", json_schema_extra = { "linkml_meta": {'domain_of': ['State']} })
+    counties: Optional[list[County]] = Field(default=[], description="""Counties within a state or geographic region.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'State']} })
+    public_use_microdata_areas: Optional[list[PublicUseMicrodataArea]] = Field(default=[], description="""Public Use Microdata Areas (PUMAs) within a state. PUMAs are non-overlapping statistical geographic areas containing no fewer than 100,000 people each.""", json_schema_extra = { "linkml_meta": {'aliases': ['pumas'], 'domain_of': ['Container', 'State']} })
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class PublicUseMicrodataArea(GeographicEntity):
+    """
+    Public Use Microdata Areas (PUMAs) are non-overlapping, statistical geographic areas that partition each state or equivalent entity into geographic areas containing no fewer than 100,000 people each. They cover the entirety of the United States, Puerto Rico, and Guam.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'aliases': ['PUMA'],
+         'exact_mappings': ['wikidata:Q7257651'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class County(GeographicEntity):
+    """
+    A county or equivalent administrative subdivision with associated properties. Contains census tracts.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['wikidata:Q28575', 'NCIT:C49292'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    census_tracts: Optional[list[CensusTract]] = Field(default=[], description="""Census tracts within a county.""", json_schema_extra = { "linkml_meta": {'aliases': ['tracts'], 'domain_of': ['Container', 'County']} })
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class CensusTract(GeographicEntity):
+    """
+    A census tract is a small, relatively permanent geographic area within a county, used to collect and present demographic data from the census, usually containing between 2,500 and 8,000 residents and designed to be as homogeneous as possible in terms of population characteristics and living conditions.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'aliases': ['Tract'],
+         'exact_mappings': ['wikidata:Q107738887', 'NCIT:C67490'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    county_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""County-level Federal Information Processing Standard (FIPS) code. A three-digit code uniquely identifying a county within a state.""", json_schema_extra = { "linkml_meta": {'aliases': ['county_fips_code'],
+         'domain_of': ['CensusTract', 'BlockGroup', 'School', 'Person'],
+         'exact_mappings': ['wikidata:P882'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    block_groups: Optional[list[BlockGroup]] = Field(default=[], description="""Block groups within a census tract.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'CensusTract']} })
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class BlockGroup(GeographicEntity):
+    """
+    A statistical division within a census tract, typically containing between 600 and 3,000 people, which is used by the Census Bureau to present demographic data at a smaller, more localized level than the entire census tract.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['wikidata:Q5058963'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    census_tract_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Census tract-level Federal Information Processing Standard (FIPS) code. Identifies a specific census tract within a county.""", json_schema_extra = { "linkml_meta": {'aliases': ['tract_fips_code'],
+         'domain_of': ['BlockGroup', 'School', 'Person'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    county_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""County-level Federal Information Processing Standard (FIPS) code. A three-digit code uniquely identifying a county within a state.""", json_schema_extra = { "linkml_meta": {'aliases': ['county_fips_code'],
+         'domain_of': ['CensusTract', 'BlockGroup', 'School', 'Person'],
+         'exact_mappings': ['wikidata:P882'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    households: Optional[list[Household]] = Field(default=[], description="""Households within a block group or geographic area.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Container', 'BlockGroup']} })
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class School(NamedThing):
+    """
+    A school entity representing an educational institution where synthetic population persons may be assigned for modeling purposes.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Federal Information Processing Standard (FIPS) code, a unique numeric identifier assigned to geographic areas like states and counties within the United States, used primarily by the Census Bureau to identify locations when analyzing population data.""", json_schema_extra = { "linkml_meta": {'aliases': ['fips_code'],
+         'domain_of': ['GeographicEntity', 'School'],
+         'exact_mappings': ['wikidata:Q917824']} })
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    county_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""County-level Federal Information Processing Standard (FIPS) code. A three-digit code uniquely identifying a county within a state.""", json_schema_extra = { "linkml_meta": {'aliases': ['county_fips_code'],
+         'domain_of': ['CensusTract', 'BlockGroup', 'School', 'Person'],
+         'exact_mappings': ['wikidata:P882'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    census_tract_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Census tract-level Federal Information Processing Standard (FIPS) code. Identifies a specific census tract within a county.""", json_schema_extra = { "linkml_meta": {'aliases': ['tract_fips_code'],
+         'domain_of': ['BlockGroup', 'School', 'Person'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    block_group_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Block group-level Federal Information Processing Standard (FIPS) code. Identifies a specific block group within a census tract.""", json_schema_extra = { "linkml_meta": {'aliases': ['block_group_fips_code'],
+         'domain_of': ['School', 'Person'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class Household(NamedThing):
+    """
+    A household entity representing a group of people living together in a single dwelling unit. Used in synthetic population modeling.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['wikidata:Q259059', 'OMRSE:00000076'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group'})
+
+    serial_number: Optional[str] = Field(default=None, description="""Serial number linking to the original PUMS (Public Use Microdata Sample) record. Used to connect synthetic population records to source census microdata.""", json_schema_extra = { "linkml_meta": {'aliases': ['serialno'], 'domain_of': ['Household', 'Person']} })
+    household_identifier: Optional[str] = Field(default=None, description="""Unique identifier for a household within the synthetic population.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_id'], 'domain_of': ['Household', 'Person']} })
+    household_head_age: Optional[int] = Field(default=None, description="""Age of the household head (householder) in years. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_age'], 'domain_of': ['Household', 'Person']} })
+    household_income: Optional[float] = Field(default=None, description="""Annual household income in dollars. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_income'], 'domain_of': ['Household', 'Person']} })
+    household_head_race: Optional[str] = Field(default=None, description="""Race category of the household head. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_race'], 'domain_of': ['Household', 'Person']} })
+    household_size: Optional[int] = Field(default=None, description="""Number of persons in the household. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['size'], 'domain_of': ['Household', 'Person']} })
+    household_persons: Optional[list[Person]] = Field(default=[], description="""Persons (individuals) within the household.""", json_schema_extra = { "linkml_meta": {'aliases': ['persons'], 'domain_of': ['Household']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
+class Person(NamedThing):
+    """
+    A person (individual human being) with demographic and geographic attributes. Persons can participate in studies through the Participant role, which links a Person to a specific study cohort. In synthetic population contexts, persons are members of households within geographic hierarchies. Age and sex on Person represent current or snapshot values from the source data (e.g., census), distinct from study-specific values captured on Participant at enrollment.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['schema:Person', 'NCIT:C25190'],
+         'from_schema': 'https://w3id.org/EHS-Data-Standards/outcomes_working_group',
+         'slot_usage': {'age': {'description': 'Age of the person in years as recorded '
+                                               'in the source data (e.g., census or '
+                                               'synthetic population). This represents '
+                                               'a snapshot value at the time of data '
+                                               'collection, distinct from '
+                                               'study-specific age at enrollment.',
+                                'name': 'age'},
+                        'sex': {'description': 'Biological sex of the person as '
+                                               'recorded in the source data (e.g., '
+                                               'census or synthetic population). This '
+                                               'represents the value from the original '
+                                               'data source, distinct from '
+                                               'study-specific sex recorded at '
+                                               'enrollment.',
+                                'name': 'sex'}}})
+
+    age: Optional[int] = Field(default=None, description="""Age of the person in years as recorded in the source data (e.g., census or synthetic population). This represents a snapshot value at the time of data collection, distinct from study-specific age at enrollment.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Person']} })
+    sex: Optional[SexEnum] = Field(default=None, description="""Biological sex of the person as recorded in the source data (e.g., census or synthetic population). This represents the value from the original data source, distinct from study-specific sex recorded at enrollment.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Participant', 'Person']} })
+    race: Optional[str] = Field(default=None, description="""Race of the person. Derived from census race categories.""", json_schema_extra = { "linkml_meta": {'aliases': ['rac1p'], 'domain_of': ['Person']} })
+    species: Optional[str] = Field(default=None, description="""Species name""", json_schema_extra = { "linkml_meta": {'domain_of': ['Organism', 'Person']} })
+    state_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""State-level Federal Information Processing Standard (FIPS) code. A two-digit code uniquely identifying each U.S. state and territory.""", json_schema_extra = { "linkml_meta": {'aliases': ['state_fips_code'],
+         'domain_of': ['PublicUseMicrodataArea',
+                       'County',
+                       'CensusTract',
+                       'BlockGroup',
+                       'School',
+                       'Person'],
+         'exact_mappings': ['wikidata:Q5440257'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    county_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""County-level Federal Information Processing Standard (FIPS) code. A three-digit code uniquely identifying a county within a state.""", json_schema_extra = { "linkml_meta": {'aliases': ['county_fips_code'],
+         'domain_of': ['CensusTract', 'BlockGroup', 'School', 'Person'],
+         'exact_mappings': ['wikidata:P882'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    census_tract_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Census tract-level Federal Information Processing Standard (FIPS) code. Identifies a specific census tract within a county.""", json_schema_extra = { "linkml_meta": {'aliases': ['tract_fips_code'],
+         'domain_of': ['BlockGroup', 'School', 'Person'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    block_group_federal_information_processing_standard_code: Optional[str] = Field(default=None, description="""Block group-level Federal Information Processing Standard (FIPS) code. Identifies a specific block group within a census tract.""", json_schema_extra = { "linkml_meta": {'aliases': ['block_group_fips_code'],
+         'domain_of': ['School', 'Person'],
+         'is_a': 'federal_information_processing_standard_code'} })
+    serial_number: Optional[str] = Field(default=None, description="""Serial number linking to the original PUMS (Public Use Microdata Sample) record. Used to connect synthetic population records to source census microdata.""", json_schema_extra = { "linkml_meta": {'aliases': ['serialno'], 'domain_of': ['Household', 'Person']} })
+    household_identifier: Optional[str] = Field(default=None, description="""Unique identifier for a household within the synthetic population.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_id'], 'domain_of': ['Household', 'Person']} })
+    household_head_age: Optional[int] = Field(default=None, description="""Age of the household head (householder) in years. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_age'], 'domain_of': ['Household', 'Person']} })
+    household_income: Optional[float] = Field(default=None, description="""Annual household income in dollars. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_income'], 'domain_of': ['Household', 'Person']} })
+    household_head_race: Optional[str] = Field(default=None, description="""Race category of the household head. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['hh_race'], 'domain_of': ['Household', 'Person']} })
+    household_size: Optional[int] = Field(default=None, description="""Number of persons in the household. Used as one of the four matching variables in synthetic population generation.""", json_schema_extra = { "linkml_meta": {'aliases': ['size'], 'domain_of': ['Household', 'Person']} })
+    assigned_school: Optional[str] = Field(default=None, description="""School assigned to a person for modeling purposes. Assignment is based on school/grade capacity and proximity.""", json_schema_extra = { "linkml_meta": {'aliases': ['school'], 'domain_of': ['Person']} })
+    person_order: Optional[int] = Field(default=None, description="""Person's order within the household, starting from 1. The householder is typically person 1.""", json_schema_extra = { "linkml_meta": {'aliases': ['sporder'], 'domain_of': ['Person']} })
+    relationship_to_household_head: Optional[RelationshipToHouseholdHeadEnum] = Field(default=None, description="""Relationship of the person to the household head (householder). Values: 1=Householder, 2=Spouse, 3=Child, 4=Other relative, 5=Nonrelative, 6=Foster child, 7=Foster parent, 8=Other nonrelative.""", json_schema_extra = { "linkml_meta": {'aliases': ['relp'], 'domain_of': ['Person']} })
+    id: str = Field(default=..., description="""A unique identifier for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:identifier'} })
+    name: Optional[str] = Field(default=None, description="""A human-readable name for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:name'} })
+    description: Optional[str] = Field(default=None, description="""A human-readable description for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing'], 'slot_uri': 'schema:description'} })
+    category: Optional[list[str]] = Field(default=[], description="""A category or type for a thing""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+    xref: Optional[list[str]] = Field(default=[], description="""External database cross-references""", json_schema_extra = { "linkml_meta": {'domain_of': ['NamedThing']} })
+
+
 # Model rebuild
 # see https://pydantic-docs.helpmanual.io/usage/models/#rebuilding-a-model
 Container.model_rebuild()
@@ -1692,3 +2032,12 @@ Organism.model_rebuild()
 ExposureToPhenotypeAssociation.model_rebuild()
 ChemicalToGeneAssociation.model_rebuild()
 GeneToDiseaseAssociation.model_rebuild()
+GeographicEntity.model_rebuild()
+State.model_rebuild()
+PublicUseMicrodataArea.model_rebuild()
+County.model_rebuild()
+CensusTract.model_rebuild()
+BlockGroup.model_rebuild()
+School.model_rebuild()
+Household.model_rebuild()
+Person.model_rebuild()

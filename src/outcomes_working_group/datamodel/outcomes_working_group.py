@@ -1,5 +1,5 @@
 # Auto generated from outcomes_working_group.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-01-10T15:24:03
+# Generation date: 2026-01-10T16:01:00
 # Schema: outcomes_working_group
 #
 # id: https://w3id.org/EHS-Data-Standards/outcomes_working_group
@@ -85,6 +85,7 @@ NCBIGENE = CurieNamespace('NCBIGENE', 'https://www.ncbi.nlm.nih.gov/gene/')
 NCIT = CurieNamespace('NCIT', 'http://purl.obolibrary.org/obo/NCIT_')
 NHANES = CurieNamespace('NHANES', 'https://wwwn.cdc.gov/Nchs/Nhanes/')
 OBI = CurieNamespace('OBI', 'http://purl.obolibrary.org/obo/OBI_')
+OMRSE = CurieNamespace('OMRSE', 'http://purl.obolibrary.org/obo/OMRSE_')
 PATO = CurieNamespace('PATO', 'http://purl.obolibrary.org/obo/PATO_')
 PR = CurieNamespace('PR', 'http://purl.obolibrary.org/obo/PR_')
 PUBCHEM_COMPOUND = CurieNamespace('PUBCHEM_COMPOUND', 'http://identifiers.org/pubchem.compound/')
@@ -102,6 +103,7 @@ LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 OWG = CurieNamespace('owg', 'https://w3id.org/EHS-Data-Standards/outcomes-working-group/')
 QUDT = CurieNamespace('qudt', 'http://qudt.org/vocab/unit/')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
+WIKIDATA = CurieNamespace('wikidata', 'http://www.wikidata.org/entity/')
 DEFAULT_ = OWG
 
 
@@ -268,6 +270,42 @@ class GeneToDiseaseAssociationId(AssociationId):
     pass
 
 
+class GeographicEntityId(NamedThingId):
+    pass
+
+
+class StateId(GeographicEntityId):
+    pass
+
+
+class PublicUseMicrodataAreaId(GeographicEntityId):
+    pass
+
+
+class CountyId(GeographicEntityId):
+    pass
+
+
+class CensusTractId(GeographicEntityId):
+    pass
+
+
+class BlockGroupId(GeographicEntityId):
+    pass
+
+
+class SchoolId(NamedThingId):
+    pass
+
+
+class HouseholdId(NamedThingId):
+    pass
+
+
+class PersonId(NamedThingId):
+    pass
+
+
 @dataclass(repr=False)
 class Container(YAMLRoot):
     """
@@ -303,6 +341,14 @@ class Container(YAMLRoot):
     anatomical_entities: Optional[Union[dict[Union[str, AnatomicalEntityId], Union[dict, "AnatomicalEntity"]], list[Union[dict, "AnatomicalEntity"]]]] = empty_dict()
     organisms: Optional[Union[dict[Union[str, OrganismId], Union[dict, "Organism"]], list[Union[dict, "Organism"]]]] = empty_dict()
     exposure_to_phenotype_associations: Optional[Union[dict[Union[str, ExposureToPhenotypeAssociationId], Union[dict, "ExposureToPhenotypeAssociation"]], list[Union[dict, "ExposureToPhenotypeAssociation"]]]] = empty_dict()
+    states: Optional[Union[dict[Union[str, StateId], Union[dict, "State"]], list[Union[dict, "State"]]]] = empty_dict()
+    public_use_microdata_areas: Optional[Union[dict[Union[str, PublicUseMicrodataAreaId], Union[dict, "PublicUseMicrodataArea"]], list[Union[dict, "PublicUseMicrodataArea"]]]] = empty_dict()
+    counties: Optional[Union[dict[Union[str, CountyId], Union[dict, "County"]], list[Union[dict, "County"]]]] = empty_dict()
+    census_tracts: Optional[Union[dict[Union[str, CensusTractId], Union[dict, "CensusTract"]], list[Union[dict, "CensusTract"]]]] = empty_dict()
+    block_groups: Optional[Union[dict[Union[str, BlockGroupId], Union[dict, "BlockGroup"]], list[Union[dict, "BlockGroup"]]]] = empty_dict()
+    households: Optional[Union[dict[Union[str, HouseholdId], Union[dict, "Household"]], list[Union[dict, "Household"]]]] = empty_dict()
+    persons: Optional[Union[dict[Union[str, PersonId], Union[dict, "Person"]], list[Union[dict, "Person"]]]] = empty_dict()
+    schools: Optional[Union[dict[Union[str, SchoolId], Union[dict, "School"]], list[Union[dict, "School"]]]] = empty_dict()
 
     def __post_init__(self, *_: str, **kwargs: Any):
         self._normalize_inlined_as_list(slot_name="studies", slot_type=Study, key_name="id", keyed=True)
@@ -350,6 +396,22 @@ class Container(YAMLRoot):
         self._normalize_inlined_as_list(slot_name="organisms", slot_type=Organism, key_name="id", keyed=True)
 
         self._normalize_inlined_as_list(slot_name="exposure_to_phenotype_associations", slot_type=ExposureToPhenotypeAssociation, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="states", slot_type=State, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="public_use_microdata_areas", slot_type=PublicUseMicrodataArea, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="counties", slot_type=County, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="census_tracts", slot_type=CensusTract, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="block_groups", slot_type=BlockGroup, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="households", slot_type=Household, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="persons", slot_type=Person, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="schools", slot_type=School, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -1184,7 +1246,9 @@ class Cohort(StudyEntity):
 @dataclass(repr=False)
 class Participant(StudyEntity):
     """
-    An individual participant in a study
+    A role representing an individual's participation in a study. Links a Person to a specific study cohort and
+    captures study-specific identifiers and attributes. Age and sex are recorded at enrollment and may differ from the
+    Person's current values or values in other study registrations.
     """
     _inherited_slots: ClassVar[list[str]] = []
 
@@ -1194,17 +1258,23 @@ class Participant(StudyEntity):
     class_model_uri: ClassVar[URIRef] = OWG.Participant
 
     id: Union[str, ParticipantId] = None
+    person: Optional[Union[str, PersonId]] = None
     part_of_cohort: Optional[Union[str, CohortId]] = None
     participant_id: Optional[str] = None
     age: Optional[int] = None
     sex: Optional[Union[str, "SexEnum"]] = None
-    species: Optional[str] = None
+    enrollment_date: Optional[Union[str, XSDDate]] = None
+    withdrawal_date: Optional[Union[str, XSDDate]] = None
+    study_arm: Optional[str] = None
 
     def __post_init__(self, *_: str, **kwargs: Any):
         if self._is_empty(self.id):
             self.MissingRequiredField("id")
         if not isinstance(self.id, ParticipantId):
             self.id = ParticipantId(self.id)
+
+        if self.person is not None and not isinstance(self.person, PersonId):
+            self.person = PersonId(self.person)
 
         if self.part_of_cohort is not None and not isinstance(self.part_of_cohort, CohortId):
             self.part_of_cohort = CohortId(self.part_of_cohort)
@@ -1218,8 +1288,14 @@ class Participant(StudyEntity):
         if self.sex is not None and not isinstance(self.sex, SexEnum):
             self.sex = SexEnum(self.sex)
 
-        if self.species is not None and not isinstance(self.species, str):
-            self.species = str(self.species)
+        if self.enrollment_date is not None and not isinstance(self.enrollment_date, XSDDate):
+            self.enrollment_date = XSDDate(self.enrollment_date)
+
+        if self.withdrawal_date is not None and not isinstance(self.withdrawal_date, XSDDate):
+            self.withdrawal_date = XSDDate(self.withdrawal_date)
+
+        if self.study_arm is not None and not isinstance(self.study_arm, str):
+            self.study_arm = str(self.study_arm)
 
         super().__post_init__(**kwargs)
 
@@ -1756,6 +1832,387 @@ class GeneToDiseaseAssociation(Association):
 
         if self.association_type is not None and not isinstance(self.association_type, str):
             self.association_type = str(self.association_type)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class GeographicEntity(NamedThing):
+    """
+    Abstract base class for geographic entities used in synthetic population modeling. Provides common geographic
+    identifier infrastructure.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["GeographicEntity"]
+    class_class_curie: ClassVar[str] = "owg:GeographicEntity"
+    class_name: ClassVar[str] = "GeographicEntity"
+    class_model_uri: ClassVar[URIRef] = OWG.GeographicEntity
+
+    id: Union[str, GeographicEntityId] = None
+    federal_information_processing_standard_code: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self.federal_information_processing_standard_code is not None and not isinstance(self.federal_information_processing_standard_code, str):
+            self.federal_information_processing_standard_code = str(self.federal_information_processing_standard_code)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class State(GeographicEntity):
+    """
+    A U.S. state or equivalent territory with associated geographic properties. Contains counties and public use
+    microdata areas.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["State"]
+    class_class_curie: ClassVar[str] = "owg:State"
+    class_name: ClassVar[str] = "State"
+    class_model_uri: ClassVar[URIRef] = OWG.State
+
+    id: Union[str, StateId] = None
+    abbreviation: Optional[str] = None
+    counties: Optional[Union[dict[Union[str, CountyId], Union[dict, "County"]], list[Union[dict, "County"]]]] = empty_dict()
+    public_use_microdata_areas: Optional[Union[dict[Union[str, PublicUseMicrodataAreaId], Union[dict, "PublicUseMicrodataArea"]], list[Union[dict, "PublicUseMicrodataArea"]]]] = empty_dict()
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, StateId):
+            self.id = StateId(self.id)
+
+        if self.abbreviation is not None and not isinstance(self.abbreviation, str):
+            self.abbreviation = str(self.abbreviation)
+
+        self._normalize_inlined_as_list(slot_name="counties", slot_type=County, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="public_use_microdata_areas", slot_type=PublicUseMicrodataArea, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class PublicUseMicrodataArea(GeographicEntity):
+    """
+    Public Use Microdata Areas (PUMAs) are non-overlapping, statistical geographic areas that partition each state or
+    equivalent entity into geographic areas containing no fewer than 100,000 people each. They cover the entirety of
+    the United States, Puerto Rico, and Guam.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["PublicUseMicrodataArea"]
+    class_class_curie: ClassVar[str] = "owg:PublicUseMicrodataArea"
+    class_name: ClassVar[str] = "PublicUseMicrodataArea"
+    class_model_uri: ClassVar[URIRef] = OWG.PublicUseMicrodataArea
+
+    id: Union[str, PublicUseMicrodataAreaId] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, PublicUseMicrodataAreaId):
+            self.id = PublicUseMicrodataAreaId(self.id)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class County(GeographicEntity):
+    """
+    A county or equivalent administrative subdivision with associated properties. Contains census tracts.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["County"]
+    class_class_curie: ClassVar[str] = "owg:County"
+    class_name: ClassVar[str] = "County"
+    class_model_uri: ClassVar[URIRef] = OWG.County
+
+    id: Union[str, CountyId] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+    census_tracts: Optional[Union[dict[Union[str, CensusTractId], Union[dict, "CensusTract"]], list[Union[dict, "CensusTract"]]]] = empty_dict()
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, CountyId):
+            self.id = CountyId(self.id)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        self._normalize_inlined_as_list(slot_name="census_tracts", slot_type=CensusTract, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class CensusTract(GeographicEntity):
+    """
+    A census tract is a small, relatively permanent geographic area within a county, used to collect and present
+    demographic data from the census, usually containing between 2,500 and 8,000 residents and designed to be as
+    homogeneous as possible in terms of population characteristics and living conditions.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["CensusTract"]
+    class_class_curie: ClassVar[str] = "owg:CensusTract"
+    class_name: ClassVar[str] = "CensusTract"
+    class_model_uri: ClassVar[URIRef] = OWG.CensusTract
+
+    id: Union[str, CensusTractId] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+    county_federal_information_processing_standard_code: Optional[str] = None
+    block_groups: Optional[Union[dict[Union[str, BlockGroupId], Union[dict, "BlockGroup"]], list[Union[dict, "BlockGroup"]]]] = empty_dict()
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, CensusTractId):
+            self.id = CensusTractId(self.id)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        if self.county_federal_information_processing_standard_code is not None and not isinstance(self.county_federal_information_processing_standard_code, str):
+            self.county_federal_information_processing_standard_code = str(self.county_federal_information_processing_standard_code)
+
+        self._normalize_inlined_as_list(slot_name="block_groups", slot_type=BlockGroup, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class BlockGroup(GeographicEntity):
+    """
+    A statistical division within a census tract, typically containing between 600 and 3,000 people, which is used by
+    the Census Bureau to present demographic data at a smaller, more localized level than the entire census tract.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["BlockGroup"]
+    class_class_curie: ClassVar[str] = "owg:BlockGroup"
+    class_name: ClassVar[str] = "BlockGroup"
+    class_model_uri: ClassVar[URIRef] = OWG.BlockGroup
+
+    id: Union[str, BlockGroupId] = None
+    census_tract_federal_information_processing_standard_code: Optional[str] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+    county_federal_information_processing_standard_code: Optional[str] = None
+    households: Optional[Union[dict[Union[str, HouseholdId], Union[dict, "Household"]], list[Union[dict, "Household"]]]] = empty_dict()
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, BlockGroupId):
+            self.id = BlockGroupId(self.id)
+
+        if self.census_tract_federal_information_processing_standard_code is not None and not isinstance(self.census_tract_federal_information_processing_standard_code, str):
+            self.census_tract_federal_information_processing_standard_code = str(self.census_tract_federal_information_processing_standard_code)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        if self.county_federal_information_processing_standard_code is not None and not isinstance(self.county_federal_information_processing_standard_code, str):
+            self.county_federal_information_processing_standard_code = str(self.county_federal_information_processing_standard_code)
+
+        self._normalize_inlined_as_list(slot_name="households", slot_type=Household, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class School(NamedThing):
+    """
+    A school entity representing an educational institution where synthetic population persons may be assigned for
+    modeling purposes.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["School"]
+    class_class_curie: ClassVar[str] = "owg:School"
+    class_name: ClassVar[str] = "School"
+    class_model_uri: ClassVar[URIRef] = OWG.School
+
+    id: Union[str, SchoolId] = None
+    federal_information_processing_standard_code: Optional[str] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+    county_federal_information_processing_standard_code: Optional[str] = None
+    census_tract_federal_information_processing_standard_code: Optional[str] = None
+    block_group_federal_information_processing_standard_code: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, SchoolId):
+            self.id = SchoolId(self.id)
+
+        if self.federal_information_processing_standard_code is not None and not isinstance(self.federal_information_processing_standard_code, str):
+            self.federal_information_processing_standard_code = str(self.federal_information_processing_standard_code)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        if self.county_federal_information_processing_standard_code is not None and not isinstance(self.county_federal_information_processing_standard_code, str):
+            self.county_federal_information_processing_standard_code = str(self.county_federal_information_processing_standard_code)
+
+        if self.census_tract_federal_information_processing_standard_code is not None and not isinstance(self.census_tract_federal_information_processing_standard_code, str):
+            self.census_tract_federal_information_processing_standard_code = str(self.census_tract_federal_information_processing_standard_code)
+
+        if self.block_group_federal_information_processing_standard_code is not None and not isinstance(self.block_group_federal_information_processing_standard_code, str):
+            self.block_group_federal_information_processing_standard_code = str(self.block_group_federal_information_processing_standard_code)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class Household(NamedThing):
+    """
+    A household entity representing a group of people living together in a single dwelling unit. Used in synthetic
+    population modeling.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["Household"]
+    class_class_curie: ClassVar[str] = "owg:Household"
+    class_name: ClassVar[str] = "Household"
+    class_model_uri: ClassVar[URIRef] = OWG.Household
+
+    id: Union[str, HouseholdId] = None
+    serial_number: Optional[str] = None
+    household_identifier: Optional[str] = None
+    household_head_age: Optional[int] = None
+    household_income: Optional[float] = None
+    household_head_race: Optional[str] = None
+    household_size: Optional[int] = None
+    household_persons: Optional[Union[dict[Union[str, PersonId], Union[dict, "Person"]], list[Union[dict, "Person"]]]] = empty_dict()
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, HouseholdId):
+            self.id = HouseholdId(self.id)
+
+        if self.serial_number is not None and not isinstance(self.serial_number, str):
+            self.serial_number = str(self.serial_number)
+
+        if self.household_identifier is not None and not isinstance(self.household_identifier, str):
+            self.household_identifier = str(self.household_identifier)
+
+        if self.household_head_age is not None and not isinstance(self.household_head_age, int):
+            self.household_head_age = int(self.household_head_age)
+
+        if self.household_income is not None and not isinstance(self.household_income, float):
+            self.household_income = float(self.household_income)
+
+        if self.household_head_race is not None and not isinstance(self.household_head_race, str):
+            self.household_head_race = str(self.household_head_race)
+
+        if self.household_size is not None and not isinstance(self.household_size, int):
+            self.household_size = int(self.household_size)
+
+        self._normalize_inlined_as_list(slot_name="household_persons", slot_type=Person, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class Person(NamedThing):
+    """
+    A person (individual human being) with demographic and geographic attributes. Persons can participate in studies
+    through the Participant role, which links a Person to a specific study cohort. In synthetic population contexts,
+    persons are members of households within geographic hierarchies. Age and sex on Person represent current or
+    snapshot values from the source data (e.g., census), distinct from study-specific values captured on Participant
+    at enrollment.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OWG["Person"]
+    class_class_curie: ClassVar[str] = "owg:Person"
+    class_name: ClassVar[str] = "Person"
+    class_model_uri: ClassVar[URIRef] = OWG.Person
+
+    id: Union[str, PersonId] = None
+    age: Optional[int] = None
+    sex: Optional[Union[str, "SexEnum"]] = None
+    race: Optional[str] = None
+    species: Optional[str] = None
+    state_federal_information_processing_standard_code: Optional[str] = None
+    county_federal_information_processing_standard_code: Optional[str] = None
+    census_tract_federal_information_processing_standard_code: Optional[str] = None
+    block_group_federal_information_processing_standard_code: Optional[str] = None
+    serial_number: Optional[str] = None
+    household_identifier: Optional[str] = None
+    household_head_age: Optional[int] = None
+    household_income: Optional[float] = None
+    household_head_race: Optional[str] = None
+    household_size: Optional[int] = None
+    assigned_school: Optional[Union[str, SchoolId]] = None
+    person_order: Optional[int] = None
+    relationship_to_household_head: Optional[Union[str, "RelationshipToHouseholdHeadEnum"]] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, PersonId):
+            self.id = PersonId(self.id)
+
+        if self.age is not None and not isinstance(self.age, int):
+            self.age = int(self.age)
+
+        if self.sex is not None and not isinstance(self.sex, SexEnum):
+            self.sex = SexEnum(self.sex)
+
+        if self.race is not None and not isinstance(self.race, str):
+            self.race = str(self.race)
+
+        if self.species is not None and not isinstance(self.species, str):
+            self.species = str(self.species)
+
+        if self.state_federal_information_processing_standard_code is not None and not isinstance(self.state_federal_information_processing_standard_code, str):
+            self.state_federal_information_processing_standard_code = str(self.state_federal_information_processing_standard_code)
+
+        if self.county_federal_information_processing_standard_code is not None and not isinstance(self.county_federal_information_processing_standard_code, str):
+            self.county_federal_information_processing_standard_code = str(self.county_federal_information_processing_standard_code)
+
+        if self.census_tract_federal_information_processing_standard_code is not None and not isinstance(self.census_tract_federal_information_processing_standard_code, str):
+            self.census_tract_federal_information_processing_standard_code = str(self.census_tract_federal_information_processing_standard_code)
+
+        if self.block_group_federal_information_processing_standard_code is not None and not isinstance(self.block_group_federal_information_processing_standard_code, str):
+            self.block_group_federal_information_processing_standard_code = str(self.block_group_federal_information_processing_standard_code)
+
+        if self.serial_number is not None and not isinstance(self.serial_number, str):
+            self.serial_number = str(self.serial_number)
+
+        if self.household_identifier is not None and not isinstance(self.household_identifier, str):
+            self.household_identifier = str(self.household_identifier)
+
+        if self.household_head_age is not None and not isinstance(self.household_head_age, int):
+            self.household_head_age = int(self.household_head_age)
+
+        if self.household_income is not None and not isinstance(self.household_income, float):
+            self.household_income = float(self.household_income)
+
+        if self.household_head_race is not None and not isinstance(self.household_head_race, str):
+            self.household_head_race = str(self.household_head_race)
+
+        if self.household_size is not None and not isinstance(self.household_size, int):
+            self.household_size = int(self.household_size)
+
+        if self.assigned_school is not None and not isinstance(self.assigned_school, SchoolId):
+            self.assigned_school = SchoolId(self.assigned_school)
+
+        if self.person_order is not None and not isinstance(self.person_order, int):
+            self.person_order = int(self.person_order)
+
+        if self.relationship_to_household_head is not None and not isinstance(self.relationship_to_household_head, RelationshipToHouseholdHeadEnum):
+            self.relationship_to_household_head = RelationshipToHouseholdHeadEnum(self.relationship_to_household_head)
 
         super().__post_init__(**kwargs)
 
@@ -2320,6 +2777,40 @@ class MeasurementTypeEnum(EnumDefinitionImpl):
         description="""Types of measurements and observations for outcomes research, with emphasis on respiratory health and environmental toxicant effects.""",
     )
 
+class RelationshipToHouseholdHeadEnum(EnumDefinitionImpl):
+    """
+    Relationship of a person to the household head (householder) in census data. Based on PUMS RELP variable coding.
+    """
+    Householder = PermissibleValue(
+        text="Householder",
+        description="Reference person (head of household)")
+    Spouse = PermissibleValue(
+        text="Spouse",
+        description="Husband or wife of the householder")
+    Child = PermissibleValue(
+        text="Child",
+        description="Biological, adopted, or stepchild of the householder")
+    OtherRelative = PermissibleValue(
+        text="OtherRelative",
+        description="Other relative of the householder (parent, sibling, grandchild, etc.)")
+    Nonrelative = PermissibleValue(
+        text="Nonrelative",
+        description="Non-relative of the householder (roommate, boarder, etc.)")
+    FosterChild = PermissibleValue(
+        text="FosterChild",
+        description="Foster child")
+    FosterParent = PermissibleValue(
+        text="FosterParent",
+        description="Foster parent")
+    OtherNonrelative = PermissibleValue(
+        text="OtherNonrelative",
+        description="Other non-relative")
+
+    _defn = EnumDefinition(
+        name="RelationshipToHouseholdHeadEnum",
+        description="""Relationship of a person to the household head (householder) in census data. Based on PUMS RELP variable coding.""",
+    )
+
 # Slots
 class slots:
     pass
@@ -2494,6 +2985,18 @@ slots.part_of_cohort = Slot(uri=BIOLINK.member_of, name="part_of_cohort", curie=
 
 slots.participant_id = Slot(uri=OWG.participant_id, name="participant_id", curie=OWG.curie('participant_id'),
                    model_uri=OWG.participant_id, domain=None, range=Optional[str])
+
+slots.person = Slot(uri=OWG.person, name="person", curie=OWG.curie('person'),
+                   model_uri=OWG.person, domain=None, range=Optional[Union[str, PersonId]])
+
+slots.enrollment_date = Slot(uri=OWG.enrollment_date, name="enrollment_date", curie=OWG.curie('enrollment_date'),
+                   model_uri=OWG.enrollment_date, domain=None, range=Optional[Union[str, XSDDate]])
+
+slots.withdrawal_date = Slot(uri=OWG.withdrawal_date, name="withdrawal_date", curie=OWG.curie('withdrawal_date'),
+                   model_uri=OWG.withdrawal_date, domain=None, range=Optional[Union[str, XSDDate]])
+
+slots.study_arm = Slot(uri=OWG.study_arm, name="study_arm", curie=OWG.curie('study_arm'),
+                   model_uri=OWG.study_arm, domain=None, range=Optional[str])
 
 slots.age = Slot(uri=OWG.age, name="age", curie=OWG.curie('age'),
                    model_uri=OWG.age, domain=None, range=Optional[int])
@@ -2717,6 +3220,81 @@ slots.organisms = Slot(uri=OWG.organisms, name="organisms", curie=OWG.curie('org
 slots.exposure_to_phenotype_associations = Slot(uri=OWG.exposure_to_phenotype_associations, name="exposure_to_phenotype_associations", curie=OWG.curie('exposure_to_phenotype_associations'),
                    model_uri=OWG.exposure_to_phenotype_associations, domain=None, range=Optional[Union[dict[Union[str, ExposureToPhenotypeAssociationId], Union[dict, ExposureToPhenotypeAssociation]], list[Union[dict, ExposureToPhenotypeAssociation]]]])
 
+slots.federal_information_processing_standard_code = Slot(uri=OWG.federal_information_processing_standard_code, name="federal_information_processing_standard_code", curie=OWG.curie('federal_information_processing_standard_code'),
+                   model_uri=OWG.federal_information_processing_standard_code, domain=None, range=Optional[str])
+
+slots.state_federal_information_processing_standard_code = Slot(uri=OWG.state_federal_information_processing_standard_code, name="state_federal_information_processing_standard_code", curie=OWG.curie('state_federal_information_processing_standard_code'),
+                   model_uri=OWG.state_federal_information_processing_standard_code, domain=None, range=Optional[str])
+
+slots.county_federal_information_processing_standard_code = Slot(uri=OWG.county_federal_information_processing_standard_code, name="county_federal_information_processing_standard_code", curie=OWG.curie('county_federal_information_processing_standard_code'),
+                   model_uri=OWG.county_federal_information_processing_standard_code, domain=None, range=Optional[str])
+
+slots.census_tract_federal_information_processing_standard_code = Slot(uri=OWG.census_tract_federal_information_processing_standard_code, name="census_tract_federal_information_processing_standard_code", curie=OWG.curie('census_tract_federal_information_processing_standard_code'),
+                   model_uri=OWG.census_tract_federal_information_processing_standard_code, domain=None, range=Optional[str])
+
+slots.block_group_federal_information_processing_standard_code = Slot(uri=OWG.block_group_federal_information_processing_standard_code, name="block_group_federal_information_processing_standard_code", curie=OWG.curie('block_group_federal_information_processing_standard_code'),
+                   model_uri=OWG.block_group_federal_information_processing_standard_code, domain=None, range=Optional[str])
+
+slots.abbreviation = Slot(uri=OWG.abbreviation, name="abbreviation", curie=OWG.curie('abbreviation'),
+                   model_uri=OWG.abbreviation, domain=None, range=Optional[str])
+
+slots.counties = Slot(uri=OWG.counties, name="counties", curie=OWG.curie('counties'),
+                   model_uri=OWG.counties, domain=None, range=Optional[Union[dict[Union[str, CountyId], Union[dict, County]], list[Union[dict, County]]]])
+
+slots.public_use_microdata_areas = Slot(uri=OWG.public_use_microdata_areas, name="public_use_microdata_areas", curie=OWG.curie('public_use_microdata_areas'),
+                   model_uri=OWG.public_use_microdata_areas, domain=None, range=Optional[Union[dict[Union[str, PublicUseMicrodataAreaId], Union[dict, PublicUseMicrodataArea]], list[Union[dict, PublicUseMicrodataArea]]]])
+
+slots.census_tracts = Slot(uri=OWG.census_tracts, name="census_tracts", curie=OWG.curie('census_tracts'),
+                   model_uri=OWG.census_tracts, domain=None, range=Optional[Union[dict[Union[str, CensusTractId], Union[dict, CensusTract]], list[Union[dict, CensusTract]]]])
+
+slots.block_groups = Slot(uri=OWG.block_groups, name="block_groups", curie=OWG.curie('block_groups'),
+                   model_uri=OWG.block_groups, domain=None, range=Optional[Union[dict[Union[str, BlockGroupId], Union[dict, BlockGroup]], list[Union[dict, BlockGroup]]]])
+
+slots.households = Slot(uri=OWG.households, name="households", curie=OWG.curie('households'),
+                   model_uri=OWG.households, domain=None, range=Optional[Union[dict[Union[str, HouseholdId], Union[dict, Household]], list[Union[dict, Household]]]])
+
+slots.persons = Slot(uri=OWG.persons, name="persons", curie=OWG.curie('persons'),
+                   model_uri=OWG.persons, domain=None, range=Optional[Union[dict[Union[str, PersonId], Union[dict, Person]], list[Union[dict, Person]]]])
+
+slots.states = Slot(uri=OWG.states, name="states", curie=OWG.curie('states'),
+                   model_uri=OWG.states, domain=None, range=Optional[Union[dict[Union[str, StateId], Union[dict, State]], list[Union[dict, State]]]])
+
+slots.schools = Slot(uri=OWG.schools, name="schools", curie=OWG.curie('schools'),
+                   model_uri=OWG.schools, domain=None, range=Optional[Union[dict[Union[str, SchoolId], Union[dict, School]], list[Union[dict, School]]]])
+
+slots.serial_number = Slot(uri=OWG.serial_number, name="serial_number", curie=OWG.curie('serial_number'),
+                   model_uri=OWG.serial_number, domain=None, range=Optional[str])
+
+slots.household_identifier = Slot(uri=OWG.household_identifier, name="household_identifier", curie=OWG.curie('household_identifier'),
+                   model_uri=OWG.household_identifier, domain=None, range=Optional[str])
+
+slots.household_head_age = Slot(uri=OWG.household_head_age, name="household_head_age", curie=OWG.curie('household_head_age'),
+                   model_uri=OWG.household_head_age, domain=None, range=Optional[int])
+
+slots.household_income = Slot(uri=OWG.household_income, name="household_income", curie=OWG.curie('household_income'),
+                   model_uri=OWG.household_income, domain=None, range=Optional[float])
+
+slots.household_head_race = Slot(uri=OWG.household_head_race, name="household_head_race", curie=OWG.curie('household_head_race'),
+                   model_uri=OWG.household_head_race, domain=None, range=Optional[str])
+
+slots.household_size = Slot(uri=OWG.household_size, name="household_size", curie=OWG.curie('household_size'),
+                   model_uri=OWG.household_size, domain=None, range=Optional[int])
+
+slots.household_persons = Slot(uri=OWG.household_persons, name="household_persons", curie=OWG.curie('household_persons'),
+                   model_uri=OWG.household_persons, domain=None, range=Optional[Union[dict[Union[str, PersonId], Union[dict, Person]], list[Union[dict, Person]]]])
+
+slots.assigned_school = Slot(uri=OWG.assigned_school, name="assigned_school", curie=OWG.curie('assigned_school'),
+                   model_uri=OWG.assigned_school, domain=None, range=Optional[Union[str, SchoolId]])
+
+slots.person_order = Slot(uri=OWG.person_order, name="person_order", curie=OWG.curie('person_order'),
+                   model_uri=OWG.person_order, domain=None, range=Optional[int])
+
+slots.relationship_to_household_head = Slot(uri=OWG.relationship_to_household_head, name="relationship_to_household_head", curie=OWG.curie('relationship_to_household_head'),
+                   model_uri=OWG.relationship_to_household_head, domain=None, range=Optional[Union[str, "RelationshipToHouseholdHeadEnum"]])
+
+slots.race = Slot(uri=OWG.race, name="race", curie=OWG.curie('race'),
+                   model_uri=OWG.race, domain=None, range=Optional[str])
+
 slots.quantityValue__unit = Slot(uri=OWG.unit, name="quantityValue__unit", curie=OWG.curie('unit'),
                    model_uri=OWG.quantityValue__unit, domain=None, range=Optional[Union[dict, Unit]])
 
@@ -2728,3 +3306,15 @@ slots.quantityRange__lower_bound = Slot(uri=OWG.lower_bound, name="quantityRange
 
 slots.quantityRange__upper_bound = Slot(uri=OWG.upper_bound, name="quantityRange__upper_bound", curie=OWG.curie('upper_bound'),
                    model_uri=OWG.quantityRange__upper_bound, domain=None, range=Optional[Union[dict, QuantityValue]])
+
+slots.Participant_age = Slot(uri=OWG.age, name="Participant_age", curie=OWG.curie('age'),
+                   model_uri=OWG.Participant_age, domain=Participant, range=Optional[int])
+
+slots.Participant_sex = Slot(uri=OWG.sex, name="Participant_sex", curie=OWG.curie('sex'),
+                   model_uri=OWG.Participant_sex, domain=Participant, range=Optional[Union[str, "SexEnum"]])
+
+slots.Person_age = Slot(uri=OWG.age, name="Person_age", curie=OWG.curie('age'),
+                   model_uri=OWG.Person_age, domain=Person, range=Optional[int])
+
+slots.Person_sex = Slot(uri=OWG.sex, name="Person_sex", curie=OWG.curie('sex'),
+                   model_uri=OWG.Person_sex, domain=Person, range=Optional[Union[str, "SexEnum"]])

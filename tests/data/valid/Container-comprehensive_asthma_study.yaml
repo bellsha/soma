@@ -29,6 +29,8 @@ cohorts:
       residence in study area for >= 1 year
 
 # ============ Participants ============
+# Participants link Person entities to study cohorts with study-specific attributes.
+# Age and sex are recorded at enrollment and may differ across study registrations.
 participants:
   - id: owg:participant-APEX-001
     name: APEX-001
@@ -37,7 +39,8 @@ participants:
     participant_id: APEX-001
     age: 34
     sex: Female
-    species: Homo sapiens
+    enrollment_date: "2024-03-01"
+    study_arm: Treatment
 
   - id: owg:participant-APEX-002
     name: APEX-002
@@ -46,7 +49,8 @@ participants:
     participant_id: APEX-002
     age: 28
     sex: Male
-    species: Homo sapiens
+    enrollment_date: "2024-03-01"
+    study_arm: Control
 
   - id: owg:participant-APEX-003
     name: APEX-003
@@ -55,7 +59,8 @@ participants:
     participant_id: APEX-003
     age: 52
     sex: Female
-    species: Homo sapiens
+    enrollment_date: "2024-03-01"
+    study_arm: Treatment
 
 # ============ Exposure Measurements ============
 exposure_measurements:

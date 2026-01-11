@@ -93,6 +93,15 @@ classes:
         - anatomical_entities
         - organisms
         - exposure_to_phenotype_associations
+        # Synthetic population entities
+        - states
+        - public_use_microdata_areas
+        - counties
+        - census_tracts
+        - block_groups
+        - households
+        - persons
+        - schools
 
 
   NamedThing:
@@ -359,13 +368,28 @@ classes:
     description: >-
       A role representing an individual's participation in a study. Links a Person
       to a specific study cohort and captures study-specific identifiers and attributes.
+      Age and sex are recorded at enrollment and may differ from the Person's current
+      values or values in other study registrations.
     slots:
       - person
       - part_of_cohort
       - participant_id
+      - age
+      - sex
       - enrollment_date
       - withdrawal_date
       - study_arm
+    slot_usage:
+      age:
+        description: >-
+          Age of the participant in years at the time of study enrollment.
+          This is a study-specific value that may differ from other study registrations
+          or the person's current age.
+      sex:
+        description: >-
+          Biological sex of the participant as recorded at study enrollment.
+          This is the value captured during study registration and may be used
+          for stratification or eligibility criteria.
 
   ExposureMeasurement:
     is_a: Measurement
@@ -629,7 +653,9 @@ classes:
       A person (individual human being) with demographic and geographic attributes.
       Persons can participate in studies through the Participant role, which links
       a Person to a specific study cohort. In synthetic population contexts, persons
-      are members of households within geographic hierarchies.
+      are members of households within geographic hierarchies. Age and sex on Person
+      represent current or snapshot values from the source data (e.g., census),
+      distinct from study-specific values captured on Participant at enrollment.
     slots:
       - age
       - sex
@@ -648,6 +674,17 @@ classes:
       - assigned_school
       - person_order
       - relationship_to_household_head
+    slot_usage:
+      age:
+        description: >-
+          Age of the person in years as recorded in the source data (e.g., census
+          or synthetic population). This represents a snapshot value at the time
+          of data collection, distinct from study-specific age at enrollment.
+      sex:
+        description: >-
+          Biological sex of the person as recorded in the source data (e.g., census
+          or synthetic population). This represents the value from the original
+          data source, distinct from study-specific sex recorded at enrollment.
     exact_mappings:
       - schema:Person
       - NCIT:C25190
@@ -1387,6 +1424,28 @@ slots:
     description: >-
       Households within a block group or geographic area.
 
+  persons:
+    range: Person
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Persons (individuals) in the container. Can be used for top-level person
+      collections or for linking persons to study participants.
+
+  states:
+    range: State
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      U.S. states or territories with their geographic hierarchies.
+
+  schools:
+    range: School
+    multivalued: true
+    inlined_as_list: true
+    description: >-
+      Schools where synthetic population persons may be assigned.
+
   # Household slots
   serial_number:
     aliases:
@@ -1402,7 +1461,6 @@ slots:
     description: >-
       Unique identifier for a household within the synthetic population.
     range: string
-    identifier: true
 
   household_head_age:
     aliases:
