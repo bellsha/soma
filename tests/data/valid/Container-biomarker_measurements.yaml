@@ -7,7 +7,7 @@ biomarker_measurements:
   - id: owg:biomarker-001
     name: Exhaled breath condensate 8-isoprostane - Participant P001
     description: Lipid peroxidation marker in exhaled breath condensate
-    observation_type: LipidPeroxidation
+    observation_type: lipid_peroxidation
     quantity_measured:
       value: "45.2"
       unit:
@@ -34,7 +34,7 @@ biomarker_measurements:
   - id: owg:biomarker-002
     name: BALF glutathione ratio - Participant P001
     description: GSH/GSSG ratio in bronchoalveolar lavage fluid
-    observation_type: GlutathioneRatio
+    observation_type: glutathione_ratio
     quantity_measured:
       value: "8.5"
       unit:
@@ -62,7 +62,7 @@ biomarker_measurements:
   - id: owg:biomarker-003
     name: Sputum IL-8 level - Participant P002
     description: Interleukin-8 concentration in induced sputum
-    observation_type: IL8Level
+    observation_type: IL8_level
     quantity_measured:
       value: "2450.0"
       unit:
@@ -89,7 +89,7 @@ biomarker_measurements:
   - id: owg:biomarker-004
     name: Serum IL-6 level - Participant P002
     description: Systemic interleukin-6 concentration
-    observation_type: IL6Level
+    observation_type: IL6_level
     quantity_measured:
       value: "8.7"
       unit:
@@ -117,7 +117,7 @@ biomarker_measurements:
   - id: owg:biomarker-005
     name: Sputum eosinophil percentage - Participant P003
     description: Percentage of eosinophils in induced sputum differential
-    observation_type: EosinophilPercentage
+    observation_type: eosinophil_percentage
     quantity_measured:
       value: "12.5"
       unit:
@@ -144,7 +144,7 @@ biomarker_measurements:
   - id: owg:biomarker-006
     name: Sputum neutrophil percentage - Participant P003
     description: Percentage of neutrophils in induced sputum differential
-    observation_type: NeutrophilPercentage
+    observation_type: neutrophil_percentage
     quantity_measured:
       value: "68.0"
       unit:

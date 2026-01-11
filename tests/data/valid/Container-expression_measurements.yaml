@@ -9,7 +9,7 @@ gene_expression_measurements:
   - id: owg:geneexp-001-muc5ac-control
     name: MUC5AC mRNA - Control ALI culture
     description: MUC5AC gene expression in untreated bronchial epithelial cells at ALI
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "1.0"
       unit:
@@ -25,14 +25,14 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0000160
       name: goblet cell
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-15"
 
   - id: owg:geneexp-002-muc5ac-il13
     name: MUC5AC mRNA - IL-13 stimulated
     description: MUC5AC upregulation after IL-13 stimulation (10 ng/mL, 14 days)
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "8.5"
       unit:
@@ -48,7 +48,7 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0000160
       name: goblet cell
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-15"
 
@@ -56,7 +56,7 @@ gene_expression_measurements:
   - id: owg:geneexp-003-muc5b-control
     name: MUC5B mRNA - Control ALI culture
     description: MUC5B gene expression in untreated bronchial epithelial cells
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "1.0"
       unit:
@@ -72,7 +72,7 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0000160
       name: goblet cell
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-15"
 
@@ -80,7 +80,7 @@ gene_expression_measurements:
   - id: owg:geneexp-004-muc-ratio
     name: MUC5AC/MUC5B expression ratio - Control
     description: Ratio of MUC5AC to MUC5B mRNA in healthy epithelium
-    observation_type: ExpressionRatio
+    observation_type: expression_ratio
     quantity_measured:
       value: "0.45"
       unit:
@@ -103,7 +103,7 @@ gene_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-15"
 
@@ -111,7 +111,7 @@ gene_expression_measurements:
   - id: owg:geneexp-005-il8-control
     name: IL8 mRNA - Control
     description: Baseline IL-8 gene expression in bronchial epithelial cells
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "1.0"
       unit:
@@ -127,14 +127,14 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0002328
       name: bronchial epithelial cell
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-16"
 
   - id: owg:geneexp-006-il8-pm25
     name: IL8 mRNA - PM2.5 exposed
     description: IL-8 upregulation after PM2.5 exposure (50 ug/mL, 24h)
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "12.3"
       unit:
@@ -150,7 +150,7 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0002328
       name: bronchial epithelial cell
-    assay_method: qRT_PCR
+    assay_method: qrt_pcr
     normalization_reference: GAPDH
     measurement_date: "2024-03-16"
 
@@ -158,7 +158,7 @@ gene_expression_measurements:
   - id: owg:geneexp-007-rnaseq
     name: EGFR mRNA - RNA-seq
     description: EGFR expression from bulk RNA-seq of asthmatic bronchial brushings
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "245.8"
       unit:
@@ -171,7 +171,7 @@ gene_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: RNA_Seq
+    assay_method: rna_seq
     normalization_reference: TPM normalization
     participant: owg:participant-APEX-001
     measurement_date: "2024-03-17"
@@ -180,7 +180,7 @@ gene_expression_measurements:
   - id: owg:geneexp-008-scrnaseq
     name: FOXJ1 mRNA - scRNA-seq ciliated cells
     description: FOXJ1 expression in ciliated cell cluster from scRNA-seq
-    observation_type: GeneExpression
+    observation_type: gene_expression
     quantity_measured:
       value: "3.85"
       unit:
@@ -196,7 +196,7 @@ gene_expression_measurements:
     cell_type_context:
       id: CL:0002145
       name: ciliated columnar cell of tracheobronchial tree
-    assay_method: Single_Cell_RNA_Seq
+    assay_method: single_cell_rna_seq
     normalization_reference: SCTransform
     measurement_date: "2024-03-18"
 
@@ -206,7 +206,7 @@ protein_expression_measurements:
   - id: owg:protexp-001-pegfr-control
     name: pEGFR (Y1068) - Control
     description: Baseline EGFR phosphorylation at Y1068 in bronchial epithelial cells
-    observation_type: ProteinPhosphorylation
+    observation_type: protein_phosphorylation
     quantity_measured:
       value: "1.0"
       unit:
@@ -225,14 +225,14 @@ protein_expression_measurements:
     cell_type_context:
       id: CL:0002328
       name: bronchial epithelial cell
-    assay_method: Western_Blot
+    assay_method: western_blot
     normalization_reference: total EGFR
     measurement_date: "2024-03-19"
 
   - id: owg:protexp-002-pegfr-egf
     name: pEGFR (Y1068) - EGF stimulated
     description: EGFR phosphorylation after EGF stimulation (10 ng/mL, 15 min)
-    observation_type: ProteinPhosphorylation
+    observation_type: protein_phosphorylation
     quantity_measured:
       value: "8.2"
       unit:
@@ -251,7 +251,7 @@ protein_expression_measurements:
     cell_type_context:
       id: CL:0002328
       name: bronchial epithelial cell
-    assay_method: Western_Blot
+    assay_method: western_blot
     normalization_reference: total EGFR
     measurement_date: "2024-03-19"
 
@@ -259,7 +259,7 @@ protein_expression_measurements:
   - id: owg:protexp-003-perk-egf
     name: pERK1/2 - EGF stimulated
     description: ERK1/2 phosphorylation downstream of EGFR activation
-    observation_type: ProteinPhosphorylation
+    observation_type: protein_phosphorylation
     quantity_measured:
       value: "5.6"
       unit:
@@ -275,7 +275,7 @@ protein_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: Western_Blot
+    assay_method: western_blot
     normalization_reference: total ERK1/2
     measurement_date: "2024-03-19"
 
@@ -283,7 +283,7 @@ protein_expression_measurements:
   - id: owg:protexp-004-pakt
     name: pAKT (S473) - EGF stimulated
     description: AKT phosphorylation downstream of EGFR/PI3K activation
-    observation_type: ProteinPhosphorylation
+    observation_type: protein_phosphorylation
     quantity_measured:
       value: "3.2"
       unit:
@@ -299,7 +299,7 @@ protein_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: Western_Blot
+    assay_method: western_blot
     normalization_reference: total AKT
     measurement_date: "2024-03-19"
 
@@ -307,7 +307,7 @@ protein_expression_measurements:
   - id: owg:protexp-005-muc5ac-ihc
     name: MUC5AC protein - IHC in bronchial biopsy
     description: MUC5AC protein expression in bronchial biopsy from asthma patient
-    observation_type: ProteinExpression
+    observation_type: protein_expression
     quantity_measured:
       value: "3.5"
       unit:
@@ -325,7 +325,7 @@ protein_expression_measurements:
     cell_type_context:
       id: CL:0000160
       name: goblet cell
-    assay_method: Immunohistochemistry
+    assay_method: immunohistochemistry
     normalization_reference: H-score
     participant: owg:participant-APEX-001
     measurement_date: "2024-03-20"
@@ -334,7 +334,7 @@ protein_expression_measurements:
   - id: owg:protexp-006-zo1
     name: ZO-1 protein - Control ALI
     description: ZO-1 tight junction protein expression at cell-cell contacts
-    observation_type: ProteinExpression
+    observation_type: protein_expression
     quantity_measured:
       value: "1.0"
       unit:
@@ -349,14 +349,14 @@ protein_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: Immunofluorescence
+    assay_method: immunofluorescence
     normalization_reference: DAPI nuclear count
     measurement_date: "2024-03-20"
 
   - id: owg:protexp-007-zo1-injured
     name: ZO-1 protein - After epithelial injury
     description: Reduced ZO-1 expression after mechanical scratch wound
-    observation_type: ProteinExpression
+    observation_type: protein_expression
     quantity_measured:
       value: "0.35"
       unit:
@@ -371,7 +371,7 @@ protein_expression_measurements:
     tissue_context:
       id: UBERON:0002031
       name: bronchial epithelium
-    assay_method: Immunofluorescence
+    assay_method: immunofluorescence
     normalization_reference: DAPI nuclear count
     measurement_date: "2024-03-20"
 
@@ -379,7 +379,7 @@ protein_expression_measurements:
   - id: owg:protexp-008-cd45-flow
     name: CD45+ cells - Flow cytometry
     description: Percentage of CD45+ leukocytes in BALF
-    observation_type: PercentagePositiveCells
+    observation_type: percentage_positive_cells
     quantity_measured:
       value: "12.5"
       unit:
@@ -394,7 +394,7 @@ protein_expression_measurements:
     tissue_context:
       id: UBERON:0001959
       name: bronchoalveolar lavage fluid
-    assay_method: Flow_Cytometry
+    assay_method: flow_cytometry
     participant: owg:participant-APEX-002
     measurement_date: "2024-03-21"
 
@@ -402,7 +402,7 @@ protein_expression_measurements:
   - id: owg:protexp-009-il8-elisa
     name: IL-8 protein - ELISA
     description: IL-8 protein concentration in cell culture supernatant
-    observation_type: ProteinExpression
+    observation_type: protein_expression
     quantity_measured:
       value: "2450.0"
       unit:
@@ -430,5 +430,5 @@ protein_expression_measurements:
     cell_type_context:
       id: CL:0002328
       name: bronchial epithelial cell
-    assay_method: ELISA
+    assay_method: elisa
     measurement_date: "2024-03-21"

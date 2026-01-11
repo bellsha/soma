@@ -6,7 +6,7 @@ exposure_measurements:
   - id: owg:exposure-003
     name: PM2.5 personal exposure - Participant P002
     description: 24-hour integrated personal PM2.5 exposure from wearable monitor
-    observation_type: PM2_5Exposure
+    observation_type: pm2_5_exposure
     quantity_measured:
       value: "18.5"
       unit:
@@ -18,12 +18,12 @@ exposure_measurements:
     participant: owg:participant-002
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-16"
-    sample_type: Air
+    sample_type: air
 
   - id: owg:exposure-004
     name: Urinary cotinine - Participant P003
     description: Urinary cotinine as biomarker of tobacco smoke exposure
-    observation_type: UrinaryCotinineLevel
+    observation_type: urinary_cotinine_level
     quantity_measured:
       value: "125.0"
       unit:
@@ -45,12 +45,12 @@ exposure_measurements:
     participant: owg:participant-003
     measurement_method: LC-MS/MS
     measurement_date: "2024-03-17"
-    sample_type: Urine
+    sample_type: urine
 
   - id: owg:exposure-005
     name: Ozone exposure - Participant P004
     description: Ambient ozone concentration at participant residence
-    observation_type: OzoneExposure
+    observation_type: ozone_exposure
     quantity_measured:
       value: "0.065"
       unit:
@@ -62,4 +62,4 @@ exposure_measurements:
     participant: owg:participant-004
     measurement_method: UV photometric analyzer
     measurement_date: "2024-03-18"
-    sample_type: Air
+    sample_type: air

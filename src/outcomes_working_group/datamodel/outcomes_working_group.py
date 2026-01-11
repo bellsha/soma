@@ -1,62 +1,41 @@
 # Auto generated from outcomes_working_group.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-01-10T16:19:08
+# Generation date: 2026-01-10T16:34:06
 # Schema: outcomes_working_group
 #
 # id: https://w3id.org/EHS-Data-Standards/outcomes_working_group
 # description: A LinkML data model for representing biological measurements, assays, and experimental protocols in the context of outcomes research.
 # license: MIT
 
-import dataclasses
 import re
 from dataclasses import dataclass
-from datetime import (
-    date,
-    datetime,
-    time
-)
 from typing import (
     Any,
     ClassVar,
-    Dict,
-    List,
     Optional,
     Union
 )
 
 from jsonasobj2 import (
-    JsonObj,
     as_dict
 )
 from linkml_runtime.linkml_model.meta import (
     EnumDefinition,
-    PermissibleValue,
-    PvFormulaOptions
+    PermissibleValue
 )
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.formatutils import (
-    camelcase,
-    sfx,
-    underscore
-)
 from linkml_runtime.utils.metamodelcore import (
-    bnode,
     empty_dict,
     empty_list
 )
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
-    YAMLRoot,
-    extended_float,
-    extended_int,
-    extended_str
+    YAMLRoot
 )
 from rdflib import (
-    Namespace,
     URIRef
 )
 
-from linkml_runtime.linkml_model.types import Date, Float, Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import URIorCURIE, XSDDate
 
 metamodel_version = "1.7.0"

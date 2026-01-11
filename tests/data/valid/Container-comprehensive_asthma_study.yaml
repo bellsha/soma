@@ -10,7 +10,7 @@ studies:
       A prospective cohort study examining the relationship between ambient
       air pollution exposure and asthma exacerbations in urban adults,
       with mechanistic investigation of oxidative stress and airway inflammation.
-    study_type: Cohort
+    study_type: cohort
     population: Adults aged 18-65 with physician-diagnosed asthma
     enrollment_period: "2024-01-01 to 2024-12-31"
     geographic_location: Los Angeles, CA, USA
@@ -38,7 +38,7 @@ participants:
     part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-001
     age: 34
-    sex: Female
+    sex: female
     enrollment_date: "2024-03-01"
     study_arm: Treatment
 
@@ -48,7 +48,7 @@ participants:
     part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-002
     age: 28
-    sex: Male
+    sex: male
     enrollment_date: "2024-03-01"
     study_arm: Control
 
@@ -58,7 +58,7 @@ participants:
     part_of_cohort: owg:cohort-APEX-main
     participant_id: APEX-003
     age: 52
-    sex: Female
+    sex: female
     enrollment_date: "2024-03-01"
     study_arm: Treatment
 
@@ -68,7 +68,7 @@ exposure_measurements:
   - id: owg:exp-APEX-001-pm25-baseline
     name: PM2.5 exposure - APEX-001 Baseline
     description: 7-day average PM2.5 personal exposure at baseline
-    observation_type: PM2_5Exposure
+    observation_type: pm2_5_exposure
     quantity_measured:
       value: "22.4"
       unit:
@@ -80,12 +80,12 @@ exposure_measurements:
     participant: owg:participant-APEX-001
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
-    sample_type: Air
+    sample_type: air
 
   - id: owg:exp-APEX-001-ozone-baseline
     name: Ozone exposure - APEX-001 Baseline
     description: 8-hour max ozone at residential address
-    observation_type: OzoneExposure
+    observation_type: ozone_exposure
     quantity_measured:
       value: "0.072"
       unit:
@@ -97,13 +97,13 @@ exposure_measurements:
     participant: owg:participant-APEX-001
     measurement_method: EPA AQS monitor data (nearest monitor)
     measurement_date: "2024-03-01"
-    sample_type: Air
+    sample_type: air
 
   # Participant APEX-002
   - id: owg:exp-APEX-002-pm25-baseline
     name: PM2.5 exposure - APEX-002 Baseline
     description: 7-day average PM2.5 personal exposure at baseline
-    observation_type: PM2_5Exposure
+    observation_type: pm2_5_exposure
     quantity_measured:
       value: "15.8"
       unit:
@@ -115,13 +115,13 @@ exposure_measurements:
     participant: owg:participant-APEX-002
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
-    sample_type: Air
+    sample_type: air
 
   # Participant APEX-003 (high exposure)
   - id: owg:exp-APEX-003-pm25-baseline
     name: PM2.5 exposure - APEX-003 Baseline
     description: 7-day average PM2.5 personal exposure at baseline
-    observation_type: PM2_5Exposure
+    observation_type: pm2_5_exposure
     quantity_measured:
       value: "35.2"
       unit:
@@ -133,7 +133,7 @@ exposure_measurements:
     participant: owg:participant-APEX-003
     measurement_method: Personal exposure monitor (RTI MicroPEM)
     measurement_date: "2024-03-01"
-    sample_type: Air
+    sample_type: air
 
 # ============ Biomarker Measurements ============
 biomarker_measurements:
@@ -141,7 +141,7 @@ biomarker_measurements:
   - id: owg:bio-APEX-001-8iso-baseline
     name: 8-isoprostane - APEX-001 Baseline
     description: Urinary 8-isoprostane as systemic oxidative stress marker
-    observation_type: LipidPeroxidation
+    observation_type: lipid_peroxidation
     quantity_measured:
       value: "185.0"
       unit:
@@ -169,7 +169,7 @@ biomarker_measurements:
   - id: owg:bio-APEX-001-sputum-eos-baseline
     name: Sputum eosinophils - APEX-001 Baseline
     description: Induced sputum eosinophil percentage
-    observation_type: EosinophilPercentage
+    observation_type: eosinophil_percentage
     quantity_measured:
       value: "8.5"
       unit:
@@ -196,7 +196,7 @@ biomarker_measurements:
   - id: owg:bio-APEX-001-IL8-baseline
     name: Sputum IL-8 - APEX-001 Baseline
     description: Induced sputum interleukin-8 concentration
-    observation_type: IL8Level
+    observation_type: IL8_level
     quantity_measured:
       value: "1850.0"
       unit:
@@ -224,7 +224,7 @@ biomarker_measurements:
   - id: owg:bio-APEX-003-8iso-baseline
     name: 8-isoprostane - APEX-003 Baseline
     description: Urinary 8-isoprostane in severe asthma patient with high PM2.5 exposure
-    observation_type: LipidPeroxidation
+    observation_type: lipid_peroxidation
     quantity_measured:
       value: "342.0"
       unit:
@@ -251,7 +251,7 @@ biomarker_measurements:
   - id: owg:bio-APEX-003-sputum-neut-baseline
     name: Sputum neutrophils - APEX-003 Baseline
     description: Induced sputum neutrophil percentage in severe asthma
-    observation_type: NeutrophilPercentage
+    observation_type: neutrophil_percentage
     quantity_measured:
       value: "72.0"
       unit:
@@ -331,7 +331,7 @@ phenotype_measurements:
   - id: owg:phen-APEX-001-ratio-baseline
     name: FEV1/FVC - APEX-001 Baseline
     description: FEV1/FVC ratio at baseline visit
-    observation_type: FEV1_FVC_Ratio
+    observation_type: FEV1_FEC_ratio
     quantity_measured:
       value: "0.768"
       unit:
@@ -458,7 +458,7 @@ phenotype_measurements:
   - id: owg:phen-APEX-003-ratio-baseline
     name: FEV1/FVC - APEX-003 Baseline
     description: FEV1/FVC ratio showing severe obstruction
-    observation_type: FEV1_FVC_Ratio
+    observation_type: FEV1_FEC_ratio
     quantity_measured:
       value: "0.52"
       unit:
@@ -510,7 +510,7 @@ aggregated_measurements:
   - id: owg:agg-APEX-pm25-cohort-mean
     name: Cohort mean PM2.5 exposure
     description: Mean 7-day PM2.5 exposure across APEX cohort at baseline
-    observation_type: PM2_5Exposure
+    observation_type: pm2_5_exposure
     quantity_measured:
       value: "24.5"
       unit:
@@ -520,7 +520,7 @@ aggregated_measurements:
       id: ENVO:01000415
       name: PM2.5
     cohort: owg:cohort-APEX-main
-    summary_statistic: Mean
+    summary_statistic: mean
     sample_size: 150
 
   - id: owg:agg-APEX-fev1-cohort-mean
@@ -536,6 +536,6 @@ aggregated_measurements:
       id: NCIT:C38083
       name: FEV1
     cohort: owg:cohort-APEX-main
-    summary_statistic: Mean
+    summary_statistic: mean
     sample_size: 150
     stratification: By asthma severity (mild, moderate, severe)

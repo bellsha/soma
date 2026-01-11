@@ -9,7 +9,7 @@ phenotype_measurements:
   - id: owg:cilia-001-control
     name: CBF - Control ALI culture Day 21
     description: Ciliary beat frequency in untreated control ALI culture
-    observation_type: CiliaryBeatFrequency
+    observation_type: ciliary_beat_frequency
     quantity_measured:
       value: "12.8"
       unit:
@@ -34,7 +34,7 @@ phenotype_measurements:
   - id: owg:cilia-001-pm25-exposed
     name: CBF - PM2.5 exposed ALI culture Day 21
     description: Ciliary beat frequency after 24h PM2.5 exposure (50 ug/mL)
-    observation_type: CiliaryBeatFrequency
+    observation_type: ciliary_beat_frequency
     quantity_measured:
       value: "8.2"
       unit:
@@ -59,7 +59,7 @@ phenotype_measurements:
   - id: owg:cilia-002-active-area
     name: Ciliary active area - Control
     description: Percentage of epithelial surface with actively beating cilia
-    observation_type: CiliaryActiveAreaPercentage
+    observation_type: ciliary_active_area_percentage
     quantity_measured:
       value: "78.5"
       unit:
@@ -84,7 +84,7 @@ phenotype_measurements:
   - id: owg:cilia-003-length
     name: Cilia length - Control
     description: Mean cilia length measured by immunofluorescence microscopy
-    observation_type: CiliaLength
+    observation_type: cilia_length
     quantity_measured:
       value: "6.2"
       unit:
@@ -110,7 +110,7 @@ phenotype_measurements:
   - id: owg:asl-001-control
     name: ASL height - Control ALI culture
     description: Airway surface liquid depth in untreated healthy donor cells
-    observation_type: ASLHeight
+    observation_type: asl_height
     quantity_measured:
       value: "8.5"
       unit:
@@ -135,7 +135,7 @@ phenotype_measurements:
   - id: owg:asl-002-cf-donor
     name: ASL height - CF donor ALI culture
     description: Reduced ASL height in cystic fibrosis donor epithelium
-    observation_type: ASLHeight
+    observation_type: asl_height
     quantity_measured:
       value: "3.2"
       unit:
@@ -160,7 +160,7 @@ phenotype_measurements:
   - id: owg:asl-003-pcl-depth
     name: PCL depth - Control ALI culture
     description: Periciliary liquid layer depth surrounding cilia
-    observation_type: PericiliaryLayerDepth
+    observation_type: periciliary_layer_depth
     quantity_measured:
       value: "7.0"
       unit:
@@ -186,7 +186,7 @@ phenotype_measurements:
   - id: owg:mcc-001-control
     name: MCT rate - Control ALI culture
     description: Mucociliary transport rate measured with fluorescent beads
-    observation_type: MucociliaryTransportRate
+    observation_type: mucociliary_transport_rate
     quantity_measured:
       value: "5.8"
       unit:
@@ -211,7 +211,7 @@ phenotype_measurements:
   - id: owg:mcc-002-exposed
     name: MCT rate - Diesel exhaust particle exposed
     description: MCT rate after 24h DEP exposure (10 ug/cm2)
-    observation_type: MucociliaryTransportRate
+    observation_type: mucociliary_transport_rate
     quantity_measured:
       value: "2.1"
       unit:
@@ -237,7 +237,7 @@ phenotype_measurements:
   - id: owg:goblet-001-control
     name: Goblet cell percentage - Control
     description: Percentage of goblet cells in differentiated ALI culture
-    observation_type: GobletCellCount
+    observation_type: goblet_cell_count
     quantity_measured:
       value: "12.0"
       unit:
@@ -262,7 +262,7 @@ phenotype_measurements:
   - id: owg:goblet-002-il13-stimulated
     name: Goblet cell percentage - IL-13 stimulated
     description: Goblet cell hyperplasia after IL-13 stimulation (10 ng/mL, 14 days)
-    observation_type: GobletCellCount
+    observation_type: goblet_cell_count
     quantity_measured:
       value: "42.0"
       unit:
@@ -287,7 +287,7 @@ phenotype_measurements:
   - id: owg:goblet-003-ratio
     name: Goblet to ciliated cell ratio - Control
     description: Ratio of goblet cells to ciliated cells in healthy epithelium
-    observation_type: GobletToCiliatedRatio
+    observation_type: goblet_to_ciliated_ratio
     quantity_measured:
       value: "0.18"
       unit:
@@ -312,7 +312,7 @@ phenotype_measurements:
   - id: owg:mucin-conc-001
     name: Secreted mucin concentration - Control
     description: Total mucin protein in apical wash
-    observation_type: MucinProteinConcentration
+    observation_type: mucin_protein_concentration
     quantity_measured:
       value: "125.0"
       unit:
@@ -330,7 +330,7 @@ biomarker_measurements:
   - id: owg:ros-001-control
     name: ROS level - Control ALI culture
     description: Reactive oxygen species measured by CM-H2DCFDA fluorescence
-    observation_type: ReactiveOxygenSpecies
+    observation_type: reactive_oxygen_species
     quantity_measured:
       value: "1.0"
       unit:
@@ -345,7 +345,7 @@ biomarker_measurements:
   - id: owg:ros-002-pm25
     name: ROS level - PM2.5 exposed
     description: ROS induction after PM2.5 exposure (50 ug/mL, 4h)
-    observation_type: ReactiveOxygenSpecies
+    observation_type: reactive_oxygen_species
     quantity_measured:
       value: "3.2"
       unit:
@@ -360,7 +360,7 @@ biomarker_measurements:
   - id: owg:gsh-001-control
     name: GSH/GSSG ratio - Control
     description: Glutathione redox ratio in control cells
-    observation_type: GlutathioneRatio
+    observation_type: glutathione_ratio
     quantity_measured:
       value: "45.0"
       unit:
@@ -385,7 +385,7 @@ biomarker_measurements:
   - id: owg:gsh-002-oxidant-stress
     name: GSH/GSSG ratio - Oxidant stress
     description: Depleted glutathione after H2O2 exposure (200 uM, 2h)
-    observation_type: GlutathioneRatio
+    observation_type: glutathione_ratio
     quantity_measured:
       value: "12.0"
       unit:
@@ -462,7 +462,7 @@ biomarker_measurements:
   - id: owg:viability-001-control
     name: Cell viability - Control
     description: Cell viability in untreated ALI cultures
-    observation_type: CellViability
+    observation_type: cell_viability
     quantity_measured:
       value: "98.5"
       unit:
@@ -487,7 +487,7 @@ biomarker_measurements:
   - id: owg:ldh-001-control
     name: LDH release - Control
     description: Baseline LDH release in control cultures
-    observation_type: LDHRelease
+    observation_type: LDH_release
     quantity_measured:
       value: "5.2"
       unit:
@@ -512,7 +512,7 @@ biomarker_measurements:
   - id: owg:ldh-002-cytotoxic
     name: LDH release - High-dose toxicant
     description: LDH release after cytotoxic exposure
-    observation_type: LDHRelease
+    observation_type: LDH_release
     quantity_measured:
       value: "45.0"
       unit:
