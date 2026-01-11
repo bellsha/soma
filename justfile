@@ -101,7 +101,7 @@ lint-fix:
 
 # Generate md documentation for the schema
 [group('model development')]
-gen-doc: _gen-yaml _gen-diagrams _copy-examples
+gen-doc: _gen-yaml _copy-examples
   uv run gen-doc {{gen_doc_args}} -d {{docdir}} {{source_schema_path}}
   @just _copy-docs
 
