@@ -109,10 +109,6 @@ gen-doc: _gen-yaml _copy-examples
 [group('model development')]
 testdoc: gen-doc _serve
 
-# Generate ER diagrams and object models only
-[group('model development')]
-gen-diagrams: _gen-diagrams
-
 # Generate the Python data models (dataclasses & pydantic)
 gen-python:
   uv run gen-project -d  {{pymodel}} -I python {{source_schema_path}}
@@ -268,24 +264,6 @@ _copy-docs:
   @echo "Copying static documentation files..."
   cp src/docs/*.md docs/
   @echo "Static docs copied successfully!"
-
-# Generate ER diagrams and object models
-_gen-diagrams:
-  @echo "Generating Mermaid ER diagram..."
-  uv run gen-erdiagram {{source_schema_path}} > {{docdir}}/schema_diagram.mmd
-  @echo "Creating Mermaid markdown file..."
-  echo "# Schema Entity Relationship Diagram\n\nThis diagram shows the relationships between all entities in the schema.\n\n\`\`\`mermaid" > {{docdir}}/mermaid_diagram.md
-  cat {{docdir}}/schema_diagram.mmd >> {{docdir}}/mermaid_diagram.md
-  echo "\`\`\`" >> {{docdir}}/mermaid_diagram.md
-  @echo "Generating PlantUML diagram..."
-  uv run gen-plantuml {{source_schema_path}} > {{docdir}}/schema_diagram.puml
-  @echo "Generating SQL DDL and ER diagram..."
-  -mkdir -p {{dest}}/sqlddl
-  uv run gen-sqlddl {{source_schema_path}} > {{dest}}/sqlddl/{{schema_name}}.sql
-  sqlite3 {{docdir}}/temp.db < {{dest}}/sqlddl/{{schema_name}}.sql
-  uv run eralchemy2 -i "sqlite:///{{docdir}}/temp.db" -o {{docdir}}/sql_er_diagram.png
-  rm -f {{docdir}}/temp.db
-  @echo "Diagrams generated successfully!"
 
 # ============== Include project-specific recipes ==============
 
