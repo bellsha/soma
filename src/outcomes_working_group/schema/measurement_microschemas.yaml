@@ -126,20 +126,35 @@ classes:
         range: CFTRObservationTypeEnum
 
   # ---------------------------------------------------------------------------
-  # EGFR Signaling Measurements
+  # EGFR Phosphorylation Measurements
   # ---------------------------------------------------------------------------
 
-  EGFRMeasurement:
+  ProteinExpressionMeasurement:
+    is_a: Measurement
+    description: >-
+      A measurement of protein expression or post-translational modification
+      (e.g., phosphorylation) in a specific biological context.
+    slots:
+      - target_protein
+      - phosphorylation_site
+      - anatomical_context
+      - assay_method
+      - measurement_date
+
+  EGFRPhosphorylationMeasurement:
+    is_a: ProteinExpressionMeasurement
     implements:
       - measurement_base:Measurement
     mixins:
       - Measurement
       - InVitroContext
     description: >-
-      Measurement of EGFR (epidermal growth factor receptor) pathway activation
-      including receptor phosphorylation, downstream kinase activation, and
-      ligand expression. Key signaling pathway in airway inflammation and
-      mucin regulation.
+      Measurement of EGFR (epidermal growth factor receptor) phosphorylation.
+      Phosphorylation site (e.g., Y1068, Y1173) is critical for interpreting
+      activation status. Western blot is the most common detection method.
+      Phosphorylation measurement provides the most specific evidence for
+      EGFR activation; downstream kinase data alone is insufficient without
+      direct phosphorylation evidence or inhibitor reversal studies.
     slot_usage:
       observation_type:
         range: EGFRObservationTypeEnum
@@ -218,23 +233,6 @@ classes:
       observation_type:
         range: FoxJObservationTypeEnum
 
-  # ---------------------------------------------------------------------------
-  # Exposure Biomarker Measurements
-  # ---------------------------------------------------------------------------
-
-  ExposureBiomarkerMeasurement:
-    implements:
-      - measurement_base:Measurement
-    mixins:
-      - Measurement
-      - InVivoContext
-    description: >-
-      Measurement of biomarkers indicating exposure to environmental agents
-      including urinary metabolites (e.g., cotinine for tobacco smoke),
-      blood levels, and other exposure indicators.
-    slot_usage:
-      observation_type:
-        range: ExposureBiomarkerObservationTypeEnum
 
 # =============================================================================
 # ENUMS - Domain-Specific Observation Types
@@ -498,25 +496,60 @@ enums:
         description: FoxJ1 nuclear localization
 
   # ---------------------------------------------------------------------------
-  # Exposure Biomarker Observation Types
+  # Expression Assay Method Enum
   # ---------------------------------------------------------------------------
 
-  ExposureBiomarkerObservationTypeEnum:
+  ExpressionAssayMethodEnum:
     description: >-
-      Observation types for exposure biomarker measurements.
+      Methods used to measure gene or protein expression.
+      Includes transcriptomic, proteomic, and imaging-based approaches.
     permissible_values:
-      urinary_cotinine:
-        description: Urinary cotinine level (tobacco smoke biomarker)
-        meaning: CHEBI:68641
-      serum_cotinine:
-        description: Serum cotinine level
-      urinary_1_hydroxypyrene:
-        description: Urinary 1-hydroxypyrene (PAH biomarker)
-      blood_lead:
-        description: Blood lead concentration
-      urinary_arsenic:
-        description: Urinary arsenic species
-      urinary_cadmium:
-        description: Urinary cadmium concentration
-      exhaled_co:
-        description: Exhaled carbon monoxide (smoking biomarker)
+      # Transcriptomic methods
+      qrt_pcr:
+        description: Quantitative real-time polymerase chain reaction
+        meaning: OBI:0000893
+      rna_seq:
+        description: RNA sequencing (bulk)
+        meaning: OBI:0001271
+      single_cell_rna_seq:
+        description: Single-cell RNA sequencing
+        meaning: OBI:0002631
+      northern_blot:
+        description: Northern blot for RNA detection
+        meaning: OBI:0000822
+      in_situ_hybridization:
+        description: In situ hybridization (ISH, FISH, RNAscope)
+        meaning: OBI:0001686
+      western_blot:
+        description: Western blot (immunoblot) for protein detection
+        meaning: OBI:0000714
+      elisa:
+        description: Enzyme-linked immunosorbent assay
+        meaning: OBI:0000661
+
+# =============================================================================
+# SLOTS - Protein Expression Measurement Slots
+# =============================================================================
+
+slots:
+
+  phosphorylation_site:
+    range: string
+    description: >-
+      For protein phosphorylation measurements, the specific amino acid
+      residue that is phosphorylated (e.g., Y1068, S473, T308).
+
+  anatomical_context:
+    range: uriorcurie
+    id_prefixes:
+      - UBERON
+    description: >-
+      The anatomical location or tissue from which the measurement was taken.
+      Examples include "lung epithelium", "nasal mucosa", "bronchial tissue".
+
+  assay_method:
+    range: ExpressionAssayMethodEnum
+    description: >-
+      The experimental method used to measure expression.
+      Captures whether this was qRT-PCR, RNA-seq, Western blot, IHC, etc.
+
