@@ -129,6 +129,24 @@ classes:
   # EGFR Phosphorylation Measurements
   # ---------------------------------------------------------------------------
 
+
+  GeneExpressionMeasurement:
+    is_a: Measurement
+    description: >-
+      A measurement of gene expression (mRNA level) in a specific biological context.
+      Captures the target gene, tissue/cell type context, and assay methodology.
+    slots:
+      - target_gene
+      - tissue_context
+      - cell_type_context
+      - assay_method
+      - normalization_reference
+      - participant
+      - measurement_date
+    slot_usage:
+      observation_type:
+        range: GeneExpressionObservationTypeEnum
+
   ProteinExpressionMeasurement:
     is_a: Measurement
     description: >-
@@ -137,12 +155,18 @@ classes:
     slots:
       - target_protein
       - phosphorylation_site
-      - anatomical_context
+      - tissue_context
+      - cell_type_context
       - assay_method
+      - normalization_reference
+      - participant
       - measurement_date
 
   EGFRPhosphorylationMeasurement:
-    is_a: ProteinExpressionMeasurement
+    is_a: Measurement
+    slots:
+      - anatomical_context
+      - phosphorylation_site
     implements:
       - measurement_base:Measurement
     mixins:
@@ -263,6 +287,8 @@ enums:
         description: Pattern of ciliary motion (coordinated, dyskinetic, immotile)
       ciliary_beat_amplitude:
         description: Amplitude of ciliary beat stroke
+      cell_type_ratios:
+        description: Ratios between different cell types (e.g., ciliated to goblet cell ratio)
 
   # ---------------------------------------------------------------------------
   # ASL Observation Types
@@ -308,6 +334,8 @@ enums:
         description: Rate of bacterial biofilm clearance
       bacterial_load:
         description: Bacterial load remaining after clearance (CFU)
+      viral_spread_rate:
+        description: Rate of viral spread across the epithelium
 
   # ---------------------------------------------------------------------------
   # Oxidative Stress Observation Types
@@ -449,6 +477,8 @@ enums:
         description: Microbiome beta diversity metric
       bacterial_load:
         description: Total bacterial load (16S copies or CFU)
+      cell_free_dna:
+        description: Cell-free DNA concentration in BALF or sputum
 
   # ---------------------------------------------------------------------------
   # Lung Function Observation Types
@@ -496,42 +526,68 @@ enums:
         description: FoxJ1 nuclear localization
 
   # ---------------------------------------------------------------------------
-  # Expression Assay Method Enum
+  # Gene Expression Observation Types
   # ---------------------------------------------------------------------------
 
-  ExpressionAssayMethodEnum:
+  GeneExpressionObservationTypeEnum:
     description: >-
-      Methods used to measure gene or protein expression.
-      Includes transcriptomic, proteomic, and imaging-based approaches.
+      Observation types for gene expression measurements.
     permissible_values:
-      # Transcriptomic methods
-      qrt_pcr:
-        description: Quantitative real-time polymerase chain reaction
-        meaning: OBI:0000893
-      rna_seq:
-        description: RNA sequencing (bulk)
-        meaning: OBI:0001271
-      single_cell_rna_seq:
-        description: Single-cell RNA sequencing
-        meaning: OBI:0002631
-      northern_blot:
-        description: Northern blot for RNA detection
-        meaning: OBI:0000822
-      in_situ_hybridization:
-        description: In situ hybridization (ISH, FISH, RNAscope)
-        meaning: OBI:0001686
-      western_blot:
-        description: Western blot (immunoblot) for protein detection
-        meaning: OBI:0000714
-      elisa:
-        description: Enzyme-linked immunosorbent assay
-        meaning: OBI:0000661
+      mrna_level:
+        description: mRNA expression level (qRT-PCR, RNA-seq)
+      protein_level:
+        description: Protein expression level (Western blot, ELISA, mass spec)
+      percentage_positive_cells:
+        description: Percentage of cells positive for marker expression (IHC, flow cytometry)
+
 
 # =============================================================================
 # SLOTS - Protein Expression Measurement Slots
 # =============================================================================
 
 slots:
+
+  # Expression measurement slots
+  target_gene:
+    range: Gene
+    inlined: true
+    description: >-
+      The gene whose expression is being measured, with identifier, name, and symbol.
+      Use this to specify the exact gene target (e.g., MUC5AC, EGFR, IL8).
+
+  target_protein:
+    range: Protein
+    inlined: true
+    description: >-
+      The protein whose expression or modification is being measured,
+      with identifier, name, and optionally the encoding gene.
+
+  tissue_context:
+    range: Tissue
+    inlined: true
+    description: >-
+      The anatomical tissue or structure where expression was measured,
+      with identifier and name (e.g., bronchial epithelium, lung, nasal mucosa).
+
+  cell_type_context:
+    range: CellType
+    inlined: true
+    description: >-
+      The specific cell type where expression was measured,
+      with identifier and name (e.g., goblet cell, ciliated cell, basal cell).
+
+  assay_method:
+    range: ExpressionAssayMethodEnum
+    description: >-
+      The experimental method used to measure expression.
+      Captures whether this was qRT-PCR, RNA-seq, Western blot, IHC, etc.
+
+  normalization_reference:
+    range: string
+    description: >-
+      The reference gene or protein used for normalization
+      (e.g., GAPDH, beta-actin, 18S rRNA, total protein).
+
 
   phosphorylation_site:
     range: string
@@ -547,9 +603,4 @@ slots:
       The anatomical location or tissue from which the measurement was taken.
       Examples include "lung epithelium", "nasal mucosa", "bronchial tissue".
 
-  assay_method:
-    range: ExpressionAssayMethodEnum
-    description: >-
-      The experimental method used to measure expression.
-      Captures whether this was qRT-PCR, RNA-seq, Western blot, IHC, etc.
 

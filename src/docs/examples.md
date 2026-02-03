@@ -166,91 +166,6 @@ cftr_measurements:
     days_at_differentiation: 28
 ```
 
----
-
-### EGFR Signaling Measurement
-
-Measuring EGFR phosphorylation after cigarette smoke exposure:
-
-```yaml
-egfr_measurements:
-  EGFR:001:
-    id: "EGFR:001"
-    name: "EGFR phosphorylation after smoke exposure"
-    observation_type: egfr_phosphorylation
-    quantity_measured:
-      value: "3.2"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_method: "Western blot"
-    measurement_date: "2024-05-08"
-    cell_culture_system:
-      id: "owg:culture-006"
-      name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-```
-
----
-
-### Goblet Cell / Mucin Measurement
-
-Measuring MUC5AC gene expression:
-
-```yaml
-goblet_cell_mucin_measurements:
-  GCM:001:
-    id: "GCM:001"
-    name: "MUC5AC expression"
-    observation_type: muc5ac_expression
-    quantity_measured:
-      value: "4.8"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_method: "qPCR"
-    measurement_date: "2024-06-15"
-    cell_culture_system:
-      id: "owg:culture-007"
-      name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-```
-
----
-
-### FoxJ1 / Ciliogenesis Measurement
-
-Measuring FoxJ1 transcription factor expression during ciliogenesis:
-
-```yaml
-foxj_measurements:
-  FOXJ:001:
-    id: "FOXJ:001"
-    name: "FoxJ1 mRNA expression"
-    observation_type: foxj1_mrna_expression
-    quantity_measured:
-      value: "0.65"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_method: "qPCR"
-    measurement_date: "2024-09-05"
-    cell_culture_system:
-      id: "owg:culture-008"
-      name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 14
-```
-
----
 
 ## In Vivo Measurements
 
@@ -309,36 +224,6 @@ balf_sputum_measurements:
       name: "Subject A"
 ```
 
-**Key points:**
-
-- `sample_type` specifies the biological sample (uses `SampleTypeEnum`)
-- Can be `urine`, `blood`, `sputum`, `balf`, `nasal_epithelium`, etc.
-
----
-
-### Exposure Biomarker Measurement
-
-Measuring urinary cotinine as a biomarker of tobacco smoke exposure:
-
-```yaml
-exposure_biomarker_measurements:
-  EXPBIO:001:
-    id: "EXPBIO:001"
-    name: "Urinary cotinine"
-    observation_type: urinary_cotinine
-    quantity_measured:
-      value: "125.0"
-      unit:
-        id: "UO:0000301"
-        name: "nanogram per milliliter"
-    measurement_method: "LC-MS/MS"
-    measurement_date: "2024-10-01"
-    sample_type: urine
-    participant:
-      id: "PARTICIPANT:003"
-      name: "Subject C"
-```
-
 ---
 
 ## Protocols, Methods, and Assays
@@ -394,9 +279,6 @@ methods:
     id: "METHOD:001"
     name: "High-speed video microscopy"
     description: "Video-based measurement of ciliary dynamics"
-    implements:
-      id: "OBI:0002119"
-      name: "Ciliary beat frequency assay"
 ```
 
 ---
@@ -506,25 +388,6 @@ ciliary_measurements:
       substrate_type: transwell_insert
     days_at_differentiation: 21
 
-oxidative_stress_measurements:
-  OX:001:
-    id: "OX:001"
-    name: "ROS baseline"
-    observation_type: reactive_oxygen_species
-    quantity_measured:
-      value: "1.0"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_method: "DCFDA assay"
-    measurement_date: "2024-01-15"
-    cell_culture_system:
-      id: "owg:culture-001"
-      name: "Primary HBE ALI"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-    days_at_differentiation: 21
-
 protocols:
   PROTOCOL:001:
     id: "PROTOCOL:001"
@@ -541,49 +404,6 @@ protocols:
         id: "UO:0000027"
         name: "degree Celsius"
 ```
-
----
-
-## Enumeration Reference
-
-### Cell Culture Growth Modes
-
-| Value | Description |
-|-------|-------------|
-| `adherent` | Cells grow attached to a surface |
-| `suspension` | Cells grow suspended in culture medium |
-| `air_liquid_interface` | ALI culture at air-medium interface |
-| `three_dimensional` | Cells grown in 3D matrix or scaffold |
-| `organoid` | Self-organizing 3D tissue culture |
-| `spheroid` | Spherical cellular aggregates |
-
-### Substrate Types
-
-| Value | Description |
-|-------|-------------|
-| `plastic` | Standard tissue culture-treated plastic |
-| `collagen_coated` | Collagen-coated surface |
-| `matrigel` | Basement membrane matrix |
-| `transwell_insert` | Permeable support for ALI culture |
-| `hydrogel` | 3D hydrogel matrix |
-| `glass` | Glass surface or coverslip |
-| `pdms` | Polydimethylsiloxane (microfluidics) |
-
-### Sample Types (In Vivo)
-
-| Value | Description |
-|-------|-------------|
-| `urine` | Urine sample |
-| `blood` | Blood sample |
-| `sputum` | Induced or spontaneous sputum |
-| `balf` | Bronchoalveolar lavage fluid |
-| `nasal_epithelium` | Nasal epithelial sample |
-| `bronchial_epithelium` | Bronchial epithelial sample |
-| `exhaled_breath_condensate` | EBC sample |
-| `biopsy` | Tissue biopsy |
-| `sweat` | Sweat sample |
-
----
 
 ## Next Steps
 

@@ -52,9 +52,9 @@ classes:
       - range_low
       - range_high
       - measured_entity
-      - measurement_method
       - measurement_date
-      - uses
+      - uses_method
+      - follows_protocol
 
   # ---------------------------------------------------------------------------
   # Protocol / Method / Assay Hierarchy
@@ -65,7 +65,6 @@ classes:
       A test or experiment used to measure a specific biological or chemical
       activity; assays generate data on how a substance affects cells, tissues,
       or systems.
-    class_uri: OBI:0000070
     slots:
       - id
       - name
@@ -79,7 +78,7 @@ classes:
       - id
       - name
       - description
-      - implements
+      - implements_assay
 
   Protocol:
     description: >-
@@ -91,23 +90,7 @@ classes:
       - id
       - name
       - description
-      - specified_by
-      - follows
-      - study_context
-      # Procedural detail slots (generic)
-      - imaging_frame_rate
-      - imaging_duration
-      - spatial_resolution
-      - temperature_control
-      - humidity_control
-      - evaporation_control
-      - detection_method
-      - staining_type
-      - antibody_used
-      - probe_type
-      - normalization_method
-      - replicate_count
-      - quality_control_criteria
+      - specified_by_method
 
   # ---------------------------------------------------------------------------
   # Context Mixins (In Vitro / In Vivo)
@@ -173,14 +156,12 @@ classes:
   # ---------------------------------------------------------------------------
 
   CellLine:
-    class_uri: CLO:0000031
+    is_a: NamedEntity
     description: >-
       A cell line - a genetically stable cultured cell population that
       contains individual cell line cells. Reference to a specific cell line
       with identifiers from cell line repositories.
     slots:
-      - id
-      - name
       - description
       - cell_type
       - model_species
@@ -194,13 +175,12 @@ classes:
       - CLO
 
   CellCultureConditions:
+    is_a: NamedEntity
     exact_mappings:
       - CLO:0037334
     description: >-
       Detailed cell culture parameters including medium, environment, and timing.
     slots:
-      - id
-      - name
       - culture_media
       - days_at_air_liquid_interface
       - passage_number
@@ -210,12 +190,11 @@ classes:
       - replicates_per_donor
 
   CellCultureMedium:
+    is_a: NamedEntity
     description: >-
       Detailed formulation of cell culture medium including base medium
       and supplements.
     slots:
-      - id
-      - name
       - base_medium
       - serum_type
       - serum_concentration
@@ -227,6 +206,7 @@ classes:
       - preparation_date
 
   MediumSupplement:
+    is_a: NamedEntity
     description: >-
       Supplement or additive to cell culture medium.
     slots:
@@ -242,8 +222,8 @@ classes:
   # ---------------------------------------------------------------------------
 
   CellularSystem:
+    is_a: NamedEntity
     abstract: true
-    class_uri: NAMO:0000001
     description: >-
       Cell-based model systems that use living cells to model biological processes.
       Includes 2D cultures, 3D systems, and co-cultures. Abstract base class for
@@ -380,17 +360,18 @@ slots:
     range: NamedEntity
     inlined: true
 
-  measurement_method:
-    description: >-
-      Brief description of the method used to obtain the measurement.
-    range: string
-
   measurement_date:
     description: >-
       Date when the measurement was performed.
     range: date
 
-  uses:
+  uses_method:
+    description: >-
+      The Method used to perform this measurement.
+    range: Method
+    inlined: true
+
+  assay:
     description: >-
       The Assay used to produce this measurement.
     range: Assay
@@ -400,28 +381,24 @@ slots:
   # Protocol / Method / Assay Relationship Slots
   # ---------------------------------------------------------------------------
 
-  implements:
+  implements_assay:
     description: >-
       The Assay that this Method implements or realizes.
     range: Assay
     inlined: true
 
-  specified_by:
+  specified_by_method:
     description: >-
       The Method that this Protocol specifies in detail.
     range: Method
     inlined: true
 
-  follows:
-    description: >-
-      The Assay that this Protocol provides detailed steps for.
-    range: Assay
-    inlined: true
 
-  study_context:
+  follows_protocol:
     description: >-
-      The experimental context for this protocol.
-    range: StudyContextEnum
+      The Protocol that this Measurement follows.
+    range: Protocol
+    inlined: true
 
   # ---------------------------------------------------------------------------
   # Protocol Procedural Detail Slots
