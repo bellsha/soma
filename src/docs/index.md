@@ -46,8 +46,9 @@ Each measurement can include context about the experimental setting:
 
 | Mixin | Use Case | Key Slots |
 |-------|----------|-----------|
-| InVitroContext | Cell culture experiments | `cell_culture_system`, `days_at_differentiation`, `passage_number`, `donor_info` |
+| InVitroContext | Cell culture experiments | `cell_culture_system`, `days_at_differentiation`, `donor_info` |
 | InVivoContext | Human/animal samples | `participant`, `sample_type`, `collection_site`, `collection_date` |
+
 
 ### Supporting Entities
 
@@ -88,9 +89,9 @@ The schema can be used to:
 
 ## Example Data
 
-All data uses the `Container` class as the root element. Here are examples for each measurement type:
+All data uses the `Container` class as the root element. Here's a quick example:
 
-### Ciliary Function Measurement
+### Ciliary Function Measurement (In Vitro)
 
 ```yaml
 ciliary_measurements:
@@ -105,25 +106,12 @@ ciliary_measurements:
         name: "hertz"
     measurement_method: "high-speed video microscopy"
     measurement_date: "2024-01-15"
-    cell_culture_system: "ALI"
-    days_at_differentiation: 21
-```
-
-### Oxidative Stress Measurement
-
-```yaml
-oxidative_stress_measurements:
-  OX:001:
-    id: "OX:001"
-    name: "ROS level after PM2.5 exposure"
-    observation_type: reactive_oxygen_species
-    quantity_measured:
-      value: "2.5"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_method: "DCFDA fluorescence assay"
-    cell_culture_system: "ALI"
+    cell_culture_system:
+      id: "owg:culture-001"
+      name: "Primary HBE ALI culture"
+      cell_culture_growth_mode: air_liquid_interface
+      substrate_type: transwell_insert
+      passage_number: 2
     days_at_differentiation: 21
 ```
 
@@ -146,29 +134,13 @@ lung_function_measurements:
       name: "Subject A"
 ```
 
-### Protocol Definition
-
-```yaml
-protocols:
-  PROTOCOL:001:
-    id: "PROTOCOL:001"
-    name: "High-speed video microscopy for CBF"
-    study_context: in_vitro
-    imaging_frame_rate:
-      value: "200"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    temperature_control:
-      value: "37"
-      unit:
-        id: "UO:0000027"
-        name: "degree Celsius"
-    replicate_count: 3
-```
+**See the [Examples](examples.md) page for comprehensive examples covering all measurement types,
+cell culture configurations, protocols, and more.**
 
 ## Resources
 
+- [Examples](examples.md) - Comprehensive examples for all measurement types
+- [Schema Documentation](elements/index.md) - Full schema reference
 - [GitHub Repository](https://github.com/EHS-Data-Standards/outcomes-working-group)
 - [LinkML Documentation](https://linkml.io/linkml/)
 - [About This Project](about.md)

@@ -53,12 +53,11 @@ classes:
       - mcc_measurements
       - oxidative_stress_measurements
       - cftr_measurements
-      - egfr_measurements
+      - egfr_phosphorylation_measurements
       - goblet_cell_mucin_measurements
       - balf_sputum_measurements
       - lung_function_measurements
       - foxj_measurements
-      - exposure_biomarker_measurements
       # Supporting entities
       - protocols
       - methods
@@ -109,8 +108,8 @@ slots:
     description: >-
       Collection of CFTR function measurements.
 
-  egfr_measurements:
-    range: EGFRMeasurement
+  egfr_phosphorylation_measurements:
+    range: EGFRPhosphorylationMeasurement
     multivalued: true
     inlined_as_list: true
     description: >-
@@ -144,12 +143,6 @@ slots:
     description: >-
       Collection of FoxJ1/ciliogenesis measurements.
 
-  exposure_biomarker_measurements:
-    range: ExposureBiomarkerMeasurement
-    multivalued: true
-    inlined_as_list: true
-    description: >-
-      Collection of exposure biomarker measurements.
 
   # ---------------------------------------------------------------------------
   # Supporting Entity Collection Slots

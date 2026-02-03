@@ -126,20 +126,56 @@ classes:
         range: CFTRObservationTypeEnum
 
   # ---------------------------------------------------------------------------
-  # EGFR Signaling Measurements
+  # EGFR Phosphorylation Measurements
   # ---------------------------------------------------------------------------
 
-  EGFRMeasurement:
+
+  GeneExpressionMeasurement:
+    is_a: Measurement
+    description: >-
+      A measurement of gene expression (mRNA level) in a specific biological context.
+      Captures the target gene, tissue/cell type context, and assay methodology.
+    slots:
+      - target_gene
+      - tissue_context
+      - cell_type_context
+      - normalization_reference
+      - measurement_date
+    slot_usage:
+      observation_type:
+        range: GeneExpressionObservationTypeEnum
+
+  ProteinExpressionMeasurement:
+    is_a: Measurement
+    description: >-
+      A measurement of protein expression or post-translational modification
+      (e.g., phosphorylation) in a specific biological context.
+    slots:
+      - target_protein
+      - phosphorylation_site
+      - tissue_context
+      - cell_type_context
+      - normalization_reference
+      - participant
+      - measurement_date
+
+  EGFRPhosphorylationMeasurement:
+    is_a: Measurement
+    slots:
+      - anatomical_context
+      - phosphorylation_site
     implements:
       - measurement_base:Measurement
     mixins:
       - Measurement
       - InVitroContext
     description: >-
-      Measurement of EGFR (epidermal growth factor receptor) pathway activation
-      including receptor phosphorylation, downstream kinase activation, and
-      ligand expression. Key signaling pathway in airway inflammation and
-      mucin regulation.
+      Measurement of EGFR (epidermal growth factor receptor) phosphorylation.
+      Phosphorylation site (e.g., Y1068, Y1173) is critical for interpreting
+      activation status. Western blot is the most common detection method.
+      Phosphorylation measurement provides the most specific evidence for
+      EGFR activation; downstream kinase data alone is insufficient without
+      direct phosphorylation evidence or inhibitor reversal studies.
     slot_usage:
       observation_type:
         range: EGFRObservationTypeEnum
@@ -218,23 +254,6 @@ classes:
       observation_type:
         range: FoxJObservationTypeEnum
 
-  # ---------------------------------------------------------------------------
-  # Exposure Biomarker Measurements
-  # ---------------------------------------------------------------------------
-
-  ExposureBiomarkerMeasurement:
-    implements:
-      - measurement_base:Measurement
-    mixins:
-      - Measurement
-      - InVivoContext
-    description: >-
-      Measurement of biomarkers indicating exposure to environmental agents
-      including urinary metabolites (e.g., cotinine for tobacco smoke),
-      blood levels, and other exposure indicators.
-    slot_usage:
-      observation_type:
-        range: ExposureBiomarkerObservationTypeEnum
 
 # =============================================================================
 # ENUMS - Domain-Specific Observation Types
@@ -265,6 +284,8 @@ enums:
         description: Pattern of ciliary motion (coordinated, dyskinetic, immotile)
       ciliary_beat_amplitude:
         description: Amplitude of ciliary beat stroke
+      cell_type_ratios:
+        description: Ratios between different cell types (e.g., ciliated to goblet cell ratio)
 
   # ---------------------------------------------------------------------------
   # ASL Observation Types
@@ -310,6 +331,8 @@ enums:
         description: Rate of bacterial biofilm clearance
       bacterial_load:
         description: Bacterial load remaining after clearance (CFU)
+      viral_spread_rate:
+        description: Rate of viral spread across the epithelium
 
   # ---------------------------------------------------------------------------
   # Oxidative Stress Observation Types
@@ -451,6 +474,8 @@ enums:
         description: Microbiome beta diversity metric
       bacterial_load:
         description: Total bacterial load (16S copies or CFU)
+      cell_free_dna:
+        description: Cell-free DNA concentration in BALF or sputum
 
   # ---------------------------------------------------------------------------
   # Lung Function Observation Types
@@ -498,25 +523,71 @@ enums:
         description: FoxJ1 nuclear localization
 
   # ---------------------------------------------------------------------------
-  # Exposure Biomarker Observation Types
+  # Gene Expression Observation Types
   # ---------------------------------------------------------------------------
 
-  ExposureBiomarkerObservationTypeEnum:
+  GeneExpressionObservationTypeEnum:
     description: >-
-      Observation types for exposure biomarker measurements.
+      Observation types for gene expression measurements.
     permissible_values:
-      urinary_cotinine:
-        description: Urinary cotinine level (tobacco smoke biomarker)
-        meaning: CHEBI:68641
-      serum_cotinine:
-        description: Serum cotinine level
-      urinary_1_hydroxypyrene:
-        description: Urinary 1-hydroxypyrene (PAH biomarker)
-      blood_lead:
-        description: Blood lead concentration
-      urinary_arsenic:
-        description: Urinary arsenic species
-      urinary_cadmium:
-        description: Urinary cadmium concentration
-      exhaled_co:
-        description: Exhaled carbon monoxide (smoking biomarker)
+      mrna_level:
+        description: mRNA expression level (qRT-PCR, RNA-seq)
+      protein_level:
+        description: Protein expression level (Western blot, ELISA, mass spec)
+      percentage_positive_cells:
+        description: Percentage of cells positive for marker expression (IHC, flow cytometry)
+
+
+# =============================================================================
+# SLOTS - Protein Expression Measurement Slots
+# =============================================================================
+
+slots:
+
+  # Expression measurement slots
+  target_gene:
+    range: uriorcurie
+    inlined: true
+    description: >-
+      The gene whose expression is being measured, with identifier, name, and symbol.
+      Use this to specify the exact gene target (e.g., MUC5AC, EGFR, IL8).
+
+  target_protein:
+    range: uriorcurie
+    description: >-
+      The protein whose expression or modification is being measured,
+      with identifier, name, and optionally the encoding gene.
+
+  tissue_context:
+    range: uriorcurie
+    description: >-
+      The anatomical tissue or structure where expression was measured,
+      with identifier and name (e.g., bronchial epithelium, lung, nasal mucosa).
+
+  cell_type_context:
+    range: uriorcurie
+    description: >-
+      The specific cell type where expression was measured,
+      with identifier and name (e.g., goblet cell, ciliated cell, basal cell).
+
+  normalization_reference:
+    range: string
+    description: >-
+      The reference gene or protein used for normalization
+      (e.g., GAPDH, beta-actin, 18S rRNA, total protein).
+
+  phosphorylation_site:
+    range: string
+    description: >-
+      For protein phosphorylation measurements, the specific amino acid
+      residue that is phosphorylated (e.g., Y1068, S473, T308).
+
+  anatomical_context:
+    range: uriorcurie
+    id_prefixes:
+      - UBERON
+    description: >-
+      The anatomical location or tissue from which the measurement was taken.
+      Examples include "lung epithelium", "nasal mucosa", "bronchial tissue".
+
+
