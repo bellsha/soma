@@ -22,7 +22,7 @@ The Outcomes Working Group Data Model follows these principles:
 
 - **Ontology-first** - All entities are mapped to established biomedical ontologies
 - **FAIR-compliant** - Supports Findable, Accessible, Interoperable, and Reusable data
-- **Extensible** - New entity types can be added without breaking existing data
+- **Extensible** - New assay types can be added without breaking existing data
 - **Multi-scale** - Captures data from molecular to population levels
 
 ### Technology Stack
@@ -36,11 +36,12 @@ The model is built using:
 
 ### Core Domains
 
-| Domain | Description                                                     |
-|--------|-----------------------------------------------------------------|
-| Measurements | Biomarkers, phenotypes, gene/protein expression                 |
-| Model Systems | Cell cultures and in vitro exposure systems                     |
- | Value Set Definitions | Controlled vocabularies for key entities with ontology mappings |
+| Domain | Description |
+|--------|-------------|
+| Assays | Domain-specific assay classes with named measurement slots (e.g., CiliaryFunctionAssay, LungFunctionAssay) |
+| Study Subjects | Biological systems under study: cell cultures (CellularSystem, TwoDCellCulture), human/animal subjects (InVivoSubject), populations (PopulationSubject) |
+| Protocols | Typed experimental procedures: ImagingProtocol, MolecularAssayProtocol, StainingProtocol, SpirometryProtocol |
+| AOP Framework | Adverse Outcome Pathways: KeyEvent, AdverseOutcomePathway, with assay linkage via `informs_on_key_event` |
 
 ## Contributing
 

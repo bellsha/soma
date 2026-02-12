@@ -2,7 +2,22 @@
 
 # outcomes-working-group
 
-This is the project description.
+A [LinkML](https://linkml.io/) data model for representing assays, measurements, and experimental
+protocols in environmental health sciences (EHS) outcomes research. The schema captures airway biology
+assays relevant to respiratory health outcomes and integrates with the Adverse Outcome Pathway (AOP)
+framework.
+
+## Key Features
+
+- **Assay-centric architecture** with domain-specific assay classes (CiliaryFunctionAssay,
+  LungFunctionAssay, OxidativeStressAssay, etc.) using named measurement slots
+- **StudySubject hierarchy** for describing biological systems: cell cultures (CellularSystem,
+  TwoDCellCulture), human/animal subjects (InVivoSubject), populations (PopulationSubject)
+- **Typed protocol hierarchy**: ImagingProtocol, MolecularAssayProtocol, StainingProtocol,
+  SpirometryProtocol
+- **AOP Framework integration**: KeyEvent and AdverseOutcomePathway classes with assay linkage
+  via `informs_on_key_event`
+- **Ontology-backed** entities mapped to GO, ChEBI, CL, UO, OBI, and other biomedical ontologies
 
 ## Documentation Website
 
