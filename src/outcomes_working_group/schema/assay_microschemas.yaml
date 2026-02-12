@@ -69,6 +69,8 @@ classes:
       imaging_protocol:
         range: ImagingProtocol
         required: true
+      study_subject:
+        range: TwoDCellCulture
 
   # ---------------------------------------------------------------------------
   # ASLAssay (Airway Surface Liquid)
