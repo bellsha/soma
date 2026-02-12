@@ -1,0 +1,1070 @@
+name: assay_base
+description: >-
+  Base schema defining the Assay interface and supporting classes (Protocol,
+  Method) for outcomes research. Domain-specific assay microschemas extend
+  this base to define assays with named measurement slots.
+title: Assay Base Schema
+id: https://w3id.org/EHS-Data-Standards/assay_base
+
+imports:
+  - linkml:types
+  - aop_framework
+
+prefixes:
+  assay_base: https://w3id.org/EHS-Data-Standards/assay_base/
+  linkml: https://w3id.org/linkml/
+  OBI: http://purl.obolibrary.org/obo/OBI_
+  UO: http://purl.obolibrary.org/obo/UO_
+  IAO: http://purl.obolibrary.org/obo/IAO_
+  PATO: http://purl.obolibrary.org/obo/PATO_
+  CLO: http://purl.obolibrary.org/obo/CLO_
+  NAMO: http://purl.obolibrary.org/obo/NAMO_
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+  CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  GO: http://purl.obolibrary.org/obo/GO_
+  CL: http://purl.obolibrary.org/obo/CL_
+  UBERON: http://purl.obolibrary.org/obo/UBERON_
+  PR: http://purl.obolibrary.org/obo/PR_
+  schema: http://schema.org/
+  aop_framework: https://w3id.org/EHS-Data-Standards/aop_framework/
+
+default_prefix: assay_base
+default_range: string
+
+# =============================================================================
+# CLASSES
+# =============================================================================
+
+classes:
+
+  # ---------------------------------------------------------------------------
+  # Core Assay Class (Abstract Base)
+  # ---------------------------------------------------------------------------
+
+  Assay:
+    is_a: NamedThing
+    abstract: true
+    class_uri: OBI:0000070
+    description: >-
+      A planned process with the objective to produce information about
+      biological state relevant to a Key Event in an Adverse Outcome Pathway.
+      Assays are organized by the functional domain they assess (e.g., ciliary
+      function, oxidative stress), and each domain-specific assay class contains
+      named slots for the specific measurements it can produce.
+
+      This is the central organizing concept in the schema - assays inform on
+      key events and contain the measurement data as named slots.
+    slots:
+      # AOP Connection (CRITICAL - links assay to mechanistic framework)
+      - informs_on_key_event
+
+      # Context (ELEVATED - important for data discovery)
+      - cell_type
+      - tissue_context
+
+      # Study Subject (replaces study_context + mixins)
+      - study_subject
+
+      # Input/Treatment
+      - input_sample
+
+      # Methodology
+      - uses_method
+      - follows_protocol
+
+      # Timing
+      - assay_date
+
+  # ---------------------------------------------------------------------------
+  # Study Subject Hierarchy
+  # ---------------------------------------------------------------------------
+
+  StudySubject:
+    is_a: NamedThing
+    description: >-
+      The subject of a study — what the assay is performed on. Subclasses
+      capture different experimental contexts (model systems, living subjects,
+      populations) with context-appropriate slots. The type of subject
+      determines which slots are available, replacing the old mixin pattern.
+    slots:
+      - model_species
+
+  ModelSystem:
+    is_a: StudySubject
+    description: >-
+      An in vitro or ex vivo model system used to study biological processes.
+      Parent class for cell-based and other model systems.
+
+  InVivoSubject:
+    is_a: StudySubject
+    description: >-
+      A living human or animal subject from whom measurements are taken.
+      Used for clinical assays (lung function, BALF/sputum) and any assay
+      performed on living subjects.
+    slots:
+      - age
+      - sex
+      - subject_characteristics
+      - disease_state
+      - sample_type
+      - collection_site
+      - collection_date
+
+  PopulationSubject:
+    is_a: StudySubject
+    description: >-
+      A population or cohort of subjects studied in aggregate. Used for
+      epidemiological or population-level analyses. Can optionally hold
+      references to individual InVivoSubject members.
+    slots:
+      - cohort_size
+      - inclusion_criteria
+      - age_range
+      - subjects
+
+  # ---------------------------------------------------------------------------
+  # Protocol and Method Classes
+  # ---------------------------------------------------------------------------
+
+  Method:
+    is_a: NamedThing
+    class_uri: OBI:0000011
+    description: >-
+      A general approach or technique used to perform an assay. Methods are
+      implemented by specific assays and detailed by protocols. Examples include
+      high-speed video microscopy, qRT-PCR, Western blot, spirometry.
+    slots:
+      - method_type
+      - equipment_required
+      - key_reagents
+      - general_procedure
+      - obi_mapping
+
+  Protocol:
+    is_a: NamedThing
+    class_uri: OBI:0000272
+    description: >-
+      A detailed set of steps for how to perform a specific assay using a
+      specific method. Protocols ensure reproducibility across laboratories.
+      Contains universal slots; domain-specific details are in protocol
+      subclasses (ImagingProtocol, StainingProtocol, etc.).
+    slots:
+      # Core identity
+      - protocol_version
+      - sop_reference
+      - specified_by_method
+
+      # Environmental controls
+      - temperature_control
+      - humidity_control
+
+      # Quality
+      - quality_control_criteria
+      - replicate_requirements
+
+      # Provenance
+      - protocol_author
+      - institution
+      - publication_reference
+      - last_updated
+      - validation_status
+
+  ImagingProtocol:
+    is_a: Protocol
+    description: >-
+      Protocol for imaging-based assays (CBF, ASL, MCC). Captures frame rate,
+      duration, resolution, and tracer/labeling details.
+    slots:
+      - imaging_frame_rate
+      - imaging_duration
+      - spatial_resolution
+      - fluorescent_labeling
+      - fluorescent_tracer
+      - evaporation_prevention
+      - particle_tracking_method
+      - particle_size
+
+  StainingProtocol:
+    is_a: Protocol
+    description: >-
+      Protocol for staining-based assays (goblet cell, immunofluorescence).
+      Captures staining type, antibodies, fixation, and detection details.
+    slots:
+      - staining_type
+      - antibodies_used
+      - detection_method
+      - normalization_method
+      - fixation_method
+      - counterstain
+
+  SpirometryProtocol:
+    is_a: Protocol
+    description: >-
+      Protocol for lung function / spirometry assays. Captures spirometry
+      standards, bronchodilator details, and plethysmography method.
+    slots:
+      - spirometry_standard
+      - bronchodilator_agent
+      - bronchodilator_dose
+      - plethysmography_method
+
+  MolecularAssayProtocol:
+    is_a: Protocol
+    description: >-
+      Protocol for molecular biology assays (qRT-PCR, Western blot, ELISA).
+      Captures detection method, normalization, primers, and platform details.
+    slots:
+      - detection_method
+      - normalization_method
+      - antibodies_used
+      - primer_sequences
+      - reference_gene
+      - lysis_buffer
+      - platform
+
+  # ---------------------------------------------------------------------------
+  # Supporting Value Classes
+  # ---------------------------------------------------------------------------
+
+  QuantityValue:
+    description: >-
+      A quantity with a numeric value and unit of measurement.
+      Used for all measurement values in assays.
+    slots:
+      - value
+      - unit
+
+  Unit:
+    description: >-
+      A unit of measurement from a standard ontology (UO, UCUM, QUDT).
+    slots:
+      - id
+      - name
+    id_prefixes:
+      - UO
+      - UCUM
+      - QUDT
+
+  NamedEntity:
+    description: >-
+      A reference to an entity with an identifier and name.
+      Used for cell_type, tissue_context, participant references, etc.
+    slots:
+      - id
+      - name
+
+  # ---------------------------------------------------------------------------
+  # Input Sample Class
+  # ---------------------------------------------------------------------------
+
+  InputSample:
+    is_a: NamedEntity
+    description: >-
+      Description of the input sample and any manipulations performed.
+      Captures the test system, exposure conditions, and sample preparation.
+    slots:
+      - sample_source
+      - exposure_conditions
+      - exposure_duration
+      - exposure_concentration
+      - sample_preparation
+      - timing_post_exposure
+
+  # ---------------------------------------------------------------------------
+  # Cell Culture Model System Classes
+  # ---------------------------------------------------------------------------
+
+  CellularSystem:
+    is_a: ModelSystem
+    description: >-
+      Cell-based model systems that use living cells to model biological
+      processes. Includes 2D cultures, 3D systems, and co-cultures.
+    slots:
+      # Cell identity
+      - cell_line
+      - primary_cell
+      - cell_type
+      - anatomical_origin
+      # Culture properties
+      - cell_culture_growth_mode
+      - culture_conditions
+      - culture_media
+      # Subject info (moved from Assay base)
+      - days_at_differentiation
+      - donor_info
+      - replicates_per_donor
+
+  TwoDCellCulture:
+    is_a: CellularSystem
+    class_uri: NAMO:0000002
+    description: >-
+      Conventional monolayer cell cultures grown on flat surfaces.
+      Includes adherent and suspension cultures in standard tissue culture vessels.
+    slots:
+      - substrate_type
+      - confluence_level
+      - passage_number
+      - seeding_density
+      - coating
+    id_prefixes:
+      - owg
+
+  ThreeDCellCulture:
+    is_a: CellularSystem
+    class_uri: NAMO:0000003
+    description: >-
+      Three-dimensional cell culture systems including spheroids, organoids,
+      and scaffold-based cultures.
+    slots:
+      - three_d_architecture
+      - matrix_composition
+      - size_range
+      - organoid_type
+      - substrate_type
+    id_prefixes:
+      - owg
+
+  CoCulture:
+    is_a: CellularSystem
+    class_uri: NAMO:0000004
+    description: >-
+      Co-culture systems combining multiple cell types to simulate tissue
+      microenvironments and cell-cell interactions.
+    slots:
+      - coculture_configuration
+      - cell_type_ratios
+      - substrate_type
+    id_prefixes:
+      - owg
+
+  # ---------------------------------------------------------------------------
+  # Cell Culture Supporting Classes
+  # ---------------------------------------------------------------------------
+
+  CellLine:
+    is_a: NamedEntity
+    description: >-
+      A cell line - a genetically stable cultured cell population.
+    slots:
+      - cell_type
+      - model_species
+      - tissue_origin
+      - disease_state
+      - supplier
+      - catalog_number
+      - authentication_method
+      - mycoplasma_status
+    id_prefixes:
+      - CLO
+
+  CellCultureConditions:
+    is_a: NamedEntity
+    exact_mappings:
+      - CLO:0037334
+    description: >-
+      Detailed cell culture parameters including medium, environment, and timing.
+    slots:
+      - culture_media
+      - days_at_air_liquid_interface
+      - passage_number
+      - substrate_type
+      - cell_culture_growth_mode
+      - donor_count
+      - replicates_per_donor
+
+  CellCultureMedium:
+    is_a: NamedEntity
+    description: >-
+      Detailed formulation of cell culture medium including base medium
+      and supplements.
+    slots:
+      - base_medium
+      - serum_type
+      - serum_concentration
+      - supplements
+      - osmolality
+      - manufacturer
+      - catalog_number
+      - lot_number
+      - preparation_date
+
+  MediumSupplement:
+    is_a: NamedEntity
+    description: >-
+      Supplement or additive to cell culture medium.
+    slots:
+      - supplement_type
+      - concentration
+      - manufacturer
+      - catalog_number
+
+  QuantityRange:
+    description: >-
+      A range of quantity values with minimum and maximum bounds.
+    slots:
+      - min_value
+      - max_value
+      - unit
+
+# =============================================================================
+# SLOTS
+# =============================================================================
+
+slots:
+
+  # ---------------------------------------------------------------------------
+  # AOP Connection Slot (CRITICAL NEW SLOT)
+  # ---------------------------------------------------------------------------
+
+  informs_on_key_event:
+    description: >-
+      The Key Event that this assay provides evidence for. This establishes
+      the mechanistic connection between the assay measurements and the
+      Adverse Outcome Pathway framework. Multiple assays can inform on the
+      same key event, providing converging evidence.
+    range: KeyEvent
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Context Slots (ELEVATED - on Assay base class)
+  # ---------------------------------------------------------------------------
+
+  cell_type:
+    description: >-
+      The cell type being studied. Reference to a Cell Ontology (CL) term.
+      This is a TIER 1 slot - critical for data discovery and comparison.
+    range: NamedEntity
+    inlined: true
+    slot_uri: EFO:0000324
+
+  tissue_context:
+    description: >-
+      The anatomical/tissue context. Reference to UBERON anatomy term.
+      Important for understanding where measurements were taken.
+    range: NamedEntity
+    inlined: true
+
+  model_species:
+    description: >-
+      The species of origin for the cells or organism being studied.
+      Reference to NCBITaxon term.
+    range: NamedEntity
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Study Subject Slot
+  # ---------------------------------------------------------------------------
+
+  study_subject:
+    description: >-
+      The subject of the study — what the assay is performed on. Can be a
+      ModelSystem (e.g., CellularSystem), an InVivoSubject, or a
+      PopulationSubject. The type of subject determines which context
+      slots are available.
+    range: StudySubject
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Test System Slots
+  # ---------------------------------------------------------------------------
+
+  input_sample:
+    description: >-
+      Description of the input sample and manipulations. TIER 1 slot -
+      critical for understanding what was measured and under what conditions.
+    range: InputSample
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Methodology Slots
+  # ---------------------------------------------------------------------------
+
+  uses_method:
+    description: >-
+      The Method used to perform this assay.
+    range: Method
+    inlined: true
+
+  follows_protocol:
+    description: >-
+      The Protocol that this assay follows.
+    range: Protocol
+    inlined: true
+
+  specified_by_method:
+    description: >-
+      The Method that this Protocol specifies in detail.
+    range: Method
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Sample/Subject Info Slots (now on CellularSystem)
+  # ---------------------------------------------------------------------------
+
+  days_at_differentiation:
+    description: >-
+      Days at air-liquid interface or differentiation stage.
+    range: integer
+
+  donor_info:
+    description: >-
+      Information about cell donor (e.g., healthy non-smoker, CF patient,
+      age, anatomical region).
+    range: string
+
+  replicates_per_donor:
+    description: >-
+      Number of biological replicates per donor.
+    range: integer
+
+  # ---------------------------------------------------------------------------
+  # Timing Slots
+  # ---------------------------------------------------------------------------
+
+  assay_date:
+    description: >-
+      Date when the assay was performed.
+    range: date
+
+  # ---------------------------------------------------------------------------
+  # InVivoSubject Slots
+  # ---------------------------------------------------------------------------
+
+  age:
+    description: >-
+      Age of the subject.
+    range: QuantityValue
+    inlined: true
+
+  sex:
+    description: >-
+      Biological sex of the subject.
+    range: string
+
+  subject_characteristics:
+    description: >-
+      Relevant subject characteristics (disease state, medications, etc.).
+      TIER 1 for LungFunctionAssay per user feedback.
+    range: string
+
+  sample_type:
+    description: Type of biological sample (e.g., sputum, BALF, blood).
+    range: SampleTypeEnum
+
+  collection_site:
+    description: Anatomical site of sample collection.
+    range: string
+
+  collection_date:
+    description: Date when the sample was collected.
+    range: date
+
+  # ---------------------------------------------------------------------------
+  # PopulationSubject Slots
+  # ---------------------------------------------------------------------------
+
+  cohort_size:
+    description: >-
+      Number of subjects in the cohort or population.
+    range: integer
+
+  inclusion_criteria:
+    description: >-
+      Criteria for inclusion in the study population.
+    range: string
+
+  age_range:
+    description: >-
+      Age range of the study population.
+    range: QuantityRange
+    inlined: true
+
+  subjects:
+    description: >-
+      Individual subjects in the population or cohort. Optional — use when
+      individual-level data is available alongside aggregate cohort metadata.
+    range: InVivoSubject
+    multivalued: true
+    inlined_as_list: true
+
+  # ---------------------------------------------------------------------------
+  # Protocol Detail Slots (Tier 2/3)
+  # ---------------------------------------------------------------------------
+
+  protocol_version:
+    description: Version of the protocol.
+    range: string
+
+  sop_reference:
+    description: Reference to standard operating procedure document.
+    range: string
+
+  imaging_frame_rate:
+    description: Frame rate for video/imaging acquisition (e.g., 200 fps).
+    range: QuantityValue
+    inlined: true
+
+  imaging_duration:
+    description: Duration of imaging session.
+    range: QuantityValue
+    inlined: true
+
+  spatial_resolution:
+    description: Spatial resolution of imaging (e.g., 1-2 um axial resolution).
+    range: QuantityValue
+    inlined: true
+
+  temperature_control:
+    description: Temperature conditions during the procedure (e.g., 37C).
+    range: QuantityValue
+    inlined: true
+
+  humidity_control:
+    description: Humidity conditions during the procedure.
+    range: QuantityValue
+    inlined: true
+
+  evaporation_prevention:
+    description: Method used to prevent evaporation (e.g., perfluorocarbon overlay).
+    range: string
+
+  fluorescent_labeling:
+    description: Fluorescent label or tracer used.
+    range: string
+
+  fluorescent_tracer:
+    description: Fluorescent tracer used for tracking (MCC assays).
+    range: string
+
+  particle_tracking_method:
+    description: Method used for tracking particles or mucus.
+    range: string
+
+  particle_size:
+    description: Size of tracking particles.
+    range: QuantityValue
+    inlined: true
+
+  spirometry_standard:
+    description: Spirometry standard followed (e.g., ATS/ERS 2019).
+    range: string
+
+  bronchodilator_agent:
+    description: Bronchodilator agent used (e.g., albuterol).
+    range: string
+
+  bronchodilator_dose:
+    description: Dose of bronchodilator administered.
+    range: QuantityValue
+    inlined: true
+
+  plethysmography_method:
+    description: Method for plethysmography measurement.
+    range: string
+
+  detection_method:
+    description: Detection method used (e.g., flow cytometry, plate reader).
+    range: string
+
+  staining_type:
+    description: Type of staining used (e.g., immunofluorescence, AB-PAS).
+    range: string
+
+  antibodies_used:
+    description: Antibodies used in staining or detection.
+    range: string
+    multivalued: true
+
+  normalization_method:
+    description: Method used for data normalization.
+    range: string
+
+  quality_control_criteria:
+    description: Quality control acceptance criteria.
+    range: string
+
+  replicate_requirements:
+    description: Number of replicates required.
+    range: integer
+
+  protocol_author:
+    description: Author of the protocol.
+    range: string
+
+  institution:
+    description: Institution where protocol was developed.
+    range: string
+
+  publication_reference:
+    description: Reference to protocol publication.
+    range: string
+
+  last_updated:
+    description: Date protocol was last updated.
+    range: date
+
+  validation_status:
+    description: Validation status of the protocol.
+    range: string
+
+  fixation_method:
+    description: Fixation method used for tissue/cell preparation.
+    range: string
+
+  counterstain:
+    description: Counterstain used (e.g., hematoxylin, DAPI).
+    range: string
+
+  primer_sequences:
+    description: Primer sequences used for PCR-based methods.
+    range: string
+    multivalued: true
+
+  reference_gene:
+    description: Reference/housekeeping gene used for normalization.
+    range: string
+
+  lysis_buffer:
+    description: Lysis buffer used for sample preparation.
+    range: string
+
+  platform:
+    description: Assay platform or instrument used (e.g., QuantStudio, Illumina).
+    range: string
+
+  # ---------------------------------------------------------------------------
+  # Method Slots
+  # ---------------------------------------------------------------------------
+
+  method_type:
+    description: Type of method (e.g., microscopy, molecular, biochemical).
+    range: string
+
+  equipment_required:
+    description: Equipment required for this method.
+    range: string
+    multivalued: true
+
+  key_reagents:
+    description: Key reagents needed for this method.
+    range: string
+    multivalued: true
+
+  general_procedure:
+    description: High-level description of the procedure.
+    range: string
+
+  obi_mapping:
+    description: OBI ontology term for this method.
+    range: uriorcurie
+
+  # ---------------------------------------------------------------------------
+  # Input Sample Slots
+  # ---------------------------------------------------------------------------
+
+  sample_source:
+    description: Source of the sample (cell line, primary cells, tissue).
+    range: string
+
+  exposure_conditions:
+    description: Exposure conditions applied to the sample.
+    range: string
+
+  exposure_duration:
+    description: Duration of exposure.
+    range: QuantityValue
+    inlined: true
+
+  exposure_concentration:
+    description: Concentration of exposure agent.
+    range: QuantityValue
+    inlined: true
+
+  sample_preparation:
+    description: Sample preparation steps.
+    range: string
+
+  timing_post_exposure:
+    description: Time after exposure when measurement was taken.
+    range: QuantityValue
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # Cell Culture Slots
+  # ---------------------------------------------------------------------------
+
+  cell_line:
+    range: CellLine
+    inlined: true
+
+  primary_cell:
+    range: NamedEntity
+    inlined: true
+
+  anatomical_origin:
+    range: NamedEntity
+    inlined: true
+
+  cell_culture_growth_mode:
+    range: CellCultureGrowthModeEnum
+
+  culture_conditions:
+    range: CellCultureConditions
+    inlined: true
+
+  culture_media:
+    range: CellCultureMedium
+    inlined: true
+
+  substrate_type:
+    range: SubstrateTypeEnum
+
+  passage_number:
+    range: integer
+
+  days_at_air_liquid_interface:
+    range: integer
+
+  donor_count:
+    range: integer
+
+  confluence_level:
+    range: QuantityValue
+    inlined: true
+
+  seeding_density:
+    range: QuantityValue
+    inlined: true
+
+  coating:
+    range: string
+
+  three_d_architecture:
+    range: ThreeDArchitectureEnum
+
+  matrix_composition:
+    range: string
+
+  size_range:
+    range: QuantityRange
+    inlined: true
+
+  organoid_type:
+    range: string
+
+  coculture_configuration:
+    range: CoCultureConfigurationEnum
+
+  cell_type_ratios:
+    range: string
+    multivalued: true
+
+  # ---------------------------------------------------------------------------
+  # Cell Line Detail Slots
+  # ---------------------------------------------------------------------------
+
+  tissue_origin:
+    range: string
+
+  disease_state:
+    range: string
+
+  supplier:
+    range: string
+
+  catalog_number:
+    range: string
+
+  authentication_method:
+    range: string
+
+  mycoplasma_status:
+    range: string
+
+  # ---------------------------------------------------------------------------
+  # Medium Slots
+  # ---------------------------------------------------------------------------
+
+  base_medium:
+    range: string
+
+  serum_type:
+    range: string
+
+  serum_concentration:
+    range: QuantityValue
+    inlined: true
+
+  supplements:
+    range: MediumSupplement
+    multivalued: true
+    inlined_as_list: true
+
+  osmolality:
+    range: QuantityValue
+    inlined: true
+
+  manufacturer:
+    range: string
+
+  lot_number:
+    range: string
+
+  preparation_date:
+    range: date
+
+  supplement_type:
+    range: SupplementTypeEnum
+
+  concentration:
+    range: QuantityValue
+    inlined: true
+
+  # ---------------------------------------------------------------------------
+  # QuantityValue and Range Slots
+  # ---------------------------------------------------------------------------
+
+  value:
+    description: The numeric value of the quantity.
+    range: string
+
+  unit:
+    description: The unit of measurement.
+    range: Unit
+    inlined: true
+
+  min_value:
+    range: QuantityValue
+    inlined: true
+
+  max_value:
+    range: QuantityValue
+    inlined: true
+
+# =============================================================================
+# ENUMS
+# =============================================================================
+
+enums:
+
+  SampleTypeEnum:
+    description: Types of biological samples for in vivo assays.
+    permissible_values:
+      urine:
+        description: Urine sample
+      blood:
+        description: Blood sample
+      sputum:
+        description: Induced or spontaneous sputum
+      balf:
+        description: Bronchoalveolar lavage fluid
+      nasal_epithelium:
+        description: Nasal epithelial sample
+      bronchial_epithelium:
+        description: Bronchial epithelial sample
+      exhaled_breath_condensate:
+        description: Exhaled breath condensate
+      biopsy:
+        description: Tissue biopsy
+      sweat:
+        description: Sweat sample
+
+  CellCultureGrowthModeEnum:
+    description: Cell culture growth modes.
+    permissible_values:
+      adherent:
+        description: Cells grow attached to a surface
+        meaning: CLO:0000028
+      suspension:
+        description: Cells grow suspended in culture medium
+        meaning: CLO:0000029
+      air_liquid_interface:
+        description: Cells cultured at air-liquid interface (ALI)
+        meaning: OBI:0600047
+      three_dimensional:
+        description: Cells grown in 3D matrix or scaffold
+      organoid:
+        description: Self-organizing 3D tissue culture
+      spheroid:
+        description: Spherical cellular aggregates
+
+  SubstrateTypeEnum:
+    description: Types of cell culture substrates.
+    permissible_values:
+      plastic:
+        description: Standard tissue culture-treated plastic
+      collagen_coated:
+        description: Collagen-coated surface
+      matrigel:
+        description: Basement membrane matrix
+      fibronectin_coated:
+        description: Fibronectin-coated surface
+      laminin_coated:
+        description: Laminin-coated surface
+      transwell_insert:
+        description: Permeable support for ALI culture
+      hydrogel:
+        description: Three-dimensional hydrogel matrix
+      glass:
+        description: Glass surface or coverslip
+      pdms:
+        description: Polydimethylsiloxane (microfluidics)
+
+  ThreeDArchitectureEnum:
+    description: Types of 3D cell culture architecture.
+    permissible_values:
+      spheroid:
+        description: Spherical cellular aggregates
+      organoid:
+        description: Self-organizing 3D tissue culture
+      scaffold_based:
+        description: Cells grown on a 3D scaffold
+      hydrogel_embedded:
+        description: Cells embedded within a hydrogel matrix
+      hanging_drop:
+        description: 3D cultures formed by hanging drop method
+
+  CoCultureConfigurationEnum:
+    description: Physical configurations for co-culture systems.
+    permissible_values:
+      direct_contact:
+        description: Cell types in direct physical contact
+      transwell:
+        description: Cell types separated by transwell membrane
+      microfluidic:
+        description: Cell types connected via microfluidic channels
+      conditioned_medium:
+        description: Cells grown in medium conditioned by another cell type
+      mixed:
+        description: Multiple cell types mixed together
+
+  SupplementTypeEnum:
+    description: Categories of cell culture medium supplements.
+    permissible_values:
+      growth_factor:
+        description: Proteins that stimulate cell growth
+        meaning: CHEBI:23924
+      antibiotic:
+        description: Antimicrobial substances
+        meaning: CHEBI:33281
+      antifungal:
+        description: Antifungal agents
+        meaning: CHEBI:35718
+      hormone:
+        description: Signaling molecules
+        meaning: CHEBI:24621
+      vitamin:
+        description: Essential vitamins
+        meaning: CHEBI:33229
+      amino_acid:
+        description: Amino acid supplements
+        meaning: CHEBI:33709
+      lipid:
+        description: Lipid supplements
+        meaning: CHEBI:18059
+      trace_element:
+        description: Essential trace elements
+      attachment_factor:
+        description: Factors promoting cell attachment
+      differentiation_factor:
+        description: Factors promoting cell differentiation

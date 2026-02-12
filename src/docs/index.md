@@ -1,13 +1,13 @@
 # Outcomes Working Group Data Model
 
-The Outcomes Working Group Data Model is a [LinkML](https://linkml.io/) schema for representing 
-Key Event and Outcome measurements, assays, and experimental protocols in the context of environmental 
+The Outcomes Working Group Data Model is a [LinkML](https://linkml.io/) schema for representing
+Key Event and Outcome measurements, assays, and experimental protocols in the context of environmental
 health sciences (EHS) outcomes research.
 
 ## Purpose
 
-This data model provides a standardized way to capture and exchange data about airway biology 
-measurements relevant to respiratory health outcomes, including:
+This data model provides a standardized way to capture and exchange data about airway biology
+assays relevant to respiratory health outcomes, including:
 
 - **Ciliary function** - Beat frequency, active area, morphology
 - **Airway surface liquid** - ASL height, periciliary layer depth, ion composition
@@ -18,37 +18,56 @@ measurements relevant to respiratory health outcomes, including:
 - **Mucin biology** - Goblet cells, MUC5AC/MUC5B expression
 - **Inflammatory markers** - BALF/sputum cell counts, cytokines
 - **Lung function** - Spirometry outcomes (FEV1, FVC)
-- **Exposure biomarkers** - Cotinine, metals, PAH metabolites
+- **Gene expression** - Target gene mRNA levels
 
-## Microschema Architecture
+## Assay-Centric Architecture
 
-The schema uses a **microschema architecture** where domain-specific measurement types 
-inherit from a common base and can incorporate context mixins for in vitro or in vivo settings.
+The schema uses an **assay-centric architecture** where domain-specific assay types
+inherit from a common `Assay` base class. Each assay class has **named measurement slots**
+(e.g., `beat_frequency_hz`, `asl_height_um`) instead of generic observation types.
 
-### Measurement Microschemas
+### Assay Microschemas
 
-| Microschema | Container Slot | Description |
+| Assay Class | Container Slot | Description |
 |-------------|----------------|-------------|
-| CiliaryFunctionMeasurement | `ciliary_measurements` | Ciliary beat frequency, active area, morphology |
-| ASLMeasurement | `asl_measurements` | Airway surface liquid height, PCL depth, ions |
-| MCCMeasurement | `mcc_measurements` | Mucociliary transport and clearance |
-| OxidativeStressMeasurement | `oxidative_stress_measurements` | ROS, MDA, 4-HNE, antioxidant enzymes |
-| CFTRMeasurement | `cftr_measurements` | CFTR chloride secretion, sweat chloride |
-| EGFRMeasurement | `egfr_measurements` | EGFR/ERK/AKT phosphorylation |
-| GobletCellMucinMeasurement | `goblet_cell_mucin_measurements` | Goblet cells, MUC5AC/5B expression |
-| BALFSputumMeasurement | `balf_sputum_measurements` | Cell differentials, cytokines |
-| LungFunctionMeasurement | `lung_function_measurements` | FEV1, FVC, FeNO |
-| FoxJMeasurement | `foxj_measurements` | FoxJ1 expression, ciliogenesis |
+| CiliaryFunctionAssay | `ciliary_function_assays` | Ciliary beat frequency, active area, morphology |
+| ASLAssay | `asl_assays` | Airway surface liquid height, PCL depth, ions |
+| MucociliaryClearanceAssay | `mcc_assays` | Mucociliary transport and clearance |
+| OxidativeStressAssay | `oxidative_stress_assays` | ROS, MDA, lipid peroxidation |
+| CFTRFunctionAssay | `cftr_assays` | CFTR chloride secretion, sweat chloride |
+| EGFRSignalingAssay | `egfr_signaling_assays` | EGFR/ERK/AKT phosphorylation |
+| GobletCellAssay | `goblet_cell_assays` | Goblet cells, MUC5AC/5B expression |
+| BALFSputumAssay | `balf_sputum_assays` | Cell differentials, cytokines |
+| LungFunctionAssay | `lung_function_assays` | FEV1, FVC, FeNO |
+| FoxJExpressionAssay | `foxj_assays` | FoxJ1 expression, ciliogenesis |
+| GeneExpressionAssay | `gene_expression_assays` | Target gene mRNA expression |
 
-### Context Mixins
+### Study Subject Hierarchy
 
-Each measurement can include context about the experimental setting:
+Each assay records its biological system via the `study_subject` slot, which accepts
+any class in the StudySubject hierarchy:
 
-| Mixin | Use Case | Key Slots |
+| Class | Use Case | Key Slots |
 |-------|----------|-----------|
-| InVitroContext | Cell culture experiments | `cell_culture_system`, `days_at_differentiation`, `donor_info` |
-| InVivoContext | Human/animal samples | `participant`, `sample_type`, `collection_site`, `collection_date` |
+| StudySubject | Base class | `model_species` |
+| ModelSystem | Laboratory model systems | (inherits from StudySubject) |
+| CellularSystem | Cell-based experiments | `cell_type`, `cell_line`, `culture_conditions`, `days_at_differentiation` |
+| TwoDCellCulture | ALI / monolayer cultures | `substrate_type`, `passage_number`, `confluence_level` |
+| ThreeDCellCulture | Organoids, spheroids | `scaffold_type`, `organoid_type` |
+| InVivoSubject | Human/animal samples | `age`, `sex`, `sample_type`, `collection_site`, `subject_characteristics` |
+| PopulationSubject | Epidemiological cohorts | `cohort_name`, `sample_size`, `demographics` |
 
+### Protocol Hierarchy
+
+Assays reference typed protocols for domain-specific procedural details:
+
+| Protocol Class | Slot Name | Key Slots |
+|---------------|-----------|-----------|
+| Protocol | `follows_protocol` | `protocol_version`, `temperature_control`, `quality_control_criteria` |
+| ImagingProtocol | `imaging_protocol` | `imaging_frame_rate`, `imaging_duration`, `spatial_resolution` |
+| MolecularAssayProtocol | `molecular_protocol` | `detection_method`, `antibodies_used`, `reference_gene` |
+| StainingProtocol | `staining_protocol` | `staining_type`, `fixation_method`, `counterstain` |
+| SpirometryProtocol | `spirometry_protocol` | `spirometry_standard`, `bronchodilator_agent` |
 
 ### Supporting Entities
 
@@ -56,7 +75,8 @@ Each measurement can include context about the experimental setting:
 |--------|----------------|-------------|
 | Protocol | `protocols` | Detailed experimental procedures |
 | Method | `methods` | General measurement techniques |
-| Assay | `assays` | Specific test definitions |
+| KeyEvent | `key_events` | AOP key events that assays inform on |
+| AdverseOutcomePathway | `adverse_outcome_pathways` | Complete AOP definitions |
 
 ## Key Features
 
@@ -91,55 +111,79 @@ The schema can be used to:
 
 All data uses the `Container` class as the root element. Here's a quick example:
 
-### Ciliary Function Measurement (In Vitro)
+### Ciliary Function Assay (In Vitro)
 
 ```yaml
-ciliary_measurements:
-  CILIARY:001:
-    id: "CILIARY:001"
+ciliary_function_assays:
+  - id: "CILIARY:001"
     name: "CBF measurement after ozone exposure"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
+    beat_frequency_hz:
       value: "8.5"
       unit:
         id: "UO:0000106"
         name: "hertz"
-    measurement_method: "high-speed video microscopy"
-    measurement_date: "2024-01-15"
-    cell_culture_system:
+    active_area_percentage:
+      value: "72"
+      unit:
+        id: "UO:0000187"
+        name: "percent"
+    assay_date: "2024-01-15"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    imaging_protocol:
+      id: "PROTOCOL:cbf-001"
+      name: "High-speed video microscopy for CBF"
+      imaging_frame_rate:
+        value: "200"
+        unit:
+          id: "UO:0000105"
+          name: "hertz"
 ```
 
-### Lung Function Measurement (In Vivo)
+### Lung Function Assay (In Vivo)
 
 ```yaml
-lung_function_measurements:
-  LF:001:
-    id: "LF:001"
+lung_function_assays:
+  - id: "LF:001"
     name: "FEV1 measurement"
-    observation_type: fev1
-    quantity_measured:
+    fev1:
       value: "82.5"
       unit:
         id: "UO:0000187"
         name: "percent predicted"
-    measurement_method: "Spirometry"
-    participant:
-      id: "PARTICIPANT:001"
-      name: "Subject A"
+    reference_dataset: "GLI-2012"
+    assay_date: "2024-08-10"
+    study_subject:
+      id: "SUBJECT:002"
+      name: "Subject B"
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+      age:
+        value: "52"
+        unit:
+          id: "UO:0000036"
+          name: "year"
+      sex: "male"
+    spirometry_protocol:
+      id: "PROTOCOL:spiro-001"
+      name: "Pre- and post-bronchodilator spirometry"
+      spirometry_standard: "ATS/ERS 2019"
 ```
 
-**See the [Examples](examples.md) page for comprehensive examples covering all measurement types,
-cell culture configurations, protocols, and more.**
+**See the [Examples](examples.md) page for comprehensive examples covering all assay types,
+protocols, and study configurations.**
 
 ## Resources
 
-- [Examples](examples.md) - Comprehensive examples for all measurement types
+- [Examples](examples.md) - Comprehensive examples for all assay types
 - [Schema Documentation](elements/index.md) - Full schema reference
 - [GitHub Repository](https://github.com/EHS-Data-Standards/outcomes-working-group)
 - [LinkML Documentation](https://linkml.io/linkml/)
