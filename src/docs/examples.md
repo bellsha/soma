@@ -6,375 +6,559 @@ use cases for environmental health research data.
 
 ## Quick Start
 
-The simplest way to get started is to pick an example that matches your measurement type
+The simplest way to get started is to pick an example that matches your assay type
 and adapt it to your data. Each example shows:
 
-- Required fields for the measurement type
-- Proper use of ontology-backed units
-- Context for in vitro (cell culture) or in vivo (human/animal) settings
+- Required fields for the assay type
+- Named measurement slots (e.g., `beat_frequency_hz`, not generic `observation_type`)
+- Study subject with appropriate detail level
+- Typed protocols (ImagingProtocol, MolecularAssayProtocol, etc.)
 
 ---
 
-## In Vitro Measurements
+## In Vitro Assays
 
-These examples demonstrate measurements performed on cell culture systems, using the
-`InVitroContext` mixin which provides the `cell_culture_system` slot for detailed
-culture system specification.
+These examples demonstrate assays performed on cell culture systems. The `study_subject`
+slot captures the biological model, and typed protocols capture domain-specific details.
 
-### Ciliary Function Measurement
+### Ciliary Function Assay
 
-Measuring ciliary beat frequency (CBF) in primary human bronchial epithelial cells
-cultured at air-liquid interface:
+Measuring ciliary beat frequency (CBF) in primary human bronchial epithelial cells:
 
 ```yaml
-ciliary_measurements:
+ciliary_function_assays:
   - id: "CILIARY:001"
     name: "CBF measurement after ozone exposure"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
+    beat_frequency_hz:
       value: "8.5"
       unit:
         id: "UO:0000106"
         name: "hertz"
-    measurement_date: "2024-01-15"
-    cell_culture_system:
+    active_area_percentage:
+      value: "72"
+      unit:
+        id: "UO:0000187"
+        name: "percent"
+    percentage_ciliated_cells:
+      value: "65"
+      unit:
+        id: "UO:0000187"
+        name: "percent"
+    assay_date: "2024-01-15"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    imaging_protocol:
+      id: "PROTOCOL:cbf-001"
+      name: "High-speed video microscopy for CBF"
+      imaging_frame_rate:
+        value: "200"
+        unit:
+          id: "UO:0000105"
+          name: "hertz"
+      imaging_duration:
+        value: "5"
+        unit:
+          id: "UO:0000010"
+          name: "second"
+      temperature_control:
+        value: "37"
+        unit:
+          id: "UO:0000027"
+          name: "degree Celsius"
 ```
 
 **Key points:**
 
-- `observation_type` uses the `CiliaryObservationTypeEnum` (e.g., `ciliary_beat_frequency`, `ciliary_beat_pattern`, `percent_motile_cilia`)
-- `cell_culture_system` is a structured object with culture details
-- `days_at_differentiation` indicates maturation time at ALI
+- Named measurement slots: `beat_frequency_hz`, `active_area_percentage`, `percentage_ciliated_cells`
+- `study_subject` captures the biological model with `model_species`
+- `imaging_protocol` (ImagingProtocol) with frame rate, duration, and temperature
 
 ---
 
-### Airway Surface Liquid (ASL) Measurement
+### Airway Surface Liquid (ASL) Assay
 
-Measuring ASL height using micro-optical coherence tomography:
+Measuring ASL height using confocal microscopy:
 
 ```yaml
-asl_measurements:
+asl_assays:
   - id: "ASL:001"
     name: "Airway surface liquid height"
-    observation_type: asl_height
-    quantity_measured:
+    asl_height_um:
       value: "7.2"
       unit:
         id: "UO:0000017"
         name: "micrometer"
-    measurement_date: "2024-02-10"
-    cell_culture_system:
+    periciliary_layer_depth:
+      value: "5.1"
+      unit:
+        id: "UO:0000017"
+        name: "micrometer"
+    assay_date: "2024-02-10"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-002"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    imaging_protocol:
+      id: "PROTOCOL:asl-001"
+      name: "Confocal microscopy for ASL height"
+      spatial_resolution:
+        value: "1.5"
+        unit:
+          id: "UO:0000017"
+          name: "micrometer"
+      fluorescent_labeling: "Texas Red-dextran"
 ```
 
 ---
 
-### Mucociliary Clearance (MCC) Measurement
+### Mucociliary Clearance (MCC) Assay
 
 Tracking fluorescent microsphere transport rate:
 
 ```yaml
-mcc_measurements:
+mcc_assays:
   - id: "MCC:001"
     name: "Mucociliary transport rate"
-    observation_type: mucociliary_transport_rate
-    quantity_measured:
+    transport_rate:
       value: "45.3"
       unit:
         id: "UO:0000103"
         name: "micrometer per second"
-    measurement_date: "2024-03-05"
-    cell_culture_system:
+    transport_directionality: normal
+    assay_date: "2024-03-05"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-007"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    imaging_protocol:
+      id: "PROTOCOL:mcc-001"
+      name: "Fluorescent microsphere tracking for MCC"
+      fluorescent_tracer: "1-um fluorescent microspheres"
+      particle_tracking_method: "automated particle tracking"
 ```
 
 ---
 
-### Oxidative Stress Measurement
+### Oxidative Stress Assay
 
 Measuring reactive oxygen species (ROS) after PM2.5 exposure:
 
 ```yaml
-oxidative_stress_measurements:
+oxidative_stress_assays:
   - id: "OX:001"
     name: "ROS level after PM2.5 exposure"
-    observation_type: reactive_oxygen_species
-    quantity_measured:
+    reactive_oxygen_species:
       value: "2.5"
       unit:
         id: "UO:0000193"
         name: "fold change"
-    measurement_date: "2024-01-20"
-    cell_culture_system:
+    ros_probe_type: "DCFDA"
+    assay_date: "2024-01-20"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-003"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    molecular_protocol:
+      id: "PROTOCOL:ros-001"
+      name: "DCFDA ROS detection in ALI cultures"
+      detection_method: "fluorescence plate reader"
+      normalization_method: "cell count normalization"
 ```
 
 ---
 
-### CFTR Function Measurement
+### CFTR Function Assay
 
 Measuring CFTR-mediated chloride secretion using Ussing chambers:
 
 ```yaml
-cftr_measurements:
+cftr_assays:
   - id: "CFTR:001"
     name: "CFTR chloride secretion"
-    observation_type: cftr_chloride_secretion
-    quantity_measured:
+    cftr_chloride_secretion:
       value: "15.2"
       unit:
         id: "UO:0000274"
         name: "microampere per square centimeter"
-    measurement_date: "2024-04-12"
-    cell_culture_system:
+    stimulation_agent: "forskolin 10 uM"
+    inhibitor_used: "CFTRinh-172"
+    assay_date: "2024-04-12"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-006"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    follows_protocol:
+      id: "PROTOCOL:cftr-001"
+      name: "Ussing chamber short-circuit current protocol"
 ```
 
 ---
 
-### EGFR Phosphorylation Measurement
+### EGFR Signaling Assay
 
 Measuring EGFR phosphorylation after smoke exposure:
 
 ```yaml
-egfr_phosphorylation_measurements:
+egfr_signaling_assays:
   - id: "EGFR:001"
     name: "EGFR phosphorylation after smoke exposure"
-    observation_type: egfr_phosphorylation
-    quantity_measured:
+    egfr_phosphorylation_y1068:
       value: "3.2"
       unit:
         id: "UO:0000193"
         name: "fold change"
-    measurement_date: "2024-05-08"
-    cell_culture_system:
+    total_egfr_protein:
+      value: "1.0"
+      unit:
+        id: "UO:0000193"
+        name: "fold change"
+    normalization_reference: "beta-actin"
+    assay_date: "2024-05-08"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-005"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    molecular_protocol:
+      id: "PROTOCOL:wb-001"
+      name: "Western blot for phospho-EGFR"
+      detection_method: "chemiluminescence"
+      antibodies_used:
+        - "anti-pEGFR Y1068 (Cell Signaling #3777)"
+        - "anti-total EGFR (Cell Signaling #4267)"
+      normalization_method: "total protein normalization"
 ```
 
 ---
 
-### Goblet Cell / Mucin Measurement
+### Goblet Cell Assay
 
-Measuring MUC5AC expression in goblet cells:
+Measuring MUC5AC expression and goblet cell quantification:
 
 ```yaml
-goblet_cell_mucin_measurements:
+goblet_cell_assays:
   - id: "GCM:001"
-    name: "MUC5AC expression"
-    observation_type: muc5ac_expression
-    quantity_measured:
+    name: "MUC5AC expression and goblet cell quantification"
+    muc5ac_mrna_expression:
       value: "4.8"
       unit:
         id: "UO:0000193"
         name: "fold change"
-    measurement_date: "2024-06-15"
-    cell_culture_system:
+    goblet_cell_percentage:
+      value: "28"
+      unit:
+        id: "UO:0000187"
+        name: "percent"
+    assay_date: "2024-06-15"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-004"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    staining_protocol:
+      id: "PROTOCOL:stain-001"
+      name: "AB-PAS staining for goblet cells"
+      staining_type: "AB-PAS"
+      fixation_method: "4% paraformaldehyde"
+      counterstain: "hematoxylin"
 ```
 
 ---
 
-### FoxJ Measurement
+### FoxJ Expression Assay
 
 Measuring FoxJ1 transcription factor expression (master regulator of ciliogenesis):
 
 ```yaml
-foxj_measurements:
+foxj_assays:
   - id: "FOXJ:001"
     name: "FoxJ1 mRNA expression"
-    observation_type: foxj1_mrna_expression
-    quantity_measured:
+    foxj1_mrna_expression:
       value: "0.65"
       unit:
         id: "UO:0000193"
         name: "fold change"
-    measurement_date: "2024-09-05"
-    cell_culture_system:
+    foxj1_positive_cell_percentage:
+      value: "42"
+      unit:
+        id: "UO:0000187"
+        name: "percent"
+    assay_date: "2024-09-05"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
       id: "owg:culture-008"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 14
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    molecular_protocol:
+      id: "PROTOCOL:qpcr-001"
+      name: "qRT-PCR for FoxJ1"
+      detection_method: "SYBR Green qPCR"
+      reference_gene: "GAPDH"
 ```
 
 ---
 
-## In Vivo Measurements
+### Gene Expression Assay
 
-These examples demonstrate measurements from human or animal subjects, using the
-`InVivoContext` mixin which provides participant and sample information.
+Measuring target gene mRNA expression:
 
-### Lung Function Measurement
+```yaml
+gene_expression_assays:
+  - id: "GE:001"
+    name: "IL-8 gene expression after exposure"
+    target_gene: "PR:000006689"
+    mrna_level:
+      value: "3.5"
+      unit:
+        id: "UO:0000193"
+        name: "fold change"
+    gene_expression_method: "qRT-PCR"
+    normalization_reference: "GAPDH"
+    assay_date: "2024-10-01"
+    cell_type:
+      id: "CL:0002328"
+      name: "bronchial epithelial cell"
+    study_subject:
+      id: "owg:culture-009"
+      name: "Primary HBE ALI culture"
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    molecular_protocol:
+      id: "PROTOCOL:qpcr-002"
+      name: "qRT-PCR for cytokine expression"
+      detection_method: "TaqMan qPCR"
+      reference_gene: "GAPDH"
+      platform: "QuantStudio 6"
+```
+
+---
+
+## In Vivo Assays
+
+These examples demonstrate assays from human or animal subjects. The `study_subject`
+slot uses InVivoSubject-level properties including `age`, `sex`, `sample_type`,
+`collection_site`, and `subject_characteristics`.
+
+### Lung Function Assay
 
 Spirometry measurement from a human subject:
 
 ```yaml
-lung_function_measurements:
+lung_function_assays:
   - id: "LF:001"
     name: "FEV1 measurement"
-    observation_type: fev1
-    quantity_measured:
+    fev1:
       value: "82.5"
       unit:
         id: "UO:0000187"
         name: "percent predicted"
-    measurement_date: "2024-08-10"
-    participant:
-      id: "PARTICIPANT:002"
+    fvc:
+      value: "95.0"
+      unit:
+        id: "UO:0000187"
+        name: "percent predicted"
+    reference_dataset: "GLI-2012"
+    assay_date: "2024-08-10"
+    study_subject:
+      id: "SUBJECT:002"
       name: "Subject B"
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+      age:
+        value: "52"
+        unit:
+          id: "UO:0000036"
+          name: "year"
+      sex: "male"
+      subject_characteristics: "Non-smoker, no respiratory disease"
+    spirometry_protocol:
+      id: "PROTOCOL:spiro-001"
+      name: "Pre- and post-bronchodilator spirometry"
+      spirometry_standard: "ATS/ERS 2019"
+      bronchodilator_agent: "albuterol"
+      bronchodilator_dose:
+        value: "400"
+        unit:
+          id: "UO:0000022"
+          name: "microgram"
 ```
 
 **Key points:**
 
-- `participant` replaces `cell_culture_system` for in vivo context
-- No `days_at_differentiation` since this is a human measurement
+- `study_subject` includes InVivoSubject slots: `age`, `sex`, `subject_characteristics`
+- `spirometry_protocol` (SpirometryProtocol) with standards and bronchodilator details
 
 ---
 
-### BALF/Sputum Measurement
+### BALF/Sputum Assay
 
 Inflammatory cell differential from induced sputum:
 
 ```yaml
-balf_sputum_measurements:
+balf_sputum_assays:
   - id: "BALF:001"
     name: "Neutrophil percentage in induced sputum"
-    observation_type: neutrophil_percentage
-    quantity_measured:
+    neutrophil_percentage:
       value: "45.0"
       unit:
         id: "UO:0000187"
         name: "percent"
-    measurement_date: "2024-07-22"
-    sample_type: sputum
-    participant:
-      id: "PARTICIPANT:001"
+    il8_concentration:
+      value: "250"
+      unit:
+        id: "UO:0000175"
+        name: "picogram per milliliter"
+    assay_date: "2024-07-22"
+    cell_type:
+      id: "CL:0000775"
+      name: "neutrophil"
+    study_subject:
+      id: "SUBJECT:001"
       name: "Subject A"
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+      age:
+        value: "45"
+        unit:
+          id: "UO:0000036"
+          name: "year"
+      sex: "female"
+      sample_type: sputum
+      collection_site: "pulmonary clinic"
+      subject_characteristics: "Non-smoker, mild asthma"
+    molecular_protocol:
+      id: "PROTOCOL:balf-001"
+      name: "Sputum cell differential protocol"
+      detection_method: "cytospin and Diff-Quik staining"
 ```
 
 ---
 
-## Protocols, Methods, and Assays
+## Protocols and Methods
 
-The schema supports detailed documentation of experimental procedures through a
-three-level hierarchy: Assays (what is measured), Methods (how it's measured),
-and Protocols (specific procedures).
-
-### Assay Definition
-
-An assay type reference:
-
-```yaml
-assays:
-  - id: "ASSAY:001"
-    name: "Ciliary beat frequency assay"
-    description: "Assay for measuring the frequency of ciliary beating in airway epithelial cells"
-```
-
----
+The schema supports detailed documentation of experimental procedures through
+Methods (general techniques) and typed Protocols (specific procedures).
 
 ### Method Definition
 
-A general measurement method that implements an assay:
+A general measurement technique:
 
 ```yaml
 methods:
   - id: "METHOD:001"
     name: "High-speed video microscopy"
     description: "Video microscopy technique for measuring ciliary dynamics at frame rates above 100 Hz"
-    implements_assay:
-      id: "ASSAY:001"
-      name: "Ciliary beat frequency assay"
+    method_type: "microscopy"
+    equipment_required:
+      - "High-speed camera (>200 fps)"
+      - "Inverted microscope with 20x objective"
+    general_procedure: "Cells imaged at 200 fps for 5 seconds per field of view"
 ```
 
 ---
 
-### Protocol Definition
+### Protocol Definition (Base)
 
-A detailed protocol that specifies a method:
+A protocol using only base Protocol slots:
 
 ```yaml
 protocols:
   - id: "PROTOCOL:001"
     name: "High-speed video microscopy for CBF"
     description: "Protocol for measuring ciliary beat frequency using high-speed video microscopy"
-    specified_by_method:
-      id: "METHOD:001"
-      name: "High-speed video microscopy"
+    protocol_version: "2.1"
+    temperature_control:
+      value: "37"
+      unit:
+        id: "UO:0000027"
+        name: "degree Celsius"
+    quality_control_criteria: "Minimum 5 fields per insert, discard if >50% debris"
+    replicate_requirements: 3
 ```
 
 ---
 
-### Linking Measurements to Protocols and Methods
+### Typed Protocols on Assays
 
-Measurements can reference the protocol and method used:
+Assays reference typed protocols directly for domain-specific details:
 
 ```yaml
-ciliary_measurements:
+# ImagingProtocol on a CiliaryFunctionAssay
+ciliary_function_assays:
   - id: "CILIARY:001"
-    name: "CBF - Control baseline"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
+    name: "CBF measurement"
+    beat_frequency_hz:
       value: "12.5"
       unit:
         id: "UO:0000106"
         name: "hertz"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:001"
-      name: "High-speed video microscopy"
-    follows_protocol:
-      id: "PROTOCOL:001"
-      name: "CBF measurement by high-speed microscopy"
-    cell_culture_system:
+    assay_date: "2024-01-15"
+    study_subject:
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
+      model_species:
+        id: "NCBITaxon:9606"
+        name: "Homo sapiens"
+    imaging_protocol:
+      id: "PROTOCOL:cbf-001"
+      name: "CBF measurement by high-speed microscopy"
+      imaging_frame_rate:
+        value: "200"
+        unit:
+          id: "UO:0000105"
+          name: "hertz"
+      temperature_control:
+        value: "37"
+        unit:
+          id: "UO:0000027"
+          name: "degree Celsius"
 ```
 
 ---
 
-## Comprehensive AOP Example: PM2.5 Exposure → Impaired Lung Function
+## Comprehensive AOP Example: PM2.5 Exposure -> Impaired Lung Function
 
 This comprehensive example demonstrates an Adverse Outcome Pathway (AOP) for particulate
 matter (PM2.5) exposure leading to impaired lung function. The pathway includes:
@@ -389,719 +573,21 @@ matter (PM2.5) exposure leading to impaired lung function. The pathway includes:
 
 - In vitro: Primary human bronchial epithelial (HBE) cells at ALI
 - In vivo: Clinical cohort with spirometry
-- Exposure: PM2.5 (10 μg/cm²) vs. clean air control
+- Exposure: PM2.5 (10 ug/cm2) vs. clean air control
 - Timepoints: 4h (early), 24h (intermediate), 7d (late)
 
-```yaml
-# =============================================================================
-# ASSAYS - The tests being performed
-# =============================================================================
+**See [`Container-comprehensive_aop_lung.yaml`](../examples/Container-comprehensive_aop_lung.yaml)
+and [`assay_centric_example.yaml`](../examples/assay_centric_example.yaml) for the full data files.**
 
-assays:
-  - id: "ASSAY:001"
-    name: "Reactive oxygen species assay"
-    description: "Assay for measuring intracellular ROS levels using fluorescent probes"
+Key features demonstrated in the comprehensive example:
 
-  - id: "ASSAY:002"
-    name: "Protein phosphorylation assay"
-    description: "Assay for detecting phosphorylation of target proteins"
-
-  - id: "ASSAY:003"
-    name: "Gene expression assay"
-    description: "Assay for measuring mRNA expression levels"
-
-  - id: "ASSAY:004"
-    name: "Ciliary beat frequency assay"
-    description: "Assay for measuring the frequency of ciliary beating in airway epithelial cells"
-
-  - id: "ASSAY:005"
-    name: "Mucociliary transport assay"
-    description: "Assay for measuring the rate and efficiency of mucus/particle transport"
-
-  - id: "ASSAY:006"
-    name: "Pulmonary function test"
-    description: "Clinical assay for measuring lung volumes and airflow"
-
-# =============================================================================
-# METHODS - General techniques implementing the assays
-# =============================================================================
-
-methods:
-  - id: "METHOD:001"
-    name: "DCFDA fluorescence assay"
-    description: "Measurement of intracellular ROS using 2',7'-dichlorofluorescein diacetate (DCFDA) probe with plate reader detection"
-    implements_assay:
-      id: "ASSAY:001"
-      name: "Reactive oxygen species assay"
-
-  - id: "METHOD:002"
-    name: "Western blot"
-    description: "Protein detection and semi-quantification by SDS-PAGE and immunoblotting"
-    implements_assay:
-      id: "ASSAY:002"
-      name: "Protein phosphorylation assay"
-
-  - id: "METHOD:003"
-    name: "Quantitative RT-PCR"
-    description: "Reverse transcription followed by quantitative PCR for mRNA quantification"
-    implements_assay:
-      id: "ASSAY:003"
-      name: "Gene expression assay"
-
-  - id: "METHOD:004"
-    name: "High-speed video microscopy"
-    description: "Video microscopy at frame rates >100 Hz for ciliary motion analysis"
-    implements_assay:
-      id: "ASSAY:004"
-      name: "Ciliary beat frequency assay"
-
-  - id: "METHOD:005"
-    name: "Fluorescent microsphere tracking"
-    description: "Tracking fluorescent particles to measure mucociliary transport rate"
-    implements_assay:
-      id: "ASSAY:005"
-      name: "Mucociliary transport assay"
-
-  - id: "METHOD:006"
-    name: "Spirometry"
-    description: "Standardized spirometry following ATS/ERS guidelines"
-    implements_assay:
-      id: "ASSAY:006"
-      name: "Pulmonary function test"
-
-# =============================================================================
-# PROTOCOLS - Detailed procedures for each method
-# =============================================================================
-
-protocols:
-  - id: "PROTOCOL:001"
-    name: "DCFDA ROS detection in ALI cultures"
-    description: "Protocol for measuring intracellular ROS in differentiated HBE cells using DCFDA"
-    specified_by_method:
-      id: "METHOD:001"
-      name: "DCFDA fluorescence assay"
-
-  - id: "PROTOCOL:002"
-    name: "Western blot for phospho-EGFR"
-    description: "Protocol for detecting EGFR phosphorylation at Y1068 by Western blot"
-    specified_by_method:
-      id: "METHOD:002"
-      name: "Western blot"
-
-  - id: "PROTOCOL:003"
-    name: "qRT-PCR for MUC5AC"
-    description: "Protocol for measuring MUC5AC mRNA expression by qRT-PCR with GAPDH normalization"
-    specified_by_method:
-      id: "METHOD:003"
-      name: "Quantitative RT-PCR"
-
-  - id: "PROTOCOL:004"
-    name: "CBF measurement by high-speed microscopy"
-    description: "Protocol for measuring ciliary beat frequency using high-speed video microscopy at 200 fps"
-    specified_by_method:
-      id: "METHOD:004"
-      name: "High-speed video microscopy"
-
-  - id: "PROTOCOL:005"
-    name: "MCT rate by microsphere tracking"
-    description: "Protocol for measuring mucociliary transport rate using 1-μm fluorescent microspheres"
-    specified_by_method:
-      id: "METHOD:005"
-      name: "Fluorescent microsphere tracking"
-
-  - id: "PROTOCOL:006"
-    name: "Pre- and post-bronchodilator spirometry"
-    description: "Clinical spirometry protocol following ATS/ERS 2019 guidelines with bronchodilator reversibility testing"
-    specified_by_method:
-      id: "METHOD:006"
-      name: "Spirometry"
-
-# =============================================================================
-# OXIDATIVE STRESS MEASUREMENTS (MIE)
-# =============================================================================
-
-oxidative_stress_measurements:
-  # Control - 4h
-  - id: "OX:001"
-    name: "ROS level - Control 4h"
-    description: "Intracellular ROS in control HBE cells at 4 hours"
-    observation_type: reactive_oxygen_species
-    quantity_measured:
-      value: "1.0"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:001"
-      name: "DCFDA fluorescence assay"
-    follows_protocol:
-      id: "PROTOCOL:001"
-      name: "DCFDA ROS detection in ALI cultures"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-      cell_type:
-        id: "CL:0002328"
-        name: "bronchial epithelial cell"
-      anatomical_origin:
-        id: "UBERON:0002031"
-        name: "bronchus"
-      model_species:
-        id: "NCBITaxon:9606"
-        name: "Homo sapiens"
-    days_at_differentiation: 21
-    donor_info: "Healthy non-smoker, 35y female"
-    replicates_per_donor: 3
-
-  # PM2.5 exposed - 4h
-  - id: "OX:002"
-    name: "ROS level - PM2.5 4h"
-    description: "Intracellular ROS in PM2.5-exposed HBE cells at 4 hours"
-    observation_type: reactive_oxygen_species
-    quantity_measured:
-      value: "2.8"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:001"
-      name: "DCFDA fluorescence assay"
-    follows_protocol:
-      id: "PROTOCOL:001"
-      name: "DCFDA ROS detection in ALI cultures"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-    donor_info: "Healthy non-smoker, 35y female"
-    replicates_per_donor: 3
-
-  # Lipid peroxidation marker - PM2.5 24h
-  - id: "OX:003"
-    name: "MDA level - PM2.5 24h"
-    description: "Malondialdehyde (lipid peroxidation marker) after PM2.5 exposure"
-    observation_type: malondialdehyde
-    quantity_measured:
-      value: "1.9"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-16"
-    uses_method:
-      id: "METHOD:001"
-      name: "DCFDA fluorescence assay"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-# =============================================================================
-# EGFR PHOSPHORYLATION MEASUREMENTS (KE1)
-# =============================================================================
-
-egfr_phosphorylation_measurements:
-  # Control - 4h
-  - id: "EGFR:001"
-    name: "pEGFR Y1068 - Control 4h"
-    description: "EGFR phosphorylation at Y1068 in control cells at 4 hours"
-    observation_type: egfr_phosphorylation
-    phosphorylation_site: "Y1068"
-    quantity_measured:
-      value: "1.0"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:002"
-      name: "Western blot"
-    follows_protocol:
-      id: "PROTOCOL:002"
-      name: "Western blot for phospho-EGFR"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # PM2.5 exposed - 4h
-  - id: "EGFR:002"
-    name: "pEGFR Y1068 - PM2.5 4h"
-    description: "EGFR phosphorylation at Y1068 after PM2.5 exposure at 4 hours"
-    observation_type: egfr_phosphorylation
-    phosphorylation_site: "Y1068"
-    quantity_measured:
-      value: "3.5"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:002"
-      name: "Western blot"
-    follows_protocol:
-      id: "PROTOCOL:002"
-      name: "Western blot for phospho-EGFR"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # Total EGFR protein (normalization control)
-  - id: "EGFR:003"
-    name: "Total EGFR - PM2.5 4h"
-    description: "Total EGFR protein expression (loading control)"
-    observation_type: egfr_total_protein
-    quantity_measured:
-      value: "1.05"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:002"
-      name: "Western blot"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-# =============================================================================
-# GOBLET CELL / MUCIN MEASUREMENTS (KE2)
-# =============================================================================
-
-goblet_cell_mucin_measurements:
-  # MUC5AC mRNA - Control 24h
-  - id: "GCM:001"
-    name: "MUC5AC mRNA - Control 24h"
-    description: "MUC5AC mRNA expression in control cells at 24 hours"
-    observation_type: muc5ac_expression
-    quantity_measured:
-      value: "1.0"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-16"
-    uses_method:
-      id: "METHOD:003"
-      name: "Quantitative RT-PCR"
-    follows_protocol:
-      id: "PROTOCOL:003"
-      name: "qRT-PCR for MUC5AC"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # MUC5AC mRNA - PM2.5 24h
-  - id: "GCM:002"
-    name: "MUC5AC mRNA - PM2.5 24h"
-    description: "MUC5AC mRNA expression after PM2.5 exposure at 24 hours"
-    observation_type: muc5ac_expression
-    quantity_measured:
-      value: "4.2"
-      unit:
-        id: "UO:0000193"
-        name: "fold change"
-    measurement_date: "2024-01-16"
-    uses_method:
-      id: "METHOD:003"
-      name: "Quantitative RT-PCR"
-    follows_protocol:
-      id: "PROTOCOL:003"
-      name: "qRT-PCR for MUC5AC"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # Goblet cell percentage - PM2.5 7d
-  - id: "GCM:003"
-    name: "Goblet cell percentage - PM2.5 7d"
-    description: "Percentage of goblet cells after 7-day PM2.5 exposure"
-    observation_type: goblet_cell_count
-    quantity_measured:
-      value: "32"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    range_low:
-      value: "10"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    range_high:
-      value: "20"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    measurement_date: "2024-01-22"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-  # Mucus viscosity - PM2.5 7d
-  - id: "GCM:004"
-    name: "Mucus viscosity - PM2.5 7d"
-    description: "Mucus viscosity after 7-day PM2.5 exposure showing hypersecretion phenotype"
-    observation_type: mucus_viscosity
-    quantity_measured:
-      value: "185"
-      unit:
-        id: "UO:0000019"
-        name: "centipoise"
-    measurement_date: "2024-01-22"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-# =============================================================================
-# CILIARY FUNCTION MEASUREMENTS (KE3 - part 1)
-# =============================================================================
-
-ciliary_measurements:
-  # CBF - Control baseline
-  - id: "CILIARY:001"
-    name: "CBF - Control baseline"
-    description: "Ciliary beat frequency in control HBE cells at baseline"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
-      value: "12.5"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    range_low:
-      value: "10"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    range_high:
-      value: "15"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:004"
-      name: "High-speed video microscopy"
-    follows_protocol:
-      id: "PROTOCOL:004"
-      name: "CBF measurement by high-speed microscopy"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # CBF - PM2.5 24h
-  - id: "CILIARY:002"
-    name: "CBF - PM2.5 24h"
-    description: "Ciliary beat frequency after PM2.5 exposure at 24 hours"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
-      value: "9.8"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    measurement_date: "2024-01-16"
-    uses_method:
-      id: "METHOD:004"
-      name: "High-speed video microscopy"
-    follows_protocol:
-      id: "PROTOCOL:004"
-      name: "CBF measurement by high-speed microscopy"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # CBF - PM2.5 7d
-  - id: "CILIARY:003"
-    name: "CBF - PM2.5 7d"
-    description: "Ciliary beat frequency after 7-day PM2.5 exposure showing sustained impairment"
-    observation_type: ciliary_beat_frequency
-    quantity_measured:
-      value: "7.2"
-      unit:
-        id: "UO:0000106"
-        name: "hertz"
-    measurement_date: "2024-01-22"
-    uses_method:
-      id: "METHOD:004"
-      name: "High-speed video microscopy"
-    follows_protocol:
-      id: "PROTOCOL:004"
-      name: "CBF measurement by high-speed microscopy"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-  # Ciliated cell percentage - PM2.5 7d
-  - id: "CILIARY:004"
-    name: "Ciliated cell percentage - PM2.5 7d"
-    description: "Percentage of ciliated cells after 7-day PM2.5 exposure"
-    observation_type: percentage_ciliated_cells
-    quantity_measured:
-      value: "45"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    range_low:
-      value: "60"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    range_high:
-      value: "80"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    measurement_date: "2024-01-22"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-# =============================================================================
-# MUCOCILIARY CLEARANCE MEASUREMENTS (KE3 - part 2)
-# =============================================================================
-
-mcc_measurements:
-  # MCT rate - Control baseline
-  - id: "MCC:001"
-    name: "MCT rate - Control baseline"
-    description: "Mucociliary transport rate in control HBE cells at baseline"
-    observation_type: mucociliary_transport_rate
-    quantity_measured:
-      value: "52"
-      unit:
-        id: "UO:0000103"
-        name: "micrometer per second"
-    measurement_date: "2024-01-15"
-    uses_method:
-      id: "METHOD:005"
-      name: "Fluorescent microsphere tracking"
-    follows_protocol:
-      id: "PROTOCOL:005"
-      name: "MCT rate by microsphere tracking"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # MCT rate - PM2.5 24h
-  - id: "MCC:002"
-    name: "MCT rate - PM2.5 24h"
-    description: "Mucociliary transport rate after PM2.5 exposure at 24 hours"
-    observation_type: mucociliary_transport_rate
-    quantity_measured:
-      value: "38"
-      unit:
-        id: "UO:0000103"
-        name: "micrometer per second"
-    measurement_date: "2024-01-16"
-    uses_method:
-      id: "METHOD:005"
-      name: "Fluorescent microsphere tracking"
-    follows_protocol:
-      id: "PROTOCOL:005"
-      name: "MCT rate by microsphere tracking"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 21
-
-  # MCT rate - PM2.5 7d (severely impaired)
-  - id: "MCC:003"
-    name: "MCT rate - PM2.5 7d"
-    description: "Mucociliary transport rate after 7-day PM2.5 exposure showing severe impairment"
-    observation_type: mucociliary_transport_rate
-    quantity_measured:
-      value: "18"
-      unit:
-        id: "UO:0000103"
-        name: "micrometer per second"
-    measurement_date: "2024-01-22"
-    uses_method:
-      id: "METHOD:005"
-      name: "Fluorescent microsphere tracking"
-    follows_protocol:
-      id: "PROTOCOL:005"
-      name: "MCT rate by microsphere tracking"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-  # Percentage active transport - PM2.5 7d
-  - id: "MCC:004"
-    name: "Active transport percentage - PM2.5 7d"
-    description: "Percentage of surface with active mucociliary transport after 7-day PM2.5 exposure"
-    observation_type: percentage_active_transport
-    quantity_measured:
-      value: "35"
-      unit:
-        id: "UO:0000187"
-        name: "percent"
-    measurement_date: "2024-01-22"
-    cell_culture_system:
-      id: "owg:culture-aop-001"
-      name: "Primary HBE ALI culture - Donor 1"
-      cell_culture_growth_mode: air_liquid_interface
-      substrate_type: transwell_insert
-      passage_number: 2
-    days_at_differentiation: 28
-
-# =============================================================================
-# LUNG FUNCTION MEASUREMENTS (Adverse Outcome - Clinical)
-# =============================================================================
-
-lung_function_measurements:
-  # FEV1 - Subject 1 (PM2.5 exposed community)
-  - id: "LF:001"
-    name: "FEV1 - Subject 1 baseline"
-    description: "FEV1 in subject from high PM2.5 exposure area at baseline"
-    observation_type: fev1
-    quantity_measured:
-      value: "78"
-      unit:
-        id: "UO:0000187"
-        name: "percent predicted"
-    measurement_date: "2024-02-01"
-    uses_method:
-      id: "METHOD:006"
-      name: "Spirometry"
-    follows_protocol:
-      id: "PROTOCOL:006"
-      name: "Pre- and post-bronchodilator spirometry"
-    participant:
-      id: "PARTICIPANT:001"
-      name: "Subject 1"
-    sample_type: exhaled_breath_condensate
-    collection_site: "pulmonary function laboratory"
-    subject_characteristics: "52y male, non-smoker, high PM2.5 exposure area resident, 15 years"
-
-  # FEV1 - Subject 1 follow-up
-  - id: "LF:002"
-    name: "FEV1 - Subject 1 1-year follow-up"
-    description: "FEV1 decline after 1 year continued PM2.5 exposure"
-    observation_type: fev1
-    quantity_measured:
-      value: "74"
-      unit:
-        id: "UO:0000187"
-        name: "percent predicted"
-    measurement_date: "2025-02-01"
-    uses_method:
-      id: "METHOD:006"
-      name: "Spirometry"
-    follows_protocol:
-      id: "PROTOCOL:006"
-      name: "Pre- and post-bronchodilator spirometry"
-    participant:
-      id: "PARTICIPANT:001"
-      name: "Subject 1"
-    sample_type: exhaled_breath_condensate
-    subject_characteristics: "53y male, non-smoker, high PM2.5 exposure area resident, 16 years"
-
-  # FEV1/FVC ratio - Subject 1
-  - id: "LF:003"
-    name: "FEV1/FVC ratio - Subject 1"
-    description: "FEV1/FVC ratio indicating obstructive pattern"
-    observation_type: fev1_fvc_ratio
-    quantity_measured:
-      value: "0.68"
-      unit:
-        id: "UO:0000196"
-        name: "ratio"
-    range_low:
-      value: "0.70"
-      unit:
-        id: "UO:0000196"
-        name: "ratio"
-    measurement_date: "2025-02-01"
-    uses_method:
-      id: "METHOD:006"
-      name: "Spirometry"
-    participant:
-      id: "PARTICIPANT:001"
-      name: "Subject 1"
-
-  # FEV1 decline rate - Subject 1
-  - id: "LF:004"
-    name: "FEV1 decline rate - Subject 1"
-    description: "Rate of FEV1 decline over 1 year (accelerated compared to normal aging)"
-    observation_type: lung_function_decline_rate
-    quantity_measured:
-      value: "65"
-      unit:
-        id: "UO:0000098"
-        name: "milliliter per year"
-    range_high:
-      value: "30"
-      unit:
-        id: "UO:0000098"
-        name: "milliliter per year"
-    measurement_date: "2025-02-01"
-    participant:
-      id: "PARTICIPANT:001"
-      name: "Subject 1"
-    subject_characteristics: "Accelerated decline >2x normal (25-30 mL/year)"
-```
+- **AOP linkage**: Each assay uses `informs_on_key_event` to connect to the biological pathway
+- **Named measurement slots**: `reactive_oxygen_species`, `egfr_phosphorylation_y1068`, `beat_frequency_hz`, `fev1`
+- **Typed protocols**: ImagingProtocol, MolecularAssayProtocol, StainingProtocol, SpirometryProtocol
+- **In vitro study subjects**: StudySubject with `model_species` for cell culture assays
+- **In vivo study subjects**: InVivoSubject with `age`, `sex`, `subject_characteristics` for clinical assays
+- **Input samples**: `input_sample` with exposure conditions and duration
+- **Time-course data**: Multiple timepoints per assay type showing dose-response
 
 ---
 

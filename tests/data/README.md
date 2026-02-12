@@ -11,24 +11,24 @@ sorted in subfolders:
 
 ## Schema Structure
 
-The schema uses a **microschema architecture** with domain-specific measurement types.
+The schema uses an **assay-centric architecture** with domain-specific assay classes.
 All data files use the `Container` class as the root element.
 
-### Measurement Microschemas
+### Assay Microschemas
 
-| Microschema | Description | Container Slot |
+| Assay Class | Description | Container Slot |
 |-------------|-------------|----------------|
-| CiliaryFunctionMeasurement | Ciliary beat frequency, active area, morphology | `ciliary_measurements` |
-| ASLMeasurement | Airway surface liquid height, PCL depth, ion composition | `asl_measurements` |
-| MCCMeasurement | Mucociliary clearance and transport | `mcc_measurements` |
-| OxidativeStressMeasurement | ROS, lipid peroxidation, antioxidant capacity | `oxidative_stress_measurements` |
-| CFTRMeasurement | CFTR chloride secretion and function | `cftr_measurements` |
-| EGFRMeasurement | EGFR signaling and phosphorylation | `egfr_measurements` |
-| GobletCellMucinMeasurement | Goblet cells, MUC5AC/MUC5B expression | `goblet_cell_mucin_measurements` |
-| BALFSputumMeasurement | BALF/sputum cell counts and cytokines | `balf_sputum_measurements` |
-| LungFunctionMeasurement | FEV1, FVC, spirometry outcomes | `lung_function_measurements` |
-| FoxJMeasurement | FoxJ1 expression and ciliogenesis | `foxj_measurements` |
-| ExposureBiomarkerMeasurement | Cotinine, metals, PAH metabolites | `exposure_biomarker_measurements` |
+| CiliaryFunctionAssay | Ciliary beat frequency, active area, morphology | `ciliary_function_assays` |
+| ASLAssay | Airway surface liquid height, PCL depth, ion composition | `asl_assays` |
+| MucociliaryClearanceAssay | Mucociliary clearance and transport | `mcc_assays` |
+| OxidativeStressAssay | ROS, lipid peroxidation, antioxidant capacity | `oxidative_stress_assays` |
+| CFTRFunctionAssay | CFTR chloride secretion and function | `cftr_assays` |
+| EGFRSignalingAssay | EGFR signaling and phosphorylation | `egfr_signaling_assays` |
+| GobletCellAssay | Goblet cells, MUC5AC/MUC5B expression | `goblet_cell_assays` |
+| BALFSputumAssay | BALF/sputum cell counts and cytokines | `balf_sputum_assays` |
+| LungFunctionAssay | FEV1, FVC, spirometry outcomes | `lung_function_assays` |
+| FoxJExpressionAssay | FoxJ1 expression and ciliogenesis | `foxj_assays` |
+| GeneExpressionAssay | Target gene mRNA expression | `gene_expression_assays` |
 
 ### Supporting Entities
 
@@ -36,7 +36,8 @@ All data files use the `Container` class as the root element.
 |--------|-------------|----------------|
 | Protocol | Detailed experimental procedures | `protocols` |
 | Method | General measurement techniques | `methods` |
-| Assay | Test/experiment definitions | `assays` |
+| KeyEvent | AOP key events | `key_events` |
+| AdverseOutcomePathway | Complete AOP definitions | `adverse_outcome_pathways` |
 
 ## File Naming Convention
 
