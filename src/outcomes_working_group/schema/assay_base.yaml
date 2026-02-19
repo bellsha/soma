@@ -58,24 +58,13 @@ classes:
       This is the central organizing concept in the schema - assays inform on
       key events and contain the measurement data as named slots.
     slots:
-      # AOP Connection (CRITICAL - links assay to mechanistic framework)
       - informs_on_key_event
-
-      # Context (ELEVATED - important for data discovery)
       - cell_type
       - tissue_context
-
-      # Study Subject (replaces study_context + mixins)
       - study_subject
-
-      # Input/Treatment
       - input_sample
-
-      # Methodology
       - uses_method
       - follows_protocols
-
-      # Timing
       - assay_date
 
   # ---------------------------------------------------------------------------
