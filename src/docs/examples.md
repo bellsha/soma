@@ -52,6 +52,7 @@ ciliary_function_assays:
       id: "UBERON:0002031"
       name: "bronchus"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
       model_species:
@@ -160,6 +161,7 @@ asl_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-002"
       name: "Primary HBE ALI culture"
       model_species:
@@ -197,6 +199,7 @@ mcc_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-007"
       name: "Primary HBE ALI culture"
       model_species:
@@ -230,6 +233,7 @@ oxidative_stress_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-003"
       name: "Primary HBE ALI culture"
       model_species:
@@ -264,15 +268,23 @@ cftr_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-006"
       name: "Primary HBE ALI culture"
       model_species:
         id: "NCBITaxon:9606"
         name: "Homo sapiens"
-    follows_protocol:
-      id: "PROTOCOL:cftr-001"
-      name: "Ussing chamber short-circuit current protocol"
+    follows_protocols:
+      - id: "PROTOCOL:cftr-001"
+        name: "Ussing chamber short-circuit current protocol"
+      - id: "PROTOCOL:cftr-prep-001"
+        name: "Tissue mounting and equilibration protocol"
+        description: "Pre-assay protocol for mounting tissue in Ussing chamber and equilibrating"
 ```
+
+**Key points:**
+
+- `follows_protocols` is multivalued — an assay can reference multiple protocols (e.g., the main assay protocol plus a preparation protocol)
 
 ---
 
@@ -300,6 +312,7 @@ egfr_signaling_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-005"
       name: "Primary HBE ALI culture"
       model_species:
@@ -340,6 +353,7 @@ goblet_cell_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-004"
       name: "Primary HBE ALI culture"
       model_species:
@@ -378,6 +392,7 @@ foxj_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-008"
       name: "Primary HBE ALI culture"
       model_species:
@@ -413,6 +428,7 @@ gene_expression_assays:
       id: "CL:0002328"
       name: "bronchial epithelial cell"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-009"
       name: "Primary HBE ALI culture"
       model_species:
@@ -455,6 +471,7 @@ lung_function_assays:
     reference_dataset: "GLI-2012"
     assay_date: "2024-08-10"
     study_subject:
+      subject_type: InVivoSubject
       id: "SUBJECT:002"
       name: "Subject B"
       model_species:
@@ -509,6 +526,7 @@ balf_sputum_assays:
       id: "CL:0000775"
       name: "neutrophil"
     study_subject:
+      subject_type: InVivoSubject
       id: "SUBJECT:001"
       name: "Subject A"
       model_species:
@@ -536,6 +554,14 @@ balf_sputum_assays:
 The schema supports detailed documentation of experimental procedures through
 Methods (general techniques) and typed Protocols (specific procedures).
 
+**Key protocol features:**
+
+- **`follows_protocols`** (on Assay): multivalued — an assay can reference multiple protocols
+- **`sub_protocols`** (on Protocol): protocols can compose other protocols to represent
+  composite workflows (e.g., sample prep, wash steps, post-processing)
+- Any Protocol subclass (ImagingProtocol, MolecularAssayProtocol, StainingProtocol,
+  SpirometryProtocol) is valid wherever Protocol is expected
+
 ### Method Definition
 
 A general measurement technique:
@@ -554,9 +580,10 @@ methods:
 
 ---
 
-### Protocol Definition (Base)
+### Protocol Definition (Base) with Sub-Protocols
 
-A protocol using only base Protocol slots:
+A protocol using base Protocol slots, including `sub_protocols` to compose
+reusable workflow steps:
 
 ```yaml
 protocols:
@@ -571,13 +598,36 @@ protocols:
         name: "degree Celsius"
     quality_control_criteria: "Minimum 5 fields per insert, discard if >50% debris"
     replicate_requirements: 3
+    sub_protocols:
+      - id: "PROTOCOL:001a"
+        name: "Sample preparation for CBF imaging"
+        description: "Pre-imaging wash and equilibration steps"
+        protocol_version: "1.0"
+        temperature_control:
+          value: "37"
+          unit:
+            id: "UO:0000027"
+            name: "degree Celsius"
+      - id: "PROTOCOL:001b"
+        name: "Post-imaging data export"
+        description: "Steps for exporting and archiving video files after acquisition"
+        protocol_version: "1.0"
 ```
+
+**Key points:**
+
+- `sub_protocols` allows a protocol to reference other protocols as part of its workflow
+- Sub-protocols can be any Protocol subclass (e.g., an ImagingProtocol can include a
+  StainingProtocol as a preparation step)
+- This enables reuse of common steps (wash protocols, fixation, equilibration) across
+  multiple parent protocols
 
 ---
 
 ### Typed Protocols on Assays
 
-Assays reference typed protocols directly for domain-specific details:
+Assays reference typed protocols directly for domain-specific details.
+The base `follows_protocols` slot is also available for general protocol references:
 
 ```yaml
 # ImagingProtocol on a CiliaryFunctionAssay
@@ -591,6 +641,7 @@ ciliary_function_assays:
         name: "hertz"
     assay_date: "2024-01-15"
     study_subject:
+      subject_type: TwoDCellCulture
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
       model_species:

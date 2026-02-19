@@ -38,6 +38,9 @@ prefixes:
   HP: http://purl.obolibrary.org/obo/HP_
   ECTO: http://purl.obolibrary.org/obo/ECTO_
   schema: http://schema.org/
+  UCUM: http://unitsofmeasure.org/
+  QUDT: http://qudt.org/vocab/unit/
+  owg: https://w3id.org/EHS-Data-Standards/outcomes-working-group/
 
 default_prefix: outcomes_working_group
 default_range: string

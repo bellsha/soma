@@ -63,11 +63,15 @@ Assays reference typed protocols for domain-specific procedural details:
 
 | Protocol Class | Slot Name | Key Slots |
 |---------------|-----------|-----------|
-| Protocol | `follows_protocol` | `protocol_version`, `temperature_control`, `quality_control_criteria` |
+| Protocol | `follows_protocols` | `protocol_version`, `temperature_control`, `quality_control_criteria`, `sub_protocols` |
 | ImagingProtocol | `imaging_protocol` | `imaging_frame_rate`, `imaging_duration`, `spatial_resolution` |
 | MolecularAssayProtocol | `molecular_protocol` | `detection_method`, `antibodies_used`, `reference_gene` |
 | StainingProtocol | `staining_protocol` | `staining_type`, `fixation_method`, `counterstain` |
 | SpirometryProtocol | `spirometry_protocol` | `spirometry_standard`, `bronchodilator_agent` |
+
+Assays reference protocols via `follows_protocols` (multivalued — an assay can follow multiple protocols).
+Protocols can compose other protocols via `sub_protocols` (e.g., sample prep, wash steps, post-processing).
+Any Protocol subclass is valid in both slots.
 
 ### Supporting Entities
 

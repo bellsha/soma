@@ -42,10 +42,20 @@ classes:
 
   CiliaryFunctionAssay:
     is_a: Assay
+    mixins:
+      - InVitroAssayMixin
+      - InVivoAssayMixin
+    annotations:
+      supported_contexts: in_vitro_or_in_vivo
     description: >-
       Assay for measuring ciliary function including beat frequency, active area,
       cilia morphology, and ciliated cell populations. Informs on Key Event:
-      "Decreased ciliary function" in respiratory AOPs. TIER 1 slots (critical): beat_frequency_hz, active_area_percentage,
+      "Decreased ciliary function" in respiratory AOPs.
+
+      CONTEXT: Can be performed in vitro (tissue slices, 2D cell culture,
+      spheroids) or in vivo (often using optical coherence tomography).
+
+      TIER 1 slots (critical): beat_frequency_hz, active_area_percentage,
       cilia_length, cilia_per_cell, percentage_ciliated_cells, cell_type_ratios,
       imaging_protocol.
     slots:
@@ -70,7 +80,10 @@ classes:
         range: ImagingProtocol
         required: true
       study_subject:
-        range: TwoDCellCulture
+        range: StudySubject
+        description: >-
+          Can be ModelSystem (in vitro - ALI cultures, tissue slices, spheroids)
+          or InVivoSubject (in vivo - OCT measurements)
 
   # ---------------------------------------------------------------------------
   # ASLAssay (Airway Surface Liquid)
@@ -295,6 +308,10 @@ classes:
 
   BALFSputumAssay:
     is_a: Assay
+    mixins:
+      - InVivoAssayMixin
+    annotations:
+      supported_contexts: in_vivo_only
     description: >-
       Assay for measuring bronchoalveolar lavage fluid (BALF) or sputum
       composition. Informs on Key Event: "Airway inflammation" and provides
@@ -337,6 +354,10 @@ classes:
 
   LungFunctionAssay:
     is_a: Assay
+    mixins:
+      - InVivoAssayMixin
+    annotations:
+      supported_contexts: in_vivo_only
     description: >-
       Clinical assay for measuring lung function. Informs on Adverse Outcome:
       "Decreased lung function" - the composite clinical outcome.
@@ -390,6 +411,10 @@ classes:
 
   FoxJExpressionAssay:
     is_a: Assay
+    mixins:
+      - InVitroAssayMixin
+    annotations:
+      supported_contexts: in_vitro_only
     description: >-
       Assay for measuring FoxJ1 expression related to ciliogenesis.
       Informs on Key Event: "Altered ciliogenesis" in respiratory AOPs.
@@ -417,6 +442,10 @@ classes:
 
   GeneExpressionAssay:
     is_a: Assay
+    mixins:
+      - InVitroAssayMixin
+    annotations:
+      supported_contexts: in_vitro_only
     description: >-
       General assay for gene expression measurements. Renamed from
       TranscriptionFactorExpressionMeasurement per domain feedback -
