@@ -135,14 +135,9 @@ classes:
     class_uri: OBI:0000011
     description: >-
       A general approach or technique used to perform an assay. Methods are
-      implemented by specific assays and detailed by protocols. Examples include
-      high-speed video microscopy, qRT-PCR, Western blot, spirometry.
+      implemented by specific assays and detailed by protocols.
     slots:
       - method_type
-      - equipment_required
-      - key_reagents
-      - general_procedure
-      - obi_mapping
 
   Protocol:
     is_a: NamedThing
