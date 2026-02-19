@@ -131,6 +131,9 @@ classes:
       composite workflows (e.g., sample preparation, wash steps, or
       post-processing protocols that are shared across assays).
     slots:
+      # Type designator for polymorphism
+      - protocol_type
+
       # Core identity
       - protocol_version
       - sop_reference
@@ -537,6 +540,14 @@ slots:
   # ---------------------------------------------------------------------------
   # Methodology Slots
   # ---------------------------------------------------------------------------
+
+  protocol_type:
+    description: >-
+      The specific type of protocol. Used to designate which concrete
+      class (e.g., ImagingProtocol, StainingProtocol, SpirometryProtocol,
+      MolecularAssayProtocol) is instantiated for polymorphic protocol slots.
+    designates_type: true
+    range: string
 
   follows_protocols:
     description: >-

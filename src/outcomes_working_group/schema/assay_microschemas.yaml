@@ -66,7 +66,6 @@ classes:
       - cilia_per_cell
       - percentage_ciliated_cells
       - cell_type_ratios
-      - imaging_protocol
 
       # TIER 2 - Important but optional (Rank 2)
       - ciliary_motion_patterns
@@ -76,9 +75,6 @@ classes:
       - analysis_software
       - airway_region
     slot_usage:
-      imaging_protocol:
-        range: ImagingProtocol
-        required: true
       study_subject:
         range: StudySubject
         description: >-
@@ -103,7 +99,6 @@ classes:
       # TIER 1 - Critical (Rank 1) - Named measurement slots
       - asl_height_um
       - periciliary_layer_depth
-      - imaging_protocol
 
       # TIER 2 - Optional on Assay (Rank 2)
       - mucus_layer_thickness
@@ -111,10 +106,6 @@ classes:
       # TIER 3 - Protocol level but kept for convenience
       - ion_composition
       - asl_ph
-    slot_usage:
-      imaging_protocol:
-        range: ImagingProtocol
-        required: true
 
   # ---------------------------------------------------------------------------
   # MucociliaryClearanceAssay
@@ -137,13 +128,6 @@ classes:
       - mucus_composition
       - percentage_active_transport
       - particle_clearance_time
-
-      # Protocol
-      - imaging_protocol
-    slot_usage:
-      imaging_protocol:
-        range: ImagingProtocol
-        required: true
 
   # ---------------------------------------------------------------------------
   # OxidativeStressAssay
@@ -281,7 +265,6 @@ classes:
       # TIER 1 - Critical (Rank 1) - Named measurement slots
       - goblet_cell_count
       - goblet_cell_percentage
-      - staining_protocol
       - muc5ac_mrna_expression
       - muc5ac_protein_expression
       - muc5b_mrna_expression
@@ -294,12 +277,6 @@ classes:
       # TIER 2 - Optional (Rank 2)
       - goblet_to_ciliated_ratio
       - mucus_viscosity
-
-      # Secondary protocol
-      - imaging_protocol
-    slot_usage:
-      staining_protocol:
-        required: true
 
   # ---------------------------------------------------------------------------
   # BALFSputumAssay (InVivo only)
