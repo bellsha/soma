@@ -45,7 +45,7 @@ classes:
       cilia morphology, and ciliated cell populations. Informs on Key Event:
       "Decreased ciliary function" in respiratory AOPs.
 
-      CONTEXT: Can be performed in vitro (tissue slices, 2D cell culture,
+      CONTEXT: Can be performed in vitro (tissue slices,
       spheroids) or in vivo (often using optical coherence tomography).
 
       TIER 1 slots (critical): beat_frequency_hz, active_area_percentage,

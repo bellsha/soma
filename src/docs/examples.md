@@ -114,7 +114,7 @@ ciliary_function_assays:
             id: "UO:0000032"
             name: "hour"
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -306,7 +306,7 @@ asl_assays:
       biological_action: decreased
       level_of_biological_organization: cellular
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-002"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -375,7 +375,7 @@ mcc_assays:
       biological_action: impaired
       level_of_biological_organization: tissue
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-007"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -495,7 +495,7 @@ oxidative_stress_assays:
             id: "UO:0000032"
             name: "hour"
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-003"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -572,7 +572,7 @@ cftr_assays:
       biological_action: decreased
       level_of_biological_organization: molecular
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-006"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -669,7 +669,7 @@ egfr_signaling_assays:
             id: "UO:0000032"
             name: "hour"
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-005"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -761,7 +761,7 @@ goblet_cell_assays:
       biological_action: increased
       level_of_biological_organization: cellular
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-004"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -822,7 +822,7 @@ foxj_assays:
       biological_action: altered
       level_of_biological_organization: cellular
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-008"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -906,7 +906,7 @@ gene_expression_assays:
             id: "UO:0000032"
             name: "hour"
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-009"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -1223,7 +1223,7 @@ ciliary_function_assays:
           name: "hertz"
     assay_date: "2024-01-15"
     study_subject:
-      subject_type: TwoDCellCulture
+      subject_type: CellularSystem
       id: "owg:culture-001"
       name: "Primary HBE ALI culture"
       cell_type:
@@ -1276,7 +1276,7 @@ Key features demonstrated in the comprehensive example:
 - **Output classes**: Measurements wrapped in `has_specified_output` using domain-specific output classes (e.g., `OxidativeStressOutput`, `CiliaryFunctionOutput`, `LungFunctionOutput`)
 - **Named measurement slots**: `reactive_oxygen_species`, `egfr_phosphorylation_y1068`, `beat_frequency_hz`, `fev1` inside their output classes
 - **Protocols via `follows_protocols`** with `protocol_type` designator: ImagingProtocol, MolecularAssayProtocol, StainingProtocol, SpirometryProtocol
-- **In vitro study subjects**: `cell_type` on the StudySubject (TwoDCellCulture) for cell culture assays
+- **In vitro study subjects**: `cell_type` on the StudySubject (CellularSystem) for cell culture assays
 - **In vivo study subjects**: InVivoSubject with `age`, `sex`, `subject_characteristics` for clinical assays
 - **Exposure conditions**: `has_exposure_condition` with agent, concentration, duration, and `timing_post_exposure`
 - **Co-exposures**: Multivalued `has_exposure_condition` for PM2.5 + ozone co-exposure

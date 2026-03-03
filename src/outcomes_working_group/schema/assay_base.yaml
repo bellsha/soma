@@ -267,7 +267,7 @@ classes:
     is_a: ModelSystem
     description: >-
       Cell-based model systems that use living cells to model biological
-      processes. Includes 2D cultures, 3D systems, and co-cultures.
+      processes.
     slots:
       # Cell identity
       - cell_line
@@ -282,49 +282,6 @@ classes:
       - days_at_differentiation
       - donor_info
       - replicates_per_donor
-
-  TwoDCellCulture:
-    is_a: CellularSystem
-    class_uri: NAMO:0000002
-    description: >-
-      Conventional monolayer cell cultures grown on flat surfaces.
-      Includes adherent and suspension cultures in standard tissue culture vessels.
-    slots:
-      - substrate_type
-      - confluence_level
-      - passage_number
-      - seeding_density
-      - coating
-    id_prefixes:
-      - owg
-
-  ThreeDCellCulture:
-    is_a: CellularSystem
-    class_uri: NAMO:0000003
-    description: >-
-      Three-dimensional cell culture systems including spheroids, organoids,
-      and scaffold-based cultures.
-    slots:
-      - three_d_architecture
-      - matrix_composition
-      - size_range
-      - organoid_type
-      - substrate_type
-    id_prefixes:
-      - owg
-
-  CoCulture:
-    is_a: CellularSystem
-    class_uri: NAMO:0000004
-    description: >-
-      Co-culture systems combining multiple cell types to simulate tissue
-      microenvironments and cell-cell interactions.
-    slots:
-      - coculture_configuration
-      - cell_type_ratios
-      - substrate_type
-    id_prefixes:
-      - owg
 
   # ---------------------------------------------------------------------------
   # Cell Culture Supporting Classes
@@ -869,8 +826,6 @@ slots:
   coating:
     range: string
 
-  three_d_architecture:
-    range: ThreeDArchitectureEnum
 
   matrix_composition:
     range: string
@@ -881,9 +836,6 @@ slots:
 
   organoid_type:
     range: string
-
-  coculture_configuration:
-    range: CoCultureConfigurationEnum
 
   cell_type_ratios:
     range: string
@@ -1014,6 +966,7 @@ enums:
       three_dimensional:
         description: Cells grown in 3D matrix or scaffold
       organoid:
+
         description: Self-organizing 3D tissue culture
       spheroid:
         description: Spherical cellular aggregates
@@ -1039,34 +992,6 @@ enums:
         description: Glass surface or coverslip
       pdms:
         description: Polydimethylsiloxane (microfluidics)
-
-  ThreeDArchitectureEnum:
-    description: Types of 3D cell culture architecture.
-    permissible_values:
-      spheroid:
-        description: Spherical cellular aggregates
-      organoid:
-        description: Self-organizing 3D tissue culture
-      scaffold_based:
-        description: Cells grown on a 3D scaffold
-      hydrogel_embedded:
-        description: Cells embedded within a hydrogel matrix
-      hanging_drop:
-        description: 3D cultures formed by hanging drop method
-
-  CoCultureConfigurationEnum:
-    description: Physical configurations for co-culture systems.
-    permissible_values:
-      direct_contact:
-        description: Cell types in direct physical contact
-      transwell:
-        description: Cell types separated by transwell membrane
-      microfluidic:
-        description: Cell types connected via microfluidic channels
-      conditioned_medium:
-        description: Cells grown in medium conditioned by another cell type
-      mixed:
-        description: Multiple cell types mixed together
 
   SupplementTypeEnum:
     description: Categories of cell culture medium supplements.
