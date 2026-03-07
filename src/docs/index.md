@@ -1,6 +1,6 @@
-# Outcomes Working Group Data Model
+# SOMA: Schema for Outcomes, Measurements, and Assays
 
-The Outcomes Working Group Data Model is a [LinkML](https://linkml.io/) schema for representing
+The SOMA: Schema for Outcomes, Measurements, and Assays is a [LinkML](https://linkml.io/) schema for representing
 Key Event and Outcome measurements, assays, and experimental protocols in the context of environmental
 health sciences (EHS) outcomes research.
 
@@ -186,6 +186,6 @@ protocols, and study configurations.**
 
 - [Examples](examples.md) - Comprehensive examples for all assay types
 - [Schema Documentation](elements/index.md) - Full schema reference
-- [GitHub Repository](https://github.com/EHS-Data-Standards/outcomes-working-group)
+- [GitHub Repository](https://github.com/EHS-Data-Standards/soma)
 - [LinkML Documentation](https://linkml.io/linkml/)
 - [About This Project](about.md)

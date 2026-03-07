@@ -1,6 +1,6 @@
 <a href="https://github.com/dalito/linkml-project-copier"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-teal.json" alt="Copier Badge" style="max-width:100%;"/></a>
 
-# outcomes-working-group
+# SOMA: Schema for Outcomes, Measurements, and Assays
 
 A [LinkML](https://linkml.io/) data model for representing assays, measurements, and experimental
 protocols in environmental health sciences (EHS) outcomes research. The schema captures airway biology
@@ -21,7 +21,7 @@ framework.
 
 ## Documentation Website
 
-[https://EHS-Data-Standards.github.io/outcomes-working-group](https://EHS-Data-Standards.github.io/outcomes-working-group)
+[https://EHS-Data-Standards.github.io/soma](https://EHS-Data-Standards.github.io/soma)
 
 ## Repository Structure
 
@@ -30,10 +30,10 @@ framework.
 * [examples/](examples/) - Examples of using the schema
 * [project/](project/) - project files (these files are auto-generated, do not edit)
 * [src/](src/) - source files (edit these)
-  * [outcomes_working_group](src/outcomes_working_group)
-    * [schema/](src/outcomes_working_group/schema) -- LinkML schema
+  * [soma](src/soma)
+    * [schema/](src/soma/schema) -- LinkML schema
       (edit this)
-    * [datamodel/](src/outcomes_working_group/datamodel) -- generated
+    * [datamodel/](src/soma/datamodel) -- generated
       Python datamodel
 * [tests/](tests/) - Python tests
   * [data/](tests/data) - Example data

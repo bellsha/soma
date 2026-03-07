@@ -3,7 +3,7 @@ requires = ["hatchling", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"
 
 [project]
-name = "outcomes_working_group"
+name = "soma"
 description = "This is the project description."
 authors = [
   {name = "Sierra Moxon", email = "smoxon@lbl.gov"},
@@ -50,8 +50,8 @@ skip = [
   "pyproject.toml",
   "uv.lock",
   "project/*",
-  "src/outcomes_working_group/datamodel/outcomes_working_group_pydantic.py",
-  "src/outcomes_working_group/datamodel/outcomes_working_group.py",
+  "src/soma/datamodel/soma_pydantic.py",
+  "src/soma/datamodel/soma.py",
 ]
 
 # Reminder: words have to be lowercased for the ignore-words-list
@@ -67,6 +67,6 @@ extend-exclude = [
   "uv.lock",
   "pyproject.toml",
   "project/*",
-  "src/outcomes_working_group/datamodel/outcomes_working_group_pydantic.py",
-  "src/outcomes_working_group/datamodel/outcomes_working_group.py",
+  "src/soma/datamodel/soma_pydantic.py",
+  "src/soma/datamodel/soma.py",
 ]

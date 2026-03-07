@@ -1,5 +1,5 @@
 ---
-site_name: "outcomes-working-group"
+site_name: "soma"
 theme:
   name: material
   # palette:
@@ -30,7 +30,7 @@ plugins:
   #       - gen_pages.py  # or any other name or path
 
 watch:
-  - src/outcomes_working_group/schema
+  - src/soma/schema
 
 nav:
   - Home: index.md
@@ -41,8 +41,8 @@ nav:
 exclude_docs: |
   /templates-linkml/
 
-site_url: https://EHS-Data-Standards.github.io/outcomes-working-group
-repo_url: https://github.com/EHS-Data-Standards/outcomes-working-group
+site_url: https://EHS-Data-Standards.github.io/soma
+repo_url: https://github.com/EHS-Data-Standards/soma
 
 # Uncomment this block to enable use of Google Analytics.
 # Replace the property value with your own ID.

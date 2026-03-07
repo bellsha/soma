@@ -1,1 +1,1 @@
-"""Tests for outcomes-working-group."""
+"""Tests for soma."""

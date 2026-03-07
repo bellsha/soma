@@ -4,7 +4,7 @@ import glob
 import pytest
 from pathlib import Path
 
-import outcomes_working_group.datamodel.outcomes_working_group
+import soma.datamodel.soma
 from linkml_runtime.loaders import yaml_loader
 
 DATA_DIR_VALID = Path(__file__).parent / "data" / "valid"
@@ -23,6 +23,6 @@ def test_valid_data_files(filepath):
     """
     # Use Container as the target class since it's the tree_root
     # that holds all measurement collections
-    tgt_class = outcomes_working_group.datamodel.outcomes_working_group.Container
+    tgt_class = soma.datamodel.soma.Container
     obj = yaml_loader.load(filepath, target_class=tgt_class)
     assert obj

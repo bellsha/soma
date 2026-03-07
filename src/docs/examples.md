@@ -1,6 +1,6 @@
 # Examples
 
-This page provides comprehensive examples of using the Outcomes Working Group Data Model.
+This page provides comprehensive examples of using the SOMA.
 All examples use the `Container` class as the root element and demonstrate real-world
 use cases for environmental health research data.
 
@@ -1288,4 +1288,4 @@ Key features demonstrated in the comprehensive example:
 
 - Browse the complete [Schema Documentation](elements/index.md) for all available classes and slots
 - Read [About](about.md) to learn more about the project goals
-- Visit the [GitHub Repository](https://github.com/EHS-Data-Standards/outcomes-working-group) to contribute
+- Visit the [GitHub Repository](https://github.com/EHS-Data-Standards/soma) to contribute

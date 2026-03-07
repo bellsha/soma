@@ -1,8 +1,8 @@
 # About
 
-## The Outcomes Working Group
+## The SOMA
 
-The Outcomes Working Group is part of the [EHS Data Standards](https://github.com/EHS-Data-Standards)
+The SOMA is part of the [EHS Data Standards](https://github.com/EHS-Data-Standards)
 initiative, focused on developing standardized data models for environmental health sciences research.
 
 ## Project Goals
@@ -18,7 +18,7 @@ This project aims to:
 
 ### Design Principles
 
-The Outcomes Working Group Data Model follows these principles:
+The SOMA follows these principles:
 
 - **Ontology-first** - All entities are mapped to established biomedical ontologies
 - **FAIR-compliant** - Supports Findable, Accessible, Interoperable, and Reusable data
@@ -47,8 +47,8 @@ The model is built using:
 
 We welcome contributions from the community. To contribute:
 
-1. Visit the [GitHub repository](https://github.com/EHS-Data-Standards/outcomes-working-group)
-2. Review the existing schema in `src/outcomes_working_group/schema/`
+1. Visit the [GitHub repository](https://github.com/EHS-Data-Standards/soma)
+2. Review the existing schema in `src/soma/schema/`
 3. Open an issue to discuss proposed changes
 4. Submit a pull request with your contributions
 
@@ -79,10 +79,10 @@ just test
 ### Project Structure
 
 ```
-outcomes-working-group/
+soma/
 ├── src/
 │   ├── docs/                    # Documentation source files
-│   └── outcomes_working_group/
+│   └── soma/
 │       ├── schema/              # LinkML schema definition
 │       └── datamodel/           # Generated Python models
 ├── docs/
@@ -105,4 +105,4 @@ template for project structure and build tooling.
 ## Contact
 
 For questions or feedback, please open an issue on the
-[GitHub repository](https://github.com/EHS-Data-Standards/outcomes-working-group/issues).
+[GitHub repository](https://github.com/EHS-Data-Standards/soma/issues).

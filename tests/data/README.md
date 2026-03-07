@@ -1,4 +1,4 @@
-# Example data for outcomes_working_group
+# Example data for SOMA
 
 This folder contains example data for testing and demonstrating the datamodel,
 sorted in subfolders:
