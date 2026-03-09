@@ -29,7 +29,7 @@ prefixes:
   aop_framework: https://w3id.org/EHS-Data-Standards/aop_framework/
   UCUM: http://unitsofmeasure.org/
   QUDT: http://qudt.org/vocab/unit/
-  owg: https://w3id.org/EHS-Data-Standards/outcomes-working-group/
+  owg: https://w3id.org/EHS-Data-Standards/soma/
 
 default_prefix: assay_base
 default_range: string
