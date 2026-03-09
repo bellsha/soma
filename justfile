@@ -74,6 +74,7 @@ clean: _clean_project
   rm -rf tmp
   rm -rf {{docdir}}/*.md
   rm -rf docs/examples
+  rm -rf docs/artifacts
 
 # (Re-)Generate project and documentation locally
 [group('model development')]
@@ -104,6 +105,7 @@ lint-fix:
 gen-doc: _gen-yaml _copy-examples
   uv run gen-doc {{gen_doc_args}} -d {{docdir}} {{source_schema_path}}
   @just _copy-docs
+  @just _copy-artifacts
 
 # Build docs and run test server
 [group('model development')]
@@ -264,6 +266,16 @@ _copy-docs:
   @echo "Copying static documentation files..."
   cp src/docs/*.md docs/
   @echo "Static docs copied successfully!"
+
+# Copy generated artifacts (jsonschema, pydantic, python, excel) to docs for the site
+_copy-artifacts:
+  @echo "Copying generated artifacts to docs..."
+  -mkdir -p docs/artifacts
+  cp {{dest}}/jsonschema/{{schema_name}}.schema.json docs/artifacts/
+  cp {{pymodel}}/{{schema_name}}_pydantic.py docs/artifacts/
+  cp {{pymodel}}/{{schema_name}}.py docs/artifacts/
+  cp {{dest}}/excel/{{schema_name}}.xlsx docs/artifacts/
+  @echo "Artifacts copied successfully!"
 
 # ============== Include project-specific recipes ==============
 

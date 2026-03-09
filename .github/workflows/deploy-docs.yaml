@@ -57,6 +57,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y sqlite3
 
+      - name: Generate project artifacts
+        run: just gen-project
+
       - name: Generate schema documentation
         run: |
           just gen-doc

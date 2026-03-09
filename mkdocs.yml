@@ -36,6 +36,7 @@ nav:
   - Home: index.md
   - Schema: elements/index.md
   - Examples: examples.md
+  - Artifacts: artifacts.md
   - About: about.md
 
 exclude_docs: |
