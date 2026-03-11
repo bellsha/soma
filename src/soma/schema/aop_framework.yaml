@@ -148,6 +148,7 @@ slots:
       The biological process affected by this key event. Should reference
       a GO biological process term.
     range: uriorcurie
+    pattern: "^GO:\\d{7}$"
 
   biological_object:
     description: >-
@@ -169,12 +170,14 @@ slots:
       The cell type in which this key event occurs. Should reference a
       Cell Ontology (CL) term.
     range: uriorcurie
+    pattern: "^CL:\\d{7}$"
 
   occurs_in_anatomy:
     description: >-
       The anatomical location where this key event occurs. Should reference
       a UBERON anatomy term.
     range: uriorcurie
+    pattern: "^UBERON:\\d{7}$"
 
   aopwiki_id:
     description: >-

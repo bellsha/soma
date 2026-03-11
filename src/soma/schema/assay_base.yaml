@@ -29,6 +29,7 @@ prefixes:
   aop_framework: https://w3id.org/EHS-Data-Standards/aop_framework/
   UCUM: http://unitsofmeasure.org/
   QUDT: http://qudt.org/vocab/unit/
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   owg: https://w3id.org/EHS-Data-Standards/soma/
 
 default_prefix: assay_base
@@ -234,6 +235,9 @@ classes:
       - UO
       - UCUM
       - QUDT
+    slot_usage:
+      id:
+        pattern: "^(UO:\\d{7}|UCUM:\\S+|QUDT:\\S+)$"
 
   NamedEntity:
     description: >-
@@ -242,6 +246,48 @@ classes:
     slots:
       - id
       - name
+
+  CellTypeReference:
+    is_a: NamedEntity
+    description: >-
+      A reference to a cell type from the Cell Ontology (CL).
+    id_prefixes:
+      - CL
+    slot_usage:
+      id:
+        pattern: "^CL:\\d{7}$"
+
+  SpeciesReference:
+    is_a: NamedEntity
+    description: >-
+      A reference to a species from the NCBI Taxonomy.
+    id_prefixes:
+      - NCBITaxon
+    slot_usage:
+      id:
+        pattern: "^NCBITaxon:\\d+$"
+
+  ChemicalEntityReference:
+    is_a: NamedEntity
+    description: >-
+      A reference to a chemical entity from CHEBI or an exposure
+      concept from ECTO.
+    id_prefixes:
+      - CHEBI
+      - ECTO
+    slot_usage:
+      id:
+        pattern: "^(CHEBI:\\d+|ECTO:\\d{7})$"
+
+  AnatomicalEntityReference:
+    is_a: NamedEntity
+    description: >-
+      A reference to an anatomical entity from UBERON.
+    id_prefixes:
+      - UBERON
+    slot_usage:
+      id:
+        pattern: "^UBERON:\\d{7}$"
 
   # ---------------------------------------------------------------------------
   # Exposure Condition Class
@@ -311,6 +357,9 @@ classes:
       - mycoplasma_status
     id_prefixes:
       - CLO
+    slot_usage:
+      id:
+        pattern: "^CLO:\\d{7}$"
 
   CellCultureConditions:
     is_a: NamedEntity
@@ -402,7 +451,7 @@ slots:
     description: >-
       The cell type being studied. Reference to a Cell Ontology (CL) term.
       Used on CellularSystem and CellLine to describe the cell identity.
-    range: NamedEntity
+    range: CellTypeReference
     inlined: true
     slot_uri: EFO:0000324
 
@@ -411,14 +460,14 @@ slots:
       The specific cell type that is the primary focus of this assay's
       analysis, when the assay examines multiple cell populations in a
       sample (e.g., neutrophils in a BALF differential).
-    range: NamedEntity
+    range: CellTypeReference
     inlined: true
 
   model_species:
     description: >-
       The species of origin for the cells or organism being studied.
       Reference to NCBITaxon term.
-    range: NamedEntity
+    range: SpeciesReference
     inlined: true
 
   # ---------------------------------------------------------------------------
@@ -765,7 +814,7 @@ slots:
     description: >-
       The chemical, biological, or environmental agent used for exposure
       or treatment. Reference to a CHEBI or ECTO ontology term.
-    range: NamedEntity
+    range: ChemicalEntityReference
     inlined: true
 
   exposure_duration:
@@ -794,11 +843,11 @@ slots:
     inlined: true
 
   primary_cell:
-    range: NamedEntity
+    range: CellTypeReference
     inlined: true
 
   anatomical_origin:
-    range: NamedEntity
+    range: AnatomicalEntityReference
     inlined: true
 
   cell_culture_growth_mode:

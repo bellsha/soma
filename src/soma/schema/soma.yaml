@@ -40,6 +40,7 @@ prefixes:
   schema: http://schema.org/
   UCUM: http://unitsofmeasure.org/
   QUDT: http://qudt.org/vocab/unit/
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   owg: https://w3id.org/EHS-Data-Standards/soma/
 
 default_prefix: soma
