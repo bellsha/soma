@@ -1,42 +1,60 @@
-<a href="https://github.com/dalito/linkml-project-copier"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-teal.json" alt="Copier Badge" style="max-width:100%;"/></a>
+<p align="center">
+  <img src="docs/soma-logo.svg" alt="SOMA Logo" width="700">
+</p>
 
-# SOMA: Schema for Outcomes, Measurements, and Assays
+<p align="center">
+  A <a href="https://linkml.io/">LinkML</a> schema for representing Key Event and Outcome measurements, assays, and experimental protocols in the context of environmental health sciences (EHS) outcomes research.
+</p>
 
-A [LinkML](https://linkml.io/) data model for representing assays, measurements, and experimental
-protocols in environmental health sciences (EHS) outcomes research. The schema captures airway biology
-assays relevant to respiratory health outcomes and integrates with the Adverse Outcome Pathway (AOP)
-framework.
+<p align="center">
+  <a href="https://EHS-Data-Standards.github.io/soma"><strong>Documentation</strong></a> &middot;
+  <a href="https://EHS-Data-Standards.github.io/soma/elements/"><strong>Schema</strong></a> &middot;
+  <a href="https://EHS-Data-Standards.github.io/soma/examples.html"><strong>Examples</strong></a> &middot;
+  <a href="https://EHS-Data-Standards.github.io/soma/artifacts.html"><strong>Artifacts</strong></a>
+</p>
+
+---
+
+## Purpose
+
+This data model provides a standardized way to capture and exchange data about airway biology
+assays relevant to respiratory health outcomes, including:
+
+- **Ciliary function** - Beat frequency, active area, morphology
+- **Airway surface liquid** - ASL height, periciliary layer depth, ion composition
+- **Mucociliary clearance** - Transport rates, directionality, clearance efficiency
+- **Oxidative stress** - ROS, lipid peroxidation, antioxidant capacity
+- **Ion channel function** - CFTR chloride secretion, sweat chloride
+- **Signaling pathways** - EGFR phosphorylation, downstream kinases
+- **Mucin biology** - Goblet cells, MUC5AC/MUC5B expression
+- **Inflammatory markers** - BALF/sputum cell counts, cytokines
+- **Lung function** - Spirometry outcomes (FEV1, FVC)
+- **Gene expression** - Target gene mRNA levels
 
 ## Key Features
 
-- **Assay-centric architecture** with domain-specific assay classes (CiliaryFunctionAssay,
-  LungFunctionAssay, OxidativeStressAssay, etc.) using named measurement slots
-- **StudySubject hierarchy** for describing biological systems: cell cultures (CellularSystem,
-  TwoDCellCulture), human/animal subjects (InVivoSubject), populations (PopulationSubject)
-- **Typed protocol hierarchy**: ImagingProtocol, MolecularAssayProtocol, StainingProtocol,
-  SpirometryProtocol
+- **Assay-centric architecture** with domain-specific assay classes using named measurement slots
+- **StudySubject hierarchy** for describing biological systems: cell cultures, human/animal subjects, populations
+- **Typed protocol hierarchy**: ImagingProtocol, MolecularAssayProtocol, StainingProtocol, SpirometryProtocol
 - **AOP Framework integration**: KeyEvent and AdverseOutcomePathway classes with assay linkage
-  via `informs_on_key_event`
 - **Ontology-backed** entities mapped to GO, ChEBI, CL, UO, OBI, and other biomedical ontologies
 
-## Documentation Website
+## Getting Started
 
-[https://EHS-Data-Standards.github.io/soma](https://EHS-Data-Standards.github.io/soma)
+The schema can be used to:
+
+1. **Validate data** - Ensure your data conforms to the model
+2. **Generate code** - Create Python dataclasses, Pydantic models, JSON Schema
+3. **Transform data** - Convert between JSON, YAML, RDF, and other formats
 
 ## Repository Structure
 
 * [docs/](docs/) - mkdocs-managed documentation
-  * [elements/](docs/elements/) - generated schema documentation
 * [examples/](examples/) - Examples of using the schema
-* [project/](project/) - project files (these files are auto-generated, do not edit)
-* [src/](src/) - source files (edit these)
-  * [soma](src/soma)
-    * [schema/](src/soma/schema) -- LinkML schema
-      (edit this)
-    * [datamodel/](src/soma/datamodel) -- generated
-      Python datamodel
+* [project/](project/) - project files (auto-generated, do not edit)
+* [src/soma/schema/](src/soma/schema) - LinkML schema (edit this)
+* [src/soma/datamodel/](src/soma/datamodel) - generated Python datamodel
 * [tests/](tests/) - Python tests
-  * [data/](tests/data) - Example data
 
 ## Developer Tools
 
