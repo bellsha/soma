@@ -2,11 +2,18 @@
 hide:
   - navigation
   - toc
+title: SOMA
 ---
+
+<style>
+.md-content > .md-typeset > h1:first-child { display: none; }
+</style>
 
 <div class="aop-hero" markdown>
 
-# SOMA: Schema for Outcomes, Measurements, and Assays
+<div style="text-align: center;" markdown>
+![SOMA Logo](soma-logo.svg){ style="width: 100%; max-width: 900px;" }
+</div>
 
 <p class="aop-subtitle">A <a href="https://linkml.io/">LinkML</a> schema for representing Key Event and Outcome measurements, assays, and experimental protocols in the context of environmental health sciences (EHS) outcomes research.</p>
 

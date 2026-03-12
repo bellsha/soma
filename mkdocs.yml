@@ -2,6 +2,7 @@
 site_name: "soma"
 theme:
   name: material
+  logo: soma-icon.svg
   palette:
     scheme: default
     primary: custom

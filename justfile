@@ -281,6 +281,7 @@ _copy-examples:
 _copy-docs:
   @echo "Copying static documentation files..."
   cp src/docs/*.md docs/
+  -cp src/docs/*.svg docs/
   -mkdir -p docs/stylesheets
   -cp -r src/docs/stylesheets/* docs/stylesheets/
   @echo "Static docs copied successfully!"
