@@ -60,6 +60,61 @@
       "status": "published",
       "display": true
     },
+    "CiliaryFunctionOutput": {
+      "name": "Ciliary Function Output",
+      "status": "published",
+      "display": true
+    },
+    "ASLOutput": {
+      "name": "Airway Surface Liquid Output",
+      "status": "published",
+      "display": true
+    },
+    "MucociliaryClearanceOutput": {
+      "name": "Mucociliary Clearance Output",
+      "status": "published",
+      "display": true
+    },
+    "OxidativeStressOutput": {
+      "name": "Oxidative Stress Output",
+      "status": "published",
+      "display": true
+    },
+    "CFTRFunctionOutput": {
+      "name": "CFTR Function Output",
+      "status": "published",
+      "display": true
+    },
+    "EGFRSignalingOutput": {
+      "name": "EGFR Signaling Output",
+      "status": "published",
+      "display": true
+    },
+    "GobletCellOutput": {
+      "name": "Goblet Cell Output",
+      "status": "published",
+      "display": true
+    },
+    "BALFSputumOutput": {
+      "name": "BALF/Sputum Output",
+      "status": "published",
+      "display": true
+    },
+    "LungFunctionOutput": {
+      "name": "Lung Function Output",
+      "status": "published",
+      "display": true
+    },
+    "FoxJExpressionOutput": {
+      "name": "FoxJ Expression Output",
+      "status": "published",
+      "display": true
+    },
+    "GeneExpressionOutput": {
+      "name": "Gene Expression Output",
+      "status": "published",
+      "display": true
+    },
     "Protocol": {
       "name": "Protocol",
       "status": "published",

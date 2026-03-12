@@ -4,10 +4,19 @@ dist/
 docs/harmonizer.html
 docs/schemas/
 docs/menu.json
+docs/assets/
 
 # generated part of documentation
 /docs/elements/*.md
 /docs/artifacts/
+/docs/examples/
+/docs/schema/
+
+# docs copied from src/docs by justfile _copy-docs
+/docs/about.md
+/docs/artifacts.md
+/docs/examples.md
+/docs/index.md
 # linkml-run-examples output (not useful to have in git in its current form)
 /examples/output/
 
