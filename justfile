@@ -75,10 +75,14 @@ clean: _clean_project
   rm -rf {{docdir}}/*.md
   rm -rf docs/examples
   rm -rf docs/artifacts
+  rm -rf docs/schemas
+  rm -rf docs/harmonizer.html
+  rm -rf node_modules
+  rm -rf dist
 
 # (Re-)Generate project and documentation locally
 [group('model development')]
-site: gen-project gen-doc
+site: gen-project gen-doc build-dh
 
 # Deploy documentation site to Github Pages
 [group('deployment')]
@@ -107,9 +111,21 @@ gen-doc: _gen-yaml _copy-examples
   @just _copy-docs
   @just _copy-artifacts
 
+# Build DataHarmonizer and integrate with docs
+[group('model development')]
+build-dh:
+  npm install
+  npm run build
+  cp -r dist/assets docs/
+  cp dist/index.html docs/harmonizer.html
+  sed -i '' 's|"/assets/|"assets/|g' docs/harmonizer.html
+  mkdir -p docs/schemas
+  uv run gen-linkml --materialize-patterns --materialize-attributes {{source_schema_path}} > docs/schemas/soma.json
+  cp menu.json docs/
+
 # Build docs and run test server
 [group('model development')]
-testdoc: gen-doc _serve
+testdoc: gen-doc build-dh _serve
 
 # Generate the Python data models (dataclasses & pydantic)
 gen-python:

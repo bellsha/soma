@@ -1,3 +1,10 @@
+# DataHarmonizer build artifacts
+node_modules/
+dist/
+docs/harmonizer.html
+docs/schemas/
+docs/menu.json
+
 # generated part of documentation
 /docs/elements/*.md
 /docs/artifacts/

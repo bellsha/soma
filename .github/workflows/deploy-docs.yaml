@@ -49,6 +49,11 @@ jobs:
         run: |
           uv tool install rust-just
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       - name: Install dependencies
         run: uv sync --dev --no-progress
 
@@ -60,7 +65,15 @@ jobs:
       - name: Generate project artifacts
         run: just gen-project
 
-      - name: Generate schema documentation
+      - name: Build DataHarmonizer and documentation
         run: |
           just gen-doc
+          npm install
+          npm run build
+          cp -r dist/assets docs/
+          cp dist/index.html docs/harmonizer.html
+          sed -i 's|"/assets/|"assets/|g' docs/harmonizer.html
+          mkdir -p docs/schemas
+          uv run gen-linkml --materialize-patterns --materialize-attributes src/soma/schema/soma.yaml > docs/schemas/soma.json
+          cp menu.json docs/
           uv run mkdocs gh-deploy
