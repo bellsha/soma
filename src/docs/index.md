@@ -25,8 +25,8 @@ title: SOMA
 
 ### Schema Overview
 
-<a href="elements/index.md" class="aop-btn aop-btn--green">Schema</a>
-<a href="examples.md" class="aop-btn aop-btn--green">Examples</a>
+<a href="elements/" class="aop-btn aop-btn--green">Schema</a>
+<a href="examples/" class="aop-btn aop-btn--green">Examples</a>
 
 Browse the assay classes, slots, enumerations, and study subjects defined in the SOMA data model.
 
@@ -37,7 +37,7 @@ Browse the assay classes, slots, enumerations, and study subjects defined in the
 ### Contribute
 
 <a href="https://github.com/EHS-Data-Standards/soma" class="aop-btn aop-btn--orange">GitHub Repository</a>
-<a href="about.md" class="aop-btn aop-btn--orange">About This Project</a>
+<a href="about/" class="aop-btn aop-btn--orange">About This Project</a>
 
 Submit issues, propose schema changes, or contribute new assay definitions to the SOMA project.
 
@@ -47,7 +47,7 @@ Submit issues, propose schema changes, or contribute new assay definitions to th
 
 ### Download Content
 
-<a href="artifacts.md" class="aop-btn aop-btn--blue">Artifacts</a>
+<a href="artifacts/" class="aop-btn aop-btn--blue">Artifacts</a>
 
 Download generated artifacts: JSON Schema, Python dataclasses, Pydantic models, and Excel templates.
 
